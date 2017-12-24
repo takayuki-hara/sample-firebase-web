@@ -15,6 +15,7 @@ FirebaseのWebアプリのサンプル
 - [Firebase Web][2]
 - [Firebase Cloud Function][3]
 - [Web App Manifest][4]
+- [脱ネイティブ！Googleが推進する「PWA」にたった数時間で対応する方法][5]
 
 ## Memo
 
@@ -31,3 +32,4 @@ FirebaseのWebアプリのサンプル
 [2]:https://codelabs.developers.google.com/codelabs/firebase-web/index.html?#0
 [3]:https://codelabs.developers.google.com/codelabs/firebase-cloud-functions/index.html?#0
 [4]:https://developers.google.com/web/fundamentals/web-app-manifest/?hl=ja
+[5]:https://www.webprofessional.jp/retrofit-your-website-as-a-progressive-web-app/
