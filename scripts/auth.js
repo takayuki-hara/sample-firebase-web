@@ -26,7 +26,7 @@ function Authenticator() {
     this.signInButton = document.getElementById('sign-in');
     this.signOutButton = document.getElementById('sign-out');
 
-    // Saves message on form submit.
+    // Bind button events.
     this.signOutButton.addEventListener('click', this.signOut.bind(this));
     this.signInButton.addEventListener('click', this.signIn.bind(this));
 }
@@ -41,20 +41,20 @@ Authenticator.prototype.initFirebase = function() {
 };
 
 
-// Signs-in Friendly Chat.
+// Signs-in.
 //Authenticator.prototype.signIn = function() {
 //    // Sign in Firebase using popup auth and Google as the identity provider.
 //    var provider = new firebase.auth.GoogleAuthProvider();
 //    this.auth.signInWithPopup(provider);
 //};
 
-// Signs-out of Friendly Chat.
+// Signs-out.
 Authenticator.prototype.signOut = function() {
     // Sign out of Firebase.
     this.auth.signOut();
 };
 
-// Signs-in Friendly Chat.
+// Signs-in.
 Authenticator.prototype.signIn = function() {
     this.email = document.getElementById('email');
     this.password = document.getElementById('password');

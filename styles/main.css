@@ -1,6 +1,7 @@
-/*============================================
+/*----------------------------------------------------------
 メニュー関連
-============================================*/
+------------------------------------------------------------*/
+
 /* --- ナビゲーションバー --- */
 div.nav {
     margin-top: 10px;
@@ -38,6 +39,49 @@ div.nav ul.nl li a:hover {
     border-left-color: #e0e0e0;
     color:#e0e0e0;
 }
+
+
+/*----------------------------------------------------------
+（参考）https://saruwakakun.com/html-css/reference/h-design
+------------------------------------------------------------*/
+
+/*************
+/* タイトル
+*************/
+.title01 {
+    color: #7C7C7C;
+    border-bottom: solid 2px #0288D1;
+    padding: 0.1em;
+}
+
+.title02 {
+    padding: 0.2em 0.5em;
+    color: #7C7C7C;
+    background: transparent;
+    border-left: solid 5px #0288D1;
+}
+
+.title03 {
+    color: #7C7C7C;
+    padding: 0.1em;
+    background: linear-gradient(transparent 80%, #0288D1 80%);
+}
+
+.title04 {
+    color: #ffffff;
+    background: #0288D1;
+    padding: 0.2em;
+}
+
+.title05 {
+    padding:4px 5px;
+    color: #7C7C7C;
+    border-color:#0288D1;
+    border-width:1px 0 2px 0;
+    border-style:solid;
+    background:#E3F0FD;
+}
+
 
 
 /*----------------------------------------------------------
@@ -126,6 +170,11 @@ table.type03 td {
 	border-bottom: 1px solid #ccc;
 }
 
+
+/*----------------------------------------------------------
+その他
+------------------------------------------------------------*/
+
 /*************
 /* フッター
 *************/
@@ -137,4 +186,9 @@ table.type03 td {
     padding:32px 16px;
     color:#9e9e9e;
     background:#424242;
+}
+
+/* --- 縦スクロール --- */
+div.vscroll {
+    overflow-y: auto;
 }
