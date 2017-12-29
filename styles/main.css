@@ -4,7 +4,7 @@
 /* --- ナビゲーションバー --- */
 div.nav {
     margin-top: 10px;
-    width: 180px; /* ナビゲーションの幅 */
+    width: 180px;
     font-size: 80%;
 }
 
@@ -12,55 +12,33 @@ div.nav {
 div.nav ul.nl {
     margin: 0;
     padding: 0;
-    border-top: 1px #c0c0c0 dotted; /* 最上部の境界線 */
+    border-top: 1px #c0c0c0 dotted;
     list-style-type: none;
     text-align: left;
 }
 
 /* --- メニュー項目 --- */
 div.nav ul.nl li {
-    padding: 3px 1px; /* 項目のパディング（上下、左右） */
-    background-color: #f9f9f9; /* 項目の背景色 */
-    border-bottom: 1px #c0c0c0 dotted; /* 項目の下境界線 */
+    padding: 3px 1px;
+    background-color: #f9f9f9;
+    border-bottom: 1px #c0c0c0 dotted;
 }
 
 /* --- リンク --- */
 div.nav ul.nl li a {
     display: block;
     position: relative; /* IE6用 */
-    padding: 8px 10px; /* リンクエリアのパディング（上下、左右） */
-    border-left: 4px #c0c0c0 solid; /* リンクエリアの左境界線 */
-    text-decoration: none; /* テキストの下線（なし） */
+    padding: 8px 10px;
+    border-left: 4px #c0c0c0 solid;
+    text-decoration: none;
     color:#000000;
 }
 /* --- ポイント時の設定 --- */
 div.nav ul.nl li a:hover {
-    border-left-color: #e0e0e0; /* ポイント時の左境界線色 */
+    border-left-color: #e0e0e0;
     color:#e0e0e0;
 }
 
-
-/*============================================
-ページ全体
-============================================*/
-
-.contents {
-    background: #ffffff;
-    padding: 5px 20px;
-    text-align: left;
-    border: 1px solid #cccccc;
-    margin: 30px 30px;
-}
-
-.caution {
-    color: red;
-    font-size: 150%;
-}
-
-.resultsuccess {
-    color: darkblue;
-    font-size: 150%;
-}
 
 /*----------------------------------------------------------
 テーブル関連：（参考）http://webworkersclip.com/2875/
@@ -156,8 +134,7 @@ table.type03 td {
     bottom: 0;
     width: 100%;
     height: 10px;
-    padding:20px 0;
-    color:#ffffff;
-    background:#0288D1;
-    border-top:1px solid #0288D1;
+    padding:32px 16px;
+    color:#9e9e9e;
+    background:#424242;
 }
