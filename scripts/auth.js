@@ -56,7 +56,8 @@ Authenticator.prototype.signOut = function() {
 };
 
 // Signs-in.
-Authenticator.prototype.signIn = function() {
+Authenticator.prototype.signIn = function(e) {
+    e.preventDefault();
     this.email = document.getElementById('email');
     this.password = document.getElementById('password');
 

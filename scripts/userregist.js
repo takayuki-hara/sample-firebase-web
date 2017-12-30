@@ -31,7 +31,7 @@ function UserRegister() {
     this.submitButton = document.getElementById('submit');
 
     // Saves message on form submit.
-    this.userForm.addEventListener('submit', this.saveUser.bind(this));
+    this.submitButton.addEventListener('click', this.saveUser.bind(this));
 
     this.initFirebase();
 }

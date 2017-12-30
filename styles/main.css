@@ -192,3 +192,8 @@ table.type03 td {
 div.vscroll {
     overflow-y: auto;
 }
+
+/* --- 右寄せ --- */
+button.rfloat {
+    float: right;
+}
