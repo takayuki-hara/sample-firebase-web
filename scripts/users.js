@@ -19,7 +19,6 @@
 function UserList() {
 
     // Shortcuts to DOM Elements.
-    this.userList = document.getElementById('users');
     this.userForm = document.getElementById('user-form');
     this.beforeButton = document.getElementById('before');
     this.nextButton = document.getElementById('next');
