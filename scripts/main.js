@@ -16,19 +16,9 @@
 'use strict';
 
 window.onload = function() {
-    if (this.isIndexPage()) {
+    if (isIndexPage()) {
         location.href = "./views/login.html";
+    } else {
+        window.authenticater = new Authenticator();
     }
-
-    window.authenticater = new Authenticator();
 };
-
-function isIndexPage() {
-    var path = location.pathname;
-    var pathinfo = path.split('/');
-    var filename = pathinfo.pop();
-    if ((filename == "index.html") || (filename == "")) {
-        return true;
-    }
-    return false;
-}
