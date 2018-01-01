@@ -54,19 +54,19 @@ UserRegister.prototype.saveUser = function(e) {
     }
 
     var currentUser = this.auth.currentUser;
-    this.messagesRef = this.database.ref('v1/user/' + currentUser.uid);
+    var userRef = this.database.ref('v1/user/' + currentUser.uid);
 
     // Add a new message entry to the Firebase Database.
     var date = new Date();
     var unixTimestamp = Math.round( date.getTime() / 1000 );
-    this.messagesRef.set({
+    userRef.set({
         _createdAt: unixTimestamp,
         _createdAtReverse: -unixTimestamp,
         _updatedAt: unixTimestamp,
         state: 1,
         name: this.userId.value,
         position: getPositionCode(this.positions),
-        languages: [getLangageCode(this.language.value)],
+        languages: [getLanguageCode(this.language.value)],
         gender: getGenderCode(this.genders),
         ageRange: getAgeCode(this.age.value),
         area: getAreaCode(this.area.value),
@@ -78,7 +78,7 @@ UserRegister.prototype.saveUser = function(e) {
         fcmToken: '',
         lastLogin: unixTimestamp,
     }).then(function() {
-        this.updateName(this.userId.value);
+        this.updateAuthName(this.userId.value);
         this.submitButton.setAttribute('disabled', 'true');
         window.alert('ユーザー登録完了しました！\nサインアウトし、ログイン画面に戻ってください。');
     }.bind(this)).catch(function(error) {
@@ -86,14 +86,14 @@ UserRegister.prototype.saveUser = function(e) {
     });
 };
 
-UserRegister.prototype.updateName = function(name) {
+UserRegister.prototype.updateAuthName = function(name) {
     var currentUser = this.auth.currentUser;
     currentUser.updateProfile({
         displayName: name
     }).then(function() {
-        console.log("updatename success!");
+        console.log("updateAuthName success!");
     }).catch(function(error) {
-        console.error('Error updating user info to Firebase Database', error);
+        console.error('Error updating user info to Firebase Authentication', error);
     });
 };
 

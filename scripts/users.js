@@ -30,8 +30,8 @@ function UserList() {
     this.nextButton.addEventListener('click', this.moveNext.bind(this));
 
     // Initialize.
-    this.initialize();
     this.initFirebase();
+    this.initialize();
 
     // Fetch User List.
     this.fetchUsers();
