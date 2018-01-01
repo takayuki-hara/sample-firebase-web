@@ -83,9 +83,9 @@ function getGenderCode(array) {
 }
 function getGenderString(value) {
     switch (parseInt(value, 10)) {
-        case 0:     return "Male";
-        case 1:     return "Female";
-        default:    return "Others";
+        case 0:     return "男性";
+        case 1:     return "女性";
+        default:    return "その他";
     }
 }
 
