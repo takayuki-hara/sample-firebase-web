@@ -30,7 +30,7 @@ function UserList() {
     this.nextButton.addEventListener('click', this.moveNext.bind(this));
 
     // Initialize.
-    this.getParameters();
+    this.initialize();
     this.initFirebase();
 
     // Fetch User List.
@@ -62,18 +62,9 @@ UserList.prototype.moveNext = function(e) {
     location.href = "../views/users.html?startAt=" + this.lastCreatedAt;
 };
 
-UserList.prototype.getParameters = function() {
-    if (window.location.search) {
-        var query = window.location.search.substring(1,window.location.search.length);
-        var pair = query.split("&");
-        var params = new Array();
-        for (var i=0; i < pair.length; i++) {
-            var tmp = pair[i].split("=");
-            var keyName = tmp[0];
-            var keyValue = tmp[1];
-            params[keyName] = keyValue;
-        }
-        this.parameters = params;
+UserList.prototype.initialize = function() {
+    this.parameters = getUrlParameters();
+    if (this.parameters) {
         this.setIndex();
     }
 };
