@@ -194,6 +194,21 @@ div.vscroll {
 }
 
 /* --- 右寄せ --- */
-button.rfloat {
+div.rfloat {
     float: right;
+}
+
+
+/*************
+/* ユーザー
+*************/
+button.detail {
+    height: 62px;
+    float: right;
+}
+
+img.profile {
+    padding:16px 16px;
+    width: 30px;
+    height: 30px;
 }

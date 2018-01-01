@@ -87,9 +87,31 @@
       </div>
 
       <!-- Messages container -->
-      <div class="mdl-shadow--2dp mdl-cell mdl-cell--8-col">
-        <p><center>ユーザー一覧</center></p>
-        <a href="userdetail.html">ユーザー詳細</a>
+      <div class="vscroll mdl-shadow--2dp mdl-cell mdl-cell--8-col">
+        <div id="users">
+          <form id="user-form" action="#">
+            <div class="mdl-shadow--2dp mdl-cell mdl-cell--12-col">
+              <img src="/images/profile_placeholder.png" width="30" height="30">
+              <span class="info">UserID, Position, Gender, Age, AreaState</span>
+              <button class="rfloat mdl-button mdl-js-button mdl-js-ripple-effect" type="button" name="detail" onclick="setValue('__test_user')">Detail</button>
+            </div>
+            <div class="mdl-shadow--2dp mdl-cell mdl-cell--12-col">
+              <img border="0" src="/images/profile_placeholder.png" width="30" height="30">
+              UserID, Position, Gender, Age, AreaState
+              <button class="rfloat mdl-button mdl-js-button mdl-js-ripple-effect" type="button" name="detail" onclick="setValue('__test_user')">Detail</button>
+            </div>
+          </form>
+        </div>
+
+
+      </div>
+      <div class="mdl-cell mdl-cell--1-col">
+        <button id="before" type="button" disabled width="100" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+          Before
+        </button><br><br>
+        <button id="next" type="button" width="100" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+          &nbsp;&nbsp;Next&nbsp;&nbsp;
+        </button>
       </div>
 
     </div>
@@ -105,6 +127,6 @@
 <script src="/__/firebase/init.js"></script>
 
 <script src="../scripts/auth.js"></script>
-<script src="../scripts/main.js"></script>
+<script src="../scripts/users.js"></script>
 </body>
 </html>

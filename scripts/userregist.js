@@ -30,7 +30,7 @@ function UserRegister() {
 
     this.submitButton = document.getElementById('submit');
 
-    // Saves message on form submit.
+    // Saves user info on form submit.
     this.submitButton.addEventListener('click', this.saveUser.bind(this));
 
     this.initFirebase();
@@ -61,11 +61,12 @@ UserRegister.prototype.saveUser = function(e) {
     var unixTimestamp = Math.round( date.getTime() / 1000 );
     this.messagesRef.set({
         _createdAt: unixTimestamp,
+        _createdAtReverse: -unixTimestamp,
         _updatedAt: unixTimestamp,
         state: 1,
         name: this.userId.value,
         position: this.getPositionCode(),
-        languages: this.getLangageCode(),
+        languages: [this.getLangageCode()],
         gender: this.getGenderCode(),
         ageRange: this.getAgeCode(),
         area: this.getAreaCode(),
@@ -94,7 +95,7 @@ UserRegister.prototype.updateName = function(name) {
     }).catch(function(error) {
         console.error('Error updating user info to Firebase Database', error);
     });
-}
+};
 
 UserRegister.prototype.getPositionCode = function() {
     if (this.positions[0].checked) {
@@ -104,7 +105,7 @@ UserRegister.prototype.getPositionCode = function() {
     } else {
         return 2;
     }
-}
+};
 
 UserRegister.prototype.getGenderCode = function() {
     if (this.genders[0].checked) {
@@ -114,7 +115,7 @@ UserRegister.prototype.getGenderCode = function() {
     } else {
         return 2;
     }
-}
+};
 
 UserRegister.prototype.getLangageCode = function() {
     if (this.language.value == "日本語") {
@@ -126,7 +127,7 @@ UserRegister.prototype.getLangageCode = function() {
     } else {
         return 3;
     }
-}
+};
 
 UserRegister.prototype.getAgeCode = function() {
     if (this.age.value == "10代") {
@@ -138,7 +139,7 @@ UserRegister.prototype.getAgeCode = function() {
     } else {
         return 3;
     }
-}
+};
 
 UserRegister.prototype.getAreaCode = function() {
     if (this.area.value == "関東") {
@@ -150,7 +151,7 @@ UserRegister.prototype.getAreaCode = function() {
     } else {
         return 3;
     }
-}
+};
 
 window.onload = function() {
     window.authenticater = new Authenticator();

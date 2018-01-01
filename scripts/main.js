@@ -31,4 +31,4 @@ function isIndexPage() {
         return true;
     }
     return false;
-};
+}
