@@ -65,11 +65,11 @@ UserRegister.prototype.saveUser = function(e) {
         _updatedAt: unixTimestamp,
         state: 1,
         name: this.userId.value,
-        position: this.getPositionCode(),
-        languages: [this.getLangageCode()],
-        gender: this.getGenderCode(),
-        ageRange: this.getAgeCode(),
-        area: this.getAreaCode(),
+        position: getPositionCode(this.positions),
+        languages: [getLangageCode(this.language.value)],
+        gender: getGenderCode(this.genders),
+        ageRange: getAgeCode(this.age.value),
+        area: getAreaCode(this.area.value),
         imageUrl: '',
         profileText: this.introduction.value,
         accessRights: 0,
@@ -95,62 +95,6 @@ UserRegister.prototype.updateName = function(name) {
     }).catch(function(error) {
         console.error('Error updating user info to Firebase Database', error);
     });
-};
-
-UserRegister.prototype.getPositionCode = function() {
-    if (this.positions[0].checked) {
-        return 0;
-    } else if (this.positions[1].checked) {
-        return 1;
-    } else {
-        return 2;
-    }
-};
-
-UserRegister.prototype.getGenderCode = function() {
-    if (this.genders[0].checked) {
-        return 0;
-    } else if (this.genders[1].checked) {
-        return 1;
-    } else {
-        return 2;
-    }
-};
-
-UserRegister.prototype.getLangageCode = function() {
-    if (this.language.value == "日本語") {
-        return 0;
-    } else if (this.language.value == "英語") {
-        return 1;
-    } else if (this.language.value == "中国語（簡体字）") {
-        return 2;
-    } else {
-        return 3;
-    }
-};
-
-UserRegister.prototype.getAgeCode = function() {
-    if (this.age.value == "10代") {
-        return 0;
-    } else if (this.age.value == "20代") {
-        return 1;
-    } else if (this.age.value == "30代") {
-        return 2;
-    } else {
-        return 3;
-    }
-};
-
-UserRegister.prototype.getAreaCode = function() {
-    if (this.area.value == "関東") {
-        return 0;
-    } else if (this.area.value == "関西") {
-        return 1;
-    } else if (this.area.value == "北海道") {
-        return 2;
-    } else {
-        return 3;
-    }
 };
 
 window.onload = function() {
