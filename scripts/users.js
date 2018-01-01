@@ -120,7 +120,7 @@ UserList.prototype.fetchUsers = function() {
                 this.hasNext = true;
                 return;
             }
-            this.displayUser(data.key, val.name, val.position, val.gender, val.ageRange, val.area, "/images/profile_placeholder.png");
+            this.displayUser(data.key, val.name, val.position, val.gender, val.ageRange, val.area, val.imageUrl);
             ctr++;
         }.bind(this));
         window.UserList.setButtons();
@@ -141,12 +141,16 @@ UserList.prototype.displayUser = function(key, name, pos, gender, age, area, ima
         div.setAttribute('id', key);
         this.userForm.appendChild(div);
     }
+
+    var url = "/images/profile_placeholder.png";
     if (imageUrl) {
-        var image = document.createElement('img');
-        image.setAttribute("class", "profile");
-        this.setImageUrl(imageUrl, image);
-        div.appendChild(image);
+        url = imageUrl;
     }
+    var image = document.createElement('img');
+    image.setAttribute("class", "profile");
+    this.setImageUrl(url, image);
+    div.appendChild(image);
+
     var text = document.createElement("span");
     text.innerHTML = "Name:" + name + ", Pos:" + pos + ", Gender:" + gender + ", Age:" + age + ", Area:" + area;
     div.appendChild(text);
@@ -158,15 +162,21 @@ UserList.prototype.displayUser = function(key, name, pos, gender, age, area, ima
     button.setAttribute("type", "button");
     button.innerHTML = "Detail";
     div.appendChild(button);
-
 };
 
 // Sets the URL of the given img element with the URL of the image stored in Firebase Storage.
 UserList.prototype.setImageUrl = function(imageUri, imgElement) {
     // If the image is a Firebase Storage URI we fetch the URL.
-    if (imageUri.startsWith('gs://')) {
-        imgElement.src = UserList.LOADING_IMAGE_URL; // Display a loading image first.
+    if (imageUri.startsWith('gs://')) {             // Google Cloud Storage URI
+        imgElement.src = 'https://www.google.com/images/spin-32.gif'; // Display a loading image first.
         this.storage.refFromURL(imageUri).getMetadata().then(function(metadata) {
+            imgElement.src = metadata.downloadURLs[0];
+        });
+    } else if (imageUri.startsWith('/images/')) {   // Document path
+        imgElement.src = imageUri;
+    } else if (imageUri.startsWith('/')) {          // initial file path and name
+        imgElement.src = 'https://www.google.com/images/spin-32.gif'; // Display a loading image first.
+        this.storage.ref(imageUri).getMetadata().then(function(metadata) {
             imgElement.src = metadata.downloadURLs[0];
         });
     } else {
