@@ -87,8 +87,173 @@
       </div>
 
       <!-- Messages container -->
-      <div class="mdl-shadow--2dp mdl-cell mdl-cell--8-col">
-        <p><center>ユーザー詳細</center></p>
+      <div class="vscroll mdl-shadow--2dp mdl-cell mdl-cell--8-col">
+        <center>
+          <br>
+          <form id="profimage-form" action="#">
+            <table>
+              <tr>
+                <td><img id="profImage" src="/images/profile_placeholder.png" width="100" height="100"></td>
+                <td>
+                  <input id="mediaCapture" type="file" accept="image/*,capture=camera">
+                  <button id="uploadImage" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--amber-400 mdl-color-text--white">
+                    <i class="material-icons">image</i>画像を変更する
+                  </button>
+                </td>
+              </tr>
+            </table>
+          </form>
+          <br>
+          <form id="user-form" action="#">
+            <table class="mdl-data-table mdl-js-data-table">
+              <thead>
+                <tr>
+                  <th class="mdl-data-table__cell--non-numeric">項目</th>
+                  <th class="mdl-data-table__cell--non-numeric">現在の値</th>
+                  <th class="mdl-data-table__cell--non-numeric">変更したい値</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="mdl-data-table__cell--non-numeric">ユーザーID<br>（ニックネーム）</td>
+                  <td class="mdl-data-table__cell--non-numeric" id="userIdValue">value</td>
+                  <td class="mdl-data-table__cell--non-numeric">
+                    <div class="mdl-textfield mdl-js-textfield">
+                      <input class="mdl-textfield__input" type="text" id="userId">
+                      <label class="mdl-textfield__label" for="userId">Text...</label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="mdl-data-table__cell--non-numeric">対応言語</td>
+                  <td class="mdl-data-table__cell--non-numeric" id="languageValue">value</td>
+                  <td class="mdl-data-table__cell--non-numeric">
+                    <div class="mdl-textfield mdl-js-textfield mdl-select">
+                      <select class="mdl-textfield__input" id="language">
+                        <option>日本語</option>
+                        <option>英語</option>
+                        <option>中国語（簡）</option>
+                        <option>中国語（繁）</option>
+                        <option>韓国語</option>
+                        <option>タイ語</option>
+                        <option>スペイン語</option>
+                        <option>フランス語</option>
+                        <option>ドイツ語</option>
+                        <option>イタリア語</option>
+                        <option>マレー語</option>
+                        <option>インドネシア語</option>
+                        <option>ベトナム語</option>
+                        <option>ロシア語</option>
+                        <option>ポルトガル語</option>
+                        <option>トルコ語</option>
+                        <option>アラビア語</option>
+                        <option>ポーランド語</option>
+                        <option>モンゴル語</option>
+                        <option>ビルマ語</option>
+                        <option>ペルシア語</option>
+                      </select>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="mdl-data-table__cell--non-numeric">立場</td>
+                  <td class="mdl-data-table__cell--non-numeric" id="positionValue">value</td>
+                  <td class="mdl-data-table__cell--non-numeric">
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="position-1">
+                      <input type="radio" id="position-1" class="mdl-radio__button" name="positions" value="0" checked>
+                      <span class="mdl-radio__label">Tourist</span>
+                    </label>
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="position-2">
+                      <input type="radio" id="position-2" class="mdl-radio__button" name="positions" value="1">
+                      <span class="mdl-radio__label">Guide</span>
+                    </label>
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="position-3">
+                      <input type="radio" id="position-3" class="mdl-radio__button" name="positions" value="2">
+                      <span class="mdl-radio__label">Others</span>
+                    </label>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="mdl-data-table__cell--non-numeric">性別</td>
+                  <td class="mdl-data-table__cell--non-numeric" id="genderValue">value</td>
+                  <td class="mdl-data-table__cell--non-numeric">
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="gender-1">
+                      <input type="radio" id="gender-1" class="mdl-radio__button" name="genders" value="0" checked>
+                      <span class="mdl-radio__label">Male</span>
+                    </label>
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="gender-2">
+                      <input type="radio" id="gender-2" class="mdl-radio__button" name="genders" value="1">
+                      <span class="mdl-radio__label">Female</span>
+                    </label>
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="gender-3">
+                      <input type="radio" id="gender-3" class="mdl-radio__button" name="genders" value="2">
+                      <span class="mdl-radio__label">Others</span>
+                    </label>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="mdl-data-table__cell--non-numeric">年齢層</td>
+                  <td class="mdl-data-table__cell--non-numeric" id="ageValue">value</td>
+                  <td class="mdl-data-table__cell--non-numeric">
+                    <div class="mdl-textfield mdl-js-textfield mdl-select">
+                      <select class="mdl-textfield__input" id="age">
+                        <option>10代</option>
+                        <option>20代</option>
+                        <option>30代</option>
+                        <option>40代</option>
+                        <option>50代</option>
+                        <option>60歳〜</option>
+                      </select>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="mdl-data-table__cell--non-numeric">エリア</td>
+                  <td class="mdl-data-table__cell--non-numeric" id="areaValue">value</td>
+                  <td class="mdl-data-table__cell--non-numeric">
+                    <div class="mdl-textfield mdl-js-textfield mdl-select">
+                      <select class="mdl-textfield__input" id="area">
+                        <option>関東</option>
+                        <option>関西</option>
+                        <option>北海道</option>
+                        <option>沖縄</option>
+                        <option>富士山</option>
+                        <option>九州</option>
+                        <option>中国</option>
+                        <option>四国</option>
+                        <option>東北</option>
+                        <option>中部</option>
+                        <option>その他</option>
+                      </select>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="mdl-data-table__cell--non-numeric">自己紹介</td>
+                  <td class="mdl-data-table__cell--non-numeric" id="introductionValue">value</td>
+                  <td class="mdl-data-table__cell--non-numeric">
+                    <div class="mdl-textfield mdl-js-textfield">
+                      <textarea class="mdl-textfield__input" type="text" rows= "3" id="introduction" ></textarea>
+                      <label class="mdl-textfield__label" for="introduction">Text lines...</label>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table><br><br>
+            ※変更しない値は、現在の値と同じ設定にしておいてください<br><br>
+            <button id="submit" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+              更新
+            </button><br><br>
+          </form>
+        </center>
+      </div>
+      <div class="mdl-cell mdl-cell--1-col">
+        <button id="userFreeze" type="button" width="100" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+          凍結
+        </button><br><br>
+        <button id="userDelete" type="button" width="100" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+          削除
+        </button>
       </div>
 
     </div>
@@ -103,7 +268,8 @@
 <script src="/__/firebase/4.1.3/firebase.js"></script>
 <script src="/__/firebase/init.js"></script>
 
+<script src="../scripts/utilities.js"></script>
 <script src="../scripts/auth.js"></script>
-<script src="../scripts/main.js"></script>
+<script src="../scripts/userdetail.js"></script>
 </body>
 </html>
