@@ -35,6 +35,27 @@ function　getUrlParameters() {
     return null;
 }
 
+// Unixtimeを文字列にして返す
+function unixtimeToString(time) {
+    var d = new Date( time * 1000 );
+    var year  = d.getFullYear();
+    var month = d.getMonth() + 1;
+    var day  = d.getDate();
+    var hour = ( d.getHours()   < 10 ) ? '0' + d.getHours()   : d.getHours();
+    var min  = ( d.getMinutes() < 10 ) ? '0' + d.getMinutes() : d.getMinutes();
+    var sec   = ( d.getSeconds() < 10 ) ? '0' + d.getSeconds() : d.getSeconds();
+    return (year + '-' + month + '-' + day + ' ' + hour + ':' + min + ':' + sec );
+}
+
+// Unixtimeを文字列にして返す
+function associativeArrayToString(array) {
+    var ret = "";
+    Object.keys(array).forEach(function(key) {
+        ret += (key + '\n');
+    }, array);
+    return ret;
+}
+
 
 /**
  * データベース関連の変換関数

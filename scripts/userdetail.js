@@ -44,6 +44,18 @@ function UserDetail() {
     this.freezeButton = document.getElementById('userFreeze');
     this.deleteButton = document.getElementById('userDelete');
 
+    this.createdAtValue = document.getElementById('createdAtValue');
+    this.updatedAtValue = document.getElementById('updatedAtValue');
+    this.stateValue = document.getElementById('stateValue');
+    this.accessRightsValue = document.getElementById('accessRightsValue');
+    this.authTypeValue = document.getElementById('authTypeValue');
+    this.deviceTypeValue = document.getElementById('deviceTypeValue');
+    this.lastLoginValue = document.getElementById('lastLoginValue');
+    this.questionsValue = document.getElementById('questionsValue');
+    this.repliesValue = document.getElementById('repliesValue');
+    this.answersValue = document.getElementById('answersValue');
+    this.reportsValue = document.getElementById('reportsValue');
+
     // Button Events.
     this.submitButton.addEventListener('click', this.saveUser.bind(this));
     this.freezeButton.addEventListener('click', this.freezeUser.bind(this));
@@ -93,6 +105,19 @@ UserDetail.prototype.fetchUser = function() {
         this.areaValue.textContent = getAreaString(val.area);
         this.introductionValue.textContent = val.profileText;
         this.setImageUrl(val.imageUrl, this.profImage);
+
+        this.createdAtValue.textContent = unixtimeToString(val._createdAt);
+        this.updatedAtValue.textContent = unixtimeToString(val._updatedAt);
+        this.stateValue.textContent = getUserStatusString(val.state);
+        this.accessRightsValue.textContent = getAccessRightsString(val.accessRights);
+        this.authTypeValue.textContent = getAuthTypeString(val.authType);
+        this.deviceTypeValue.textContent = getDeviceTypeString(val.deviceType);
+        this.lastLoginValue.textContent = unixtimeToString(val.lastLogin);
+        this.questionsValue.innerText = associativeArrayToString(val.questions);
+        this.repliesValue.innerText = associativeArrayToString(val.replies);
+        this.answersValue.innerText = associativeArrayToString(val.answers);
+        this.reportsValue.innerText = associativeArrayToString(val.reports);
+
     }.bind(this));
 };
 
@@ -160,9 +185,11 @@ UserDetail.prototype.freezeUser = function(e) {
 UserDetail.prototype.deleteUser = function(e) {
     e.preventDefault();
 
-    this.userRef.remove();
-    window.alert('ユーザー削除完了しました！');
-    location.href = "../views/users.html";
+    if (window.confirm('ユーザーを削除します。よろしいですね？？\n※この作業は戻せません')) {
+        this.userRef.remove();
+        window.alert('ユーザー削除完了しました！');
+        location.href = "../views/users.html";
+    };
 };
 
 UserDetail.prototype.saveProfileImage = function(event) {
