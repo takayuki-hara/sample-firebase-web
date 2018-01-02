@@ -35,6 +35,13 @@ function　getUrlParameters() {
     return null;
 }
 
+// 現在時刻をUnixtimeで取得する
+function getNowUnixtime() {
+    var date = new Date();
+    var unixTimestamp = Math.round( date.getTime() / 1000 );
+    return unixTimestamp;
+}
+
 // Unixtimeを文字列にして返す
 function unixtimeToString(time) {
     var d = new Date( time * 1000 );
@@ -47,7 +54,7 @@ function unixtimeToString(time) {
     return (year + '-' + month + '-' + day + ' ' + hour + ':' + min + ':' + sec );
 }
 
-// Unixtimeを文字列にして返す
+// 連想配列を文字列にして返す（複数は改行で分ける）
 function associativeArrayToString(array) {
     var ret = "";
     Object.keys(array).forEach(function(key) {
@@ -293,18 +300,18 @@ function getQuestionCategoryString(value) {
 }
 
 // 質問情報：質問の期限
-function getPeriodCode(value) {
+function getPeriodSecond(value) {
     switch (value) {
-        case "0.5h":    return 0;
-        case "1h":      return 1;
-        case "2h":      return 2;
-        case "3h":      return 3;
-        case "6h":      return 4;
-        case "12h":     return 5;
-        case "24h":     return 6;
-        case "48h":     return 7;
-        case "72h":     return 8;
-        default:        return 9;
+        case "0.5h":    return 1800;
+        case "1h":      return 3600;
+        case "2h":      return 7200;
+        case "3h":      return 10800;
+        case "6h":      return 21600;
+        case "12h":     return 53200;
+        case "24h":     return 106400;
+        case "48h":     return 212800;
+        case "72h":     return 319200;
+        default:        return 1800;
     }
 }
 
