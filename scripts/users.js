@@ -15,7 +15,7 @@
  */
 'use strict';
 
-// Initializes UserRegister.
+// Initializes UserList.
 function UserList() {
 
     // Shortcuts to DOM Elements.
@@ -25,7 +25,7 @@ function UserList() {
     this.detailButtons = document.getElementsByName('detail');
 
     // Events.
-    this.userForm.addEventListener('click', this.moveUserDetail.bind(this));
+    this.userForm.addEventListener('click', this.moveDetail.bind(this));
     this.beforeButton.addEventListener('click', this.moveBefore.bind(this));
     this.nextButton.addEventListener('click', this.moveNext.bind(this));
 
@@ -34,7 +34,7 @@ function UserList() {
     this.initialize();
 
     // Fetch User List.
-    this.fetchUsers();
+    this.fetch();
 }
 
 // Sets up shortcuts to Firebase features and initiate firebase auth.
@@ -45,7 +45,7 @@ UserList.prototype.initFirebase = function() {
     this.storage = firebase.storage();
 };
 
-UserList.prototype.moveUserDetail = function(e) {
+UserList.prototype.moveDetail = function(e) {
     e.preventDefault();
     if (this.selectedUserId) {
         location.href = "../views/userdetail.html?uid=" + this.selectedUserId;
@@ -97,7 +97,7 @@ UserList.prototype.setIndex = function() {
     }
 };
 
-UserList.prototype.fetchUsers = function() {
+UserList.prototype.fetch = function() {
     var fetchNum = 21;
     var ref = firebase.database().ref('/v1/user/');
     var query = ref.orderByChild("_createdAtReverse").limitToFirst(fetchNum);
@@ -120,14 +120,14 @@ UserList.prototype.fetchUsers = function() {
                 this.hasNext = true;
                 return;
             }
-            this.displayUser(data.key, val.name, val.position, val.gender, val.ageRange, val.area, val.imageUrl);
+            this.display(data.key, val.name, val.position, val.gender, val.ageRange, val.area, val.imageUrl);
             ctr++;
         }.bind(this));
         window.UserList.setButtons();
     }.bind(this));
 };
 
-UserList.prototype.displayUser = function(key, name, pos, gender, age, area, imageUrl) {
+UserList.prototype.display = function(key, name, pos, gender, age, area, imageUrl) {
     var template =
     '<div class="mdl-shadow--2dp mdl-cell mdl-cell--12-col">' +
     '</div>';
@@ -174,13 +174,11 @@ UserList.prototype.setImageUrl = function(imageUri, imgElement) {
         });
     } else if (imageUri.startsWith('/images/')) {   // Document path
         imgElement.src = imageUri;
-    } else if (imageUri.startsWith('/')) {          // initial file path and name
+    } else {    // initial file path and name
         imgElement.src = 'https://www.google.com/images/spin-32.gif'; // Display a loading image first.
         this.storage.ref(imageUri).getMetadata().then(function(metadata) {
             imgElement.src = metadata.downloadURLs[0];
         });
-    } else {
-        imgElement.src = imageUri;
     }
 };
 

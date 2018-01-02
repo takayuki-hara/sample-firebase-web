@@ -56,6 +56,10 @@ function unixtimeToString(time) {
 
 // 連想配列を文字列にして返す（複数は改行で分ける）
 function associativeArrayToString(array) {
+    if (!array) {
+        return;
+    }
+
     var ret = "";
     Object.keys(array).forEach(function(key) {
         ret += (key + '\n');

@@ -135,13 +135,11 @@ UserDetail.prototype.setImageUrl = function(imageUri, imgElement) {
         });
     } else if (imageUri.startsWith('/images/')) {   // Document path
         imgElement.src = imageUri;
-    } else if (imageUri.startsWith('/')) {          // initial file path and name
+    } else {    // initial file path and name
         imgElement.src = 'https://www.google.com/images/spin-32.gif'; // Display a loading image first.
         this.storage.ref(imageUri).getMetadata().then(function(metadata) {
             imgElement.src = metadata.downloadURLs[0];
         });
-    } else {
-        imgElement.src = imageUri;
     }
 };
 
