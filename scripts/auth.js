@@ -26,7 +26,7 @@ function Authenticator() {
     this.signInButton = document.getElementById('sign-in');
     this.signOutButton = document.getElementById('sign-out');
 
-    // Saves message on form submit.
+    // Bind button events.
     this.signOutButton.addEventListener('click', this.signOut.bind(this));
     this.signInButton.addEventListener('click', this.signIn.bind(this));
 }
@@ -35,27 +35,29 @@ function Authenticator() {
 Authenticator.prototype.initFirebase = function() {
     // Shortcuts to Firebase SDK features.
     this.auth = firebase.auth();
+    this.database = firebase.database();
 
     // Initiates Firebase auth and listen to auth state changes.
     this.auth.onAuthStateChanged(this.onAuthStateChanged.bind(this));
 };
 
 
-// Signs-in Friendly Chat.
+// Signs-in.
 //Authenticator.prototype.signIn = function() {
 //    // Sign in Firebase using popup auth and Google as the identity provider.
 //    var provider = new firebase.auth.GoogleAuthProvider();
 //    this.auth.signInWithPopup(provider);
 //};
 
-// Signs-out of Friendly Chat.
+// Signs-out.
 Authenticator.prototype.signOut = function() {
     // Sign out of Firebase.
     this.auth.signOut();
 };
 
-// Signs-in Friendly Chat.
-Authenticator.prototype.signIn = function() {
+// Signs-in.
+Authenticator.prototype.signIn = function(e) {
+    e.preventDefault();
     this.email = document.getElementById('email');
     this.password = document.getElementById('password');
 
@@ -84,10 +86,10 @@ Authenticator.prototype.onAuthStateChanged = function(user) {
         this.signOutButton.removeAttribute('hidden');
 
         // Hide sign-in button.
-        this.signInButton.setAttribute('hidden', 'true');
+        //this.signInButton.setAttribute('hidden', 'true');
 
         if (this.isLoginPage()) {
-            location.href = "../views/top.html";
+            this.checkAdminUser()
         }
     } else { // User is signed out!
 
@@ -122,6 +124,22 @@ Authenticator.prototype.isLoginPage = function() {
         return true;
     }
     return false;
+};
+
+// Check login page.
+Authenticator.prototype.checkAdminUser = function() {
+    var userId = firebase.auth().currentUser.uid;
+    return firebase.database().ref('/v1/user/' + userId).once('value').then(function(snapshot) {
+        var accessRights = snapshot.val() && snapshot.val().accessRights;
+        if (accessRights == null) {
+            window.alert('認証できましたがユーザー登録が完了していません。\nユーザー登録を行なってください。');
+            location.href = "../views/userregist.html";
+        } else if (accessRights == 1) {
+            location.href = "../views/top.html";
+        } else {
+            window.alert('システム管理者ユーザーではありません。\nシステムにログインできません。');
+        }
+    });
 };
 
 // Checks that the Firebase SDK has been correctly setup and configured.
