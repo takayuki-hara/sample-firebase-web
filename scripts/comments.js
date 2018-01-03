@@ -47,8 +47,8 @@ CommentList.prototype.initFirebase = function() {
 
 CommentList.prototype.moveDetail = function(e) {
     e.preventDefault();
-    if (this.selectedUserId) {
-        location.href = "../views/commentdetail.html?uid=" + this.selectedUserId;
+    if (this.selectedCommentId) {
+        location.href = "../views/commentdetail.html?cid=" + this.selectedCommentId;
     }
 };
 
@@ -162,7 +162,7 @@ CommentList.prototype.display = function(key, userId, questionId, commentId, sta
 // どのコメントを選択したのかを保持しておくための処理
 function setValue(val)
 {
-    window.UserList.selectedCommentId = val;
+    window.CommentList.selectedCommentId = val;
 }
 
 window.onload = function() {

@@ -174,6 +174,7 @@ UserDetail.prototype.saveData = function(e) {
         profileText: this.introduction.value,
     });
     window.alert('ユーザー情報を更新しました！');
+    window.location.reload();
 };
 
 UserDetail.prototype.freezeData = function(e) {

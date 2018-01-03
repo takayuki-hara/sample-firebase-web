@@ -25,7 +25,6 @@ function QuestionDetail() {
     this.tmpImage = document.getElementById('tmpImage');
 
     this.inputForm = document.getElementById('input-form');
-    this.userIdValue = document.getElementById('userIdValue');
     this.qtitle = document.getElementById('qtitle');
     this.qtitleValue = document.getElementById('qtitleValue');
     this.qbody = document.getElementById('qbody');
@@ -46,8 +45,8 @@ function QuestionDetail() {
 
     this.createdAtValue = document.getElementById('createdAtValue');
     this.updatedAtValue = document.getElementById('updatedAtValue');
+    this.userIdValue = document.getElementById('userIdValue');
     this.stateValue = document.getElementById('stateValue');
-    this.userId = document.getElementById('userId');
     this.commentsValue = document.getElementById('commentsValue');
     this.reportsValue = document.getElementById('reportsValue');
 
@@ -172,6 +171,7 @@ QuestionDetail.prototype.saveData = function(e) {
         area: getAreaCode(this.area.value),
     });
     window.alert('質問情報を更新しました！');
+    window.location.reload();
 };
 
 QuestionDetail.prototype.resolve = function(e) {
@@ -268,7 +268,7 @@ QuestionDetail.prototype.report = function(e) {
         updates['/v1/question/' + this.qid + '/reports/' + data.key] = true;
         updates['/v1/user/' + currentUser.uid + '/reports/' + data.key] = true;
         this.database.ref().update(updates);
-        window.alert('通報を投稿しました！');
+        window.alert('通報しました！');
         window.location.reload();
     }.bind(this)).catch(function(error) {
         console.error('Error writing new report to Firebase Database', error);
@@ -320,7 +320,7 @@ QuestionDetail.prototype.saveImage = function(event) {
     }
 
     var currentUser = this.auth.currentUser;
-    var filePath = 'qa/' + this.qid + '/' + this.uid + '/' + file.name;
+    var filePath = 'qa/' + this.qid + '/' + this.userIdValue.value + '/' + file.name;
     this.storage.ref(filePath).put(file).then(function(snapshot) {
         var fullPath = snapshot.metadata.fullPath;
         this.updateImageUrl(fullPath);
@@ -336,36 +336,6 @@ QuestionDetail.prototype.updateImageUrl = function(url) {
     this.ref.update({
         _updatedAt: getNowUnixtime(),
         imageUrl: url
-    });
-};
-
-QuestionDetail.prototype.updateAuthName = function(name) {
-    // ログイン中のユーザーの情報を更新したらFirebase Authenticationの情報も更新する
-    var currentUser = this.auth.currentUser;
-    if (currentUser.uid != this.uid) {
-        return;
-    }
-    currentUser.updateProfile({
-        displayName: name
-    }).then(function() {
-        console.log("updateAuthName success!");
-    }).catch(function(error) {
-        console.error('Error updating user info to Firebase Authentication', error);
-    });
-};
-
-QuestionDetail.prototype.updateAuthPhotoURL = function(url) {
-    // ログイン中のユーザーの情報を更新したらFirebase Authenticationの情報も更新する
-    var currentUser = this.auth.currentUser;
-    if (currentUser.uid != this.uid) {
-        return;
-    }
-    currentUser.updateProfile({
-        photoURL: url
-    }).then(function() {
-        console.log("updateAuthPhotoURL success!");
-    }).catch(function(error) {
-        console.error('Error updating user info to Firebase Authentication', error);
     });
 };
 
