@@ -19,13 +19,13 @@
 function UserList() {
 
     // Shortcuts to DOM Elements.
-    this.userForm = document.getElementById('user-form');
+    this.customForm = document.getElementById('custom-form');
     this.beforeButton = document.getElementById('before');
     this.nextButton = document.getElementById('next');
     this.detailButtons = document.getElementsByName('detail');
 
     // Events.
-    this.userForm.addEventListener('click', this.moveDetail.bind(this));
+    this.customForm.addEventListener('click', this.moveDetail.bind(this));
     this.beforeButton.addEventListener('click', this.moveBefore.bind(this));
     this.nextButton.addEventListener('click', this.moveNext.bind(this));
 
@@ -139,7 +139,7 @@ UserList.prototype.display = function(key, name, pos, gender, age, area, imageUr
         container.innerHTML = template;
         div = container.firstChild;
         div.setAttribute('id', key);
-        this.userForm.appendChild(div);
+        this.customForm.appendChild(div);
     }
 
     var url = "/images/profile_placeholder.png";
