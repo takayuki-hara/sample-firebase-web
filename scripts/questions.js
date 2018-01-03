@@ -15,17 +15,17 @@
  */
 'use strict';
 
-// Initializes UserList.
-function UserList() {
+// Initializes QuestionList.
+function QuestionList() {
 
     // Shortcuts to DOM Elements.
-    this.userForm = document.getElementById('user-form');
+    this.questionForm = document.getElementById('question-form');
     this.beforeButton = document.getElementById('before');
     this.nextButton = document.getElementById('next');
     this.detailButtons = document.getElementsByName('detail');
 
     // Events.
-    this.userForm.addEventListener('click', this.moveDetail.bind(this));
+    this.questionForm.addEventListener('click', this.moveDetail.bind(this));
     this.beforeButton.addEventListener('click', this.moveBefore.bind(this));
     this.nextButton.addEventListener('click', this.moveNext.bind(this));
 
@@ -38,38 +38,38 @@ function UserList() {
 }
 
 // Sets up shortcuts to Firebase features and initiate firebase auth.
-UserList.prototype.initFirebase = function() {
+QuestionList.prototype.initFirebase = function() {
     // Shortcuts to Firebase SDK features.
     this.auth = firebase.auth();
     this.database = firebase.database();
     this.storage = firebase.storage();
 };
 
-UserList.prototype.moveDetail = function(e) {
+QuestionList.prototype.moveDetail = function(e) {
     e.preventDefault();
-    if (this.selectedUserId) {
-        location.href = "../views/userdetail.html?uid=" + this.selectedUserId;
+    if (this.selectedQuestionId) {
+        location.href = "../views/questiondetail.html?qid=" + this.selectedQuestionId;
     }
 };
 
-UserList.prototype.moveBefore = function(e) {
+QuestionList.prototype.moveBefore = function(e) {
     e.preventDefault();
-    location.href = "../views/users.html?endAt=" + this.firstCreatedAt;
+    location.href = "../views/questions.html?endAt=" + this.firstCreatedAt;
 };
 
-UserList.prototype.moveNext = function(e) {
+QuestionList.prototype.moveNext = function(e) {
     e.preventDefault();
-    location.href = "../views/users.html?startAt=" + this.lastCreatedAt;
+    location.href = "../views/questions.html?startAt=" + this.lastCreatedAt;
 };
 
-UserList.prototype.initialize = function() {
+QuestionList.prototype.initialize = function() {
     this.parameters = getUrlParameters();
     if (this.parameters) {
         this.setIndex();
     }
 };
 
-UserList.prototype.setButtons = function() {
+QuestionList.prototype.setButtons = function() {
     if (this.startAt < 0) {
         this.beforeButton.removeAttribute('disabled');
         if (!this.hasNext) {
@@ -86,7 +86,7 @@ UserList.prototype.setButtons = function() {
     }
 };
 
-UserList.prototype.setIndex = function() {
+QuestionList.prototype.setIndex = function() {
     if (this.parameters == null) {
         return;
     }
@@ -97,9 +97,9 @@ UserList.prototype.setIndex = function() {
     }
 };
 
-UserList.prototype.fetch = function() {
+QuestionList.prototype.fetch = function() {
     var fetchNum = 21;
-    var ref = firebase.database().ref('/v1/user/');
+    var ref = firebase.database().ref('/v1/question/');
     var query = ref.orderByChild("_createdAtReverse").limitToFirst(fetchNum);
 
     if (this.startAt < 0) {
@@ -120,14 +120,22 @@ UserList.prototype.fetch = function() {
                 this.hasNext = true;
                 return;
             }
-            this.display(data.key, val.name, val.position, val.gender, val.ageRange, val.area, val.imageUrl);
+            this.fetchUser(val.userId).then(function(user) {
+                this.display(data.key, user.name, user.imageUrl, val.title, val.state, val.limit);
+            }.bind(this));
             ctr++;
         }.bind(this));
         this.setButtons();
     }.bind(this));
 };
 
-UserList.prototype.display = function(key, name, pos, gender, age, area, imageUrl) {
+QuestionList.prototype.fetchUser = function(userId) {
+    return this.database.ref('/v1/user/' + userId).once('value').then(function(snapshot) {
+        return snapshot.val();
+    });
+};
+
+QuestionList.prototype.display = function(key, name, imageUrl, title, state, limit) {
     var template =
     '<div class="mdl-shadow--2dp mdl-cell mdl-cell--12-col">' +
     '</div>';
@@ -139,7 +147,7 @@ UserList.prototype.display = function(key, name, pos, gender, age, area, imageUr
         container.innerHTML = template;
         div = container.firstChild;
         div.setAttribute('id', key);
-        this.userForm.appendChild(div);
+        this.questionForm.appendChild(div);
     }
 
     var url = "/images/profile_placeholder.png";
@@ -151,10 +159,6 @@ UserList.prototype.display = function(key, name, pos, gender, age, area, imageUr
     this.setImageUrl(url, image);
     div.appendChild(image);
 
-    var text = document.createElement("span");
-    text.innerHTML = "【" + name + "】 Pos:" + getPositionString(pos) + "／Gender:" + getGenderString(gender) + "／Age:" + getAgeString(age) + "／Area:" + getAreaString(area);
-    div.appendChild(text);
-
     var button = document.createElement("button");
     button.setAttribute("class", "detail mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect");
     button.setAttribute("onclick", "setValue('" + key + "')");
@@ -162,10 +166,15 @@ UserList.prototype.display = function(key, name, pos, gender, age, area, imageUr
     button.setAttribute("type", "button");
     button.innerHTML = "Detail";
     div.appendChild(button);
+
+    var text = document.createElement("span");
+    text.innerHTML = "【" + name + "】 " + title + "<br><font color='#7f7f7f'>State：" + getQuestionStatusString(state) + "／期限：" + unixtimeToString(limit) + "</font>";
+    div.appendChild(text);
+
 };
 
 // Sets the URL of the given img element with the URL of the image stored in Firebase Storage.
-UserList.prototype.setImageUrl = function(imageUri, imgElement) {
+QuestionList.prototype.setImageUrl = function(imageUri, imgElement) {
     // If the image is a Firebase Storage URI we fetch the URL.
     if (imageUri.startsWith('gs://')) {             // Google Cloud Storage URI
         imgElement.src = 'https://www.google.com/images/spin-32.gif'; // Display a loading image first.
@@ -182,13 +191,13 @@ UserList.prototype.setImageUrl = function(imageUri, imgElement) {
     }
 };
 
-// どのユーザーを選択したのかを保持しておくための処理
+// どの質問を選択したのかを保持しておくための処理
 function setValue(val)
 {
-    window.UserList.selectedUserId = val;
+    window.QuestionList.selectedQuestionId = val;
 }
 
 window.onload = function() {
     window.authenticater = new Authenticator();
-    window.UserList = new UserList();
+    window.QuestionList = new QuestionList();
 };

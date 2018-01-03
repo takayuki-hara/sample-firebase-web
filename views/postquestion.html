@@ -80,15 +80,101 @@
           <li><a href="top.html">トップ</a></li>
           <li><a href="users.html">ユーザー</a></li>
           <li><a href="questions.html">質問一覧</a></li>
+          <li><a href="comments.html">回答・リプライ一覧</a></li>
           <li><a href="reports.html">通報一覧</a></li>
-          <li><a href="images.html">画像一覧</a></li>
           <li><a href="postquestion.html">質問投稿</a></li>
+          <li><a href="chat.html">管理者チャット</a></li>
         </ul>
       </div>
 
       <!-- Messages container -->
       <div class="mdl-shadow--2dp mdl-cell mdl-cell--8-col">
-        <p><center>質問投稿</center></p>
+        <center>
+          <br>ログイン中のアカウントにて質問を投稿します。<br><br>
+          <form id="question-form" action="#">
+            <table class="mdl-data-table mdl-js-data-table">
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">タイトル</td>
+                <td class="mdl-data-table__cell--non-numeric">
+                  <div class="mdl-textfield mdl-js-textfield">
+                    <input class="mdl-textfield__input" type="text" id="qtitle">
+                    <label class="mdl-textfield__label" for="qtitle">Text...</label>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">本文</td>
+                <td class="mdl-data-table__cell--non-numeric">
+                  <div class="mdl-textfield mdl-js-textfield">
+                    <textarea class="mdl-textfield__input" type="text" rows= "3" id="qbody" ></textarea>
+                    <label class="mdl-textfield__label" for="qbody">Text lines...</label>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">カテゴリ</td>
+                <td class="mdl-data-table__cell--non-numeric">
+                  <div class="mdl-textfield mdl-js-textfield mdl-select">
+                    <select class="mdl-textfield__input" id="category">
+                      <option>アクセス</option>
+                      <option>両替</option>
+                      <option>グルメ</option>
+                      <option>緊急</option>
+                      <option>温泉</option>
+                      <option>観光名所</option>
+                      <option>アニメ</option>
+                      <option>翻訳</option>
+                      <option>Wi-Fi</option>
+                      <option>その他</option>
+                    </select>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">期限</td>
+                <td class="mdl-data-table__cell--non-numeric">
+                  <div class="mdl-textfield mdl-js-textfield mdl-select">
+                    <select class="mdl-textfield__input" id="period">
+                      <option>0.5h</option>
+                      <option>1h</option>
+                      <option>2h</option>
+                      <option>3h</option>
+                      <option>6h</option>
+                      <option>12h</option>
+                      <option>24h</option>
+                      <option>48h</option>
+                      <option>72h</option>
+                    </select>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">エリア</td>
+                <td class="mdl-data-table__cell--non-numeric">
+                  <div class="mdl-textfield mdl-js-textfield mdl-select">
+                    <select class="mdl-textfield__input" id="area">
+                      <option>関東</option>
+                      <option>関西</option>
+                      <option>北海道</option>
+                      <option>沖縄</option>
+                      <option>富士山</option>
+                      <option>九州</option>
+                      <option>中国</option>
+                      <option>四国</option>
+                      <option>東北</option>
+                      <option>中部</option>
+                      <option>その他</option>
+                    </select>
+                  </div>
+                </td>
+              </tr>
+            </table><br>
+
+            <button id="submit" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+              投稿
+            </button><br><br><br>
+          </form>
+        </center>
       </div>
 
     </div>
@@ -103,7 +189,8 @@
 <script src="/__/firebase/4.1.3/firebase.js"></script>
 <script src="/__/firebase/init.js"></script>
 
+<script src="../scripts/utilities.js"></script>
 <script src="../scripts/auth.js"></script>
-<script src="../scripts/main.js"></script>
+<script src="../scripts/postquestion.js"></script>
 </body>
 </html>

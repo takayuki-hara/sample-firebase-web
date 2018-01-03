@@ -59,7 +59,7 @@ FriendlyChat.prototype.initFirebase = function() {
 // Loads chat messages history and listens for upcoming ones.
 FriendlyChat.prototype.loadMessages = function() {
     // Reference to the /messages/ database path.
-    this.messagesRef = this.database.ref('messages');
+    this.messagesRef = this.database.ref('/admin/messages');
     // Make sure we remove all previous listeners.
     this.messagesRef.off();
 
@@ -68,8 +68,8 @@ FriendlyChat.prototype.loadMessages = function() {
         var val = data.val();
         this.displayMessage(data.key, val.name, val.text, val.photoUrl, val.imageUrl);
     }.bind(this);
-    this.messagesRef.limitToLast(12).on('child_added', setMessage);
-    this.messagesRef.limitToLast(12).on('child_changed', setMessage);
+    this.messagesRef.limitToLast(100).on('child_added', setMessage);
+    this.messagesRef.limitToLast(100).on('child_changed', setMessage);
 };
 
 // Saves a new message on the Firebase DB.
@@ -133,7 +133,7 @@ FriendlyChat.prototype.saveImageMessage = function(event) {
         photoUrl: currentUser.photoURL || '/images/profile_placeholder.png'
     }).then(function(data) {
         // Upload the image to Firebase Storage.
-        var filePath = currentUser.uid + '/' + data.key + '/' + file.name;
+        var filePath = 'chat/' + currentUser.uid + '/' + data.key + '/' + file.name;
         return this.storage.ref(filePath).put(file).then(function(snapshot) {
 
             // Get the file's Storage URI and update the chat message placeholder.
