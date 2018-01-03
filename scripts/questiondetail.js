@@ -109,7 +109,7 @@ QuestionDetail.prototype.fetchData = function() {
         var val = snapshot.val();
         this.qtitleValue.textContent = val.title;
         this.qbodyValue.textContent = val.body;
-        this.categoryValue.textContent = getQuestionCategoryString(val.categories[0]);
+        this.categoryValue.innerText = categoryArrayToString(val.categories);
         this.periodValue.textContent = unixtimeToString(val.limit);
         this.areaValue.textContent = getAreaString(val.area);
 
@@ -117,7 +117,7 @@ QuestionDetail.prototype.fetchData = function() {
         this.updatedAtValue.textContent = unixtimeToString(val._updatedAt);
         this.stateValue.textContent = getQuestionStatusString(val.state);
         this.userIdValue.innerHTML = userIdStringToLinkHtml(val.userId);
-        this.commentsValue.innerText = associativeArrayToString(val.comments);
+        this.commentsValue.innerHTML = commentArrayToLinkHtml(val.comments);
         this.reportsValue.innerText = associativeArrayToString(val.reports);
 
         this.setImageUrl(val.imageUrl, this.tmpImage);
@@ -126,6 +126,7 @@ QuestionDetail.prototype.fetchData = function() {
         this.userIdValue.value = val.userId;
         this.setButtons();
     }.bind(this)).catch(function(error) {
+        console.error('Error writing fetch question to Firebase Database', error);
         window.alert('質問が見つかりません！');
     });
 };

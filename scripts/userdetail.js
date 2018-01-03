@@ -104,7 +104,7 @@ UserDetail.prototype.fetchData = function() {
     this.ref.once('value').then(function(snapshot) {
         var val = snapshot.val();
         this.userIdValue.textContent = val.name;
-        this.languageValue.textContent = getLanguageString(val.languages[0]);
+        this.languageValue.innerText = languageArrayToString(val.languages);
         this.positionValue.textContent = getPositionString(val.position);
         this.genderValue.textContent = getGenderString(val.gender);
         this.ageValue.textContent = getAgeString(val.ageRange);
@@ -118,9 +118,9 @@ UserDetail.prototype.fetchData = function() {
         this.authTypeValue.textContent = getAuthTypeString(val.authType);
         this.deviceTypeValue.textContent = getDeviceTypeString(val.deviceType);
         this.lastLoginValue.textContent = unixtimeToString(val.lastLogin);
-        this.questionsValue.innerText = associativeArrayToString(val.questions);
-        this.repliesValue.innerText = associativeArrayToString(val.replies);
-        this.answersValue.innerText = associativeArrayToString(val.answers);
+        this.questionsValue.innerHTML = questionArrayToLinkHtml(val.questions);
+        this.repliesValue.innerHTML = commentArrayToLinkHtml(val.replies);
+        this.answersValue.innerHTML = commentArrayToLinkHtml(val.answers);
         this.reportsValue.innerText = associativeArrayToString(val.reports);
 
         this.setImageUrl(val.imageUrl, this.tmpImage);
@@ -128,6 +128,7 @@ UserDetail.prototype.fetchData = function() {
         this.stateValue.value = val.state;
         this.setButtons();
     }.bind(this)).catch(function(error) {
+        console.error('Error writing fetch user to Firebase Database', error);
         window.alert('ユーザーが見つかりません！');
     });
 };

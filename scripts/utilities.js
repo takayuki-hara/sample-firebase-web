@@ -7,7 +7,11 @@
  */
  'use strict';
 
-// インデックスページかどうかを返す
+/**
+ * 汎用的な共通関数
+ */
+
+// インデックスページかどうか
 function isIndexPage() {
     var path = location.pathname;
     var pathinfo = path.split('/');
@@ -18,7 +22,7 @@ function isIndexPage() {
     return false;
 }
 
-// URLのクエリストリングを連想配列にして返す
+// URLのクエリストリングを連想配列にする
 function　getUrlParameters() {
     if (window.location.search) {
         var query = window.location.search.substring(1,window.location.search.length);
@@ -42,7 +46,7 @@ function getNowUnixtime() {
     return unixTimestamp;
 }
 
-// Unixtimeを文字列にして返す
+// Unixtimeを文字列にする
 function unixtimeToString(time) {
     var d = new Date( time * 1000 );
     var year  = d.getFullYear();
@@ -54,7 +58,7 @@ function unixtimeToString(time) {
     return (year + '-' + month + '-' + day + ' ' + hour + ':' + min + ':' + sec );
 }
 
-// 連想配列を文字列にして返す（複数は改行で分ける）
+// 連想配列を文字列にする（複数は改行で分ける）
 function associativeArrayToString(array) {
     if (!array) {
         return "";
@@ -67,7 +71,12 @@ function associativeArrayToString(array) {
     return ret;
 }
 
-// userIdをユーザー情報のリンク文字列にして返す
+
+/**
+ * システム固有の共通関数
+ */
+
+// ユーザーIDをユーザー情報のリンク文字列にする
 function userIdStringToLinkHtml(value) {
     if (!value) {
         return "";
@@ -75,7 +84,7 @@ function userIdStringToLinkHtml(value) {
     return ("<a href='../views/userdetail.html?uid=" + value + "' target='_blank'>" + value + "</a>");
 }
 
-// questionIdを質問情報のリンク文字列にして返す
+// 質問IDを質問情報のリンク文字列にする
 function questionIdStringToLinkHtml(value) {
     if (!value) {
         return "";
@@ -83,7 +92,7 @@ function questionIdStringToLinkHtml(value) {
     return ("<a href='../views/questiondetail.html?qid=" + value + "' target='_blank'>" + value + "</a>");
 }
 
-// commentIdをコメント情報のリンク文字列にして返す
+// コメントIDをコメント情報のリンク文字列にする
 function commentIdStringToLinkHtml(value) {
     if (!value) {
         return "";
@@ -91,6 +100,57 @@ function commentIdStringToLinkHtml(value) {
     return ("<a href='../views/commentdetail.html?cid=" + value + "' target='_blank'>" + value + "</a>");
 }
 
+// 連想配列に入っている質問IDリストををリンク文字列にする（複数は改行で分ける）
+function questionArrayToLinkHtml(array) {
+    if (!array) {
+        return "";
+    }
+
+    var ret = "";
+    Object.keys(array).forEach(function(key) {
+        ret += ("<a href='../views/questiondetail.html?qid=" + key + "' target='_blank'>" + key + "</a><br>");
+    }, array);
+    return ret;
+}
+
+// 連想配列に入っているコメントIDリストををリンク文字列にする（複数は改行で分ける）
+function commentArrayToLinkHtml(array) {
+    if (!array) {
+        return "";
+    }
+
+    var ret = "";
+    Object.keys(array).forEach(function(key) {
+        ret += ("<a href='../views/commentdetail.html?cid=" + key + "' target='_blank'>" + key + "</a><br>");
+    }, array);
+    return ret;
+}
+
+// 配列に入っている言語リストをを文字列にする（複数は改行で分ける）
+function languageArrayToString(array) {
+    if (!array) {
+        return "";
+    }
+
+    var ret = "";
+    for (var item in array) {
+        ret += getLanguageString(item) + '\n';
+    }
+    return ret;
+}
+
+// 配列に入っている質問カテゴリリストをを文字列にする（複数は改行で分ける）
+function categoryArrayToString(array) {
+    if (!array) {
+        return "";
+    }
+
+    var ret = "";
+    for (var item in array) {
+        ret += getQuestionCategoryString(item) + '\n';
+    }
+    return ret;
+}
 
 /**
  * データベース関連の変換関数
