@@ -43,12 +43,12 @@ function QuestionDetail() {
     this.freezeButton = document.getElementById('freeze');
     this.deleteButton = document.getElementById('delete');
 
-    this.createdAtValue = document.getElementById('createdAtValue');
-    this.updatedAtValue = document.getElementById('updatedAtValue');
-    this.userIdValue = document.getElementById('userIdValue');
     this.stateValue = document.getElementById('stateValue');
+    this.userIdValue = document.getElementById('userIdValue');
     this.commentsValue = document.getElementById('commentsValue');
     this.reportsValue = document.getElementById('reportsValue');
+    this.createdAtValue = document.getElementById('createdAtValue');
+    this.updatedAtValue = document.getElementById('updatedAtValue');
 
     // Button Events.
     this.submitButton.addEventListener('click', this.saveData.bind(this));
@@ -113,12 +113,12 @@ QuestionDetail.prototype.fetchData = function() {
         this.periodValue.textContent = unixtimeToString(val.limit);
         this.areaValue.textContent = getAreaString(val.area);
 
-        this.createdAtValue.textContent = unixtimeToString(val._createdAt);
-        this.updatedAtValue.textContent = unixtimeToString(val._updatedAt);
         this.stateValue.textContent = getQuestionStatusString(val.state);
         this.userIdValue.innerHTML = userIdStringToLinkHtml(val.userId);
         this.commentsValue.innerHTML = commentArrayToLinkHtml(val.comments);
         this.reportsValue.innerText = associativeArrayToString(val.reports);
+        this.createdAtValue.textContent = unixtimeToString(val._createdAt);
+        this.updatedAtValue.textContent = unixtimeToString(val._updatedAt);
 
         this.setImageUrl(val.imageUrl, this.tmpImage);
 

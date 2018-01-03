@@ -34,14 +34,14 @@ function CommentDetail() {
     this.freezeButton = document.getElementById('freeze');
     this.deleteButton = document.getElementById('delete');
 
-    this.createdAtValue = document.getElementById('createdAtValue');
-    this.updatedAtValue = document.getElementById('updatedAtValue');
     this.userIdValue = document.getElementById('userIdValue');
     this.questionIdValue = document.getElementById('questionIdValue');
     this.commentIdValue = document.getElementById('commentIdValue');
     this.stateValue = document.getElementById('stateValue');
     this.categoryValue = document.getElementById('categoryValue');
     this.reportsValue = document.getElementById('reportsValue');
+    this.createdAtValue = document.getElementById('createdAtValue');
+    this.updatedAtValue = document.getElementById('updatedAtValue');
 
     // Button Events.
     this.submitButton.addEventListener('click', this.saveData.bind(this));
@@ -97,14 +97,14 @@ CommentDetail.prototype.fetchData = function() {
         var val = snapshot.val();
         this.cbodyValue.textContent = val.body;
 
-        this.createdAtValue.textContent = unixtimeToString(val._createdAt);
-        this.updatedAtValue.textContent = unixtimeToString(val._updatedAt);
         this.userIdValue.innerHTML = userIdStringToLinkHtml(val.userId);
         this.questionIdValue.innerHTML = questionIdStringToLinkHtml(val.questionId);
         this.commentIdValue.innerHTML = commentIdStringToLinkHtml(val.commentId);
         this.stateValue.textContent = getCommentStatusString(val.state);
         this.categoryValue.textContent = getCommentCategoryString(val.category);
         this.reportsValue.innerText = associativeArrayToString(val.reports);
+        this.createdAtValue.textContent = unixtimeToString(val._createdAt);
+        this.updatedAtValue.textContent = unixtimeToString(val._updatedAt);
 
         this.setImageUrl(val.imageUrl, this.tmpImage);
 
