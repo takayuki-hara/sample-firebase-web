@@ -177,8 +177,8 @@ ReportList.prototype.display = function(key, userId, questionId, commentId, stat
 
     var text = document.createElement("span");
     text.innerHTML = "【通報者】" + userIdStringToLinkHtml(userId) + "<br>" +
-                     "【質問ID】" + questionId + "<br>" +
-                     "【コメントID】" + undefinedToEmpty(commentId) + "<br>" +
+                     "【質問ID】" + questionIdStringToLinkHtml(questionId) + "<br>" +
+                     "【コメントID】" + commentIdStringToLinkHtml(commentId) + "<br>" +
                      "【本文】" + body + "<br>" +
                      "<br><font color='#7f7f7f'>State：" + getReportStatusString(state) + "／対象：" + getReportTargetString(target) + "／通報理由：" + getReportCategoryString(category) + "</font>";
     div.appendChild(text);

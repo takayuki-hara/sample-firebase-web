@@ -67,12 +67,28 @@ function associativeArrayToString(array) {
     return ret;
 }
 
-// 連想配列をユーザー情報のリンク文字列にして返す（複数は改行で分ける）
+// userIdをユーザー情報のリンク文字列にして返す
 function userIdStringToLinkHtml(value) {
     if (!value) {
         return "";
     }
     return ("<a href='../views/userdetail.html?uid=" + value + "' target='_blank'>" + value + "</a>");
+}
+
+// questionIdを質問情報のリンク文字列にして返す
+function questionIdStringToLinkHtml(value) {
+    if (!value) {
+        return "";
+    }
+    return ("<a href='../views/questiondetail.html?qid=" + value + "' target='_blank'>" + value + "</a>");
+}
+
+// commentIdをコメント情報のリンク文字列にして返す
+function commentIdStringToLinkHtml(value) {
+    if (!value) {
+        return "";
+    }
+    return ("<a href='../views/commentdetail.html?cid=" + value + "' target='_blank'>" + value + "</a>");
 }
 
 // undefined,null,0,false,空文字を空文字に変換する
