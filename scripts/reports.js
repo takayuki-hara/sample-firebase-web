@@ -46,7 +46,7 @@ ReportList.prototype.initFirebase = function() {
 };
 
 ReportList.prototype.changeState = function(state) {
-    var ref = firebase.database().ref('/v1/report/' + this.selectedReportId);
+    var ref = this.database.ref('/v1/report/' + this.selectedReportId);
     ref.update({
         _updatedAt: getNowUnixtime(),
         state: this.toState
@@ -102,7 +102,7 @@ ReportList.prototype.setIndex = function() {
 
 ReportList.prototype.fetch = function() {
     var fetchNum = 21;
-    var ref = firebase.database().ref('/v1/report/');
+    var ref = this.database.ref('/v1/report/');
     var query = ref.orderByChild("_createdAtReverse").limitToFirst(fetchNum);
 
     if (this.startAt < 0) {
@@ -115,7 +115,6 @@ ReportList.prototype.fetch = function() {
         var ctr = 0;
         snapshot.forEach(function(data) {
             var val = data.val();
-            console.log("The " + data.key + " score is " + val);
             this.lastCreatedAt = val._createdAtReverse;
             if (ctr == 0) {
                 this.firstCreatedAt = val._createdAtReverse;
@@ -136,7 +135,6 @@ ReportList.prototype.display = function(key, userId, questionId, commentId, stat
     '</div>';
 
     var div = document.getElementById(key);
-    // If an element for that message does not exists yet we create it.
     if (!div) {
         var container = document.createElement('div');
         container.innerHTML = template;
@@ -151,7 +149,7 @@ ReportList.prototype.display = function(key, userId, questionId, commentId, stat
         button2.setAttribute("onclick", "setValue('" + key + "', 2)");
         button2.setAttribute("name", "detail");
         button2.setAttribute("type", "button");
-        button2.innerHTML = "保留";
+        button2.innerHTML = "保留にする";
         div.appendChild(button2);
     }
 
@@ -161,7 +159,7 @@ ReportList.prototype.display = function(key, userId, questionId, commentId, stat
         button.setAttribute("onclick", "setValue('" + key + "', 1)");
         button.setAttribute("name", "detail");
         button.setAttribute("type", "button");
-        button.innerHTML = "処理済";
+        button.innerHTML = "処理済みにする";
         div.appendChild(button);
     }
 
@@ -171,14 +169,14 @@ ReportList.prototype.display = function(key, userId, questionId, commentId, stat
         button.setAttribute("onclick", "setValue('" + key + "', 0)");
         button.setAttribute("name", "detail");
         button.setAttribute("type", "button");
-        button.innerHTML = "未処理";
+        button.innerHTML = "未処理にする";
         div.appendChild(button);
     }
 
     var text = document.createElement("span");
-    text.innerHTML = "【通報者】" + userId + "<br>" +
-                     "【質問ID】" + questionId + "<br>" +
-                     "【コメントID】" + commentId + "<br>" +
+    text.innerHTML = "【通報者】" + userIdStringToLinkHtml(userId) + "<br>" +
+                     "【質問ID】" + questionIdStringToLinkHtml(questionId) + "<br>" +
+                     "【コメントID】" + commentIdStringToLinkHtml(commentId) + "<br>" +
                      "【本文】" + body + "<br>" +
                      "<br><font color='#7f7f7f'>State：" + getReportStatusString(state) + "／対象：" + getReportTargetString(target) + "／通報理由：" + getReportCategoryString(category) + "</font>";
     div.appendChild(text);

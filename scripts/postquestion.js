@@ -26,11 +26,13 @@ function PostQuestion() {
     this.period = document.getElementById('period');
     this.area = document.getElementById('area');
 
+    // Events.
     this.submitButton = document.getElementById('submit');
 
     // Saves user info on form submit.
     this.submitButton.addEventListener('click', this.saveQuestion.bind(this));
 
+    // Initialize.
     this.initFirebase();
 }
 

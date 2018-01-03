@@ -28,11 +28,13 @@ function UserRegister() {
     this.area = document.getElementById('area');
     this.introduction = document.getElementById('introduction');
 
+    // Events.
     this.submitButton = document.getElementById('submit');
 
     // Saves user info on form submit.
     this.submitButton.addEventListener('click', this.saveUser.bind(this));
 
+    // Initialize.
     this.initFirebase();
 }
 
@@ -56,9 +58,7 @@ UserRegister.prototype.saveUser = function(e) {
     var currentUser = this.auth.currentUser;
     var userRef = this.database.ref('v1/user/' + currentUser.uid);
 
-    // Add a new message entry to the Firebase Database.
-    var date = new Date();
-    var unixTimestamp = Math.round( date.getTime() / 1000 );
+    var unixTimestamp = getNowUnixtime();
     userRef.set({
         _createdAt: unixTimestamp,
         _createdAtReverse: -unixTimestamp,
@@ -82,7 +82,7 @@ UserRegister.prototype.saveUser = function(e) {
         this.submitButton.setAttribute('disabled', 'true');
         window.alert('ユーザー登録完了しました！\nサインアウトし、ログイン画面に戻ってください。');
     }.bind(this)).catch(function(error) {
-        console.error('Error writing new message to Firebase Database', error);
+        console.error('Error writing new user to Firebase Database', error);
     });
 };
 

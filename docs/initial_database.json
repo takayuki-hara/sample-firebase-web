@@ -1,0 +1,131 @@
+{
+  "admin" : {
+    "messages" : {
+      "-L1u6YfBtgJOxoxb80UU" : {
+        "name" : "bbb",
+        "text" : "Firebaseのサンプルをほぼそのまま使ってます"
+      }
+    }
+  },
+  "v1" : {
+    "block" : {
+      "__test_user" : {
+        "__test_user" : true
+      }
+    },
+    "comment" : {
+      "__test_comment" : {
+        "_createdAt" : 1513159529,
+        "_createdAtReverse" : -1513159529,
+        "_updatedAt" : 1513159529,
+        "body" : "aaaaaaaaaa",
+        "category" : 0,
+        "imageUrl" : "7aYrmkyd60VmNyyW9fnyO9BnH2A3/images/image:63",
+        "questionId" : "__test_question",
+        "reports" : {
+          "__test_report" : true
+        },
+        "state" : 0,
+        "userId" : "__test_user"
+      }
+    },
+    "openquestion" : {
+      "__test_question" : true
+    },
+    "question" : {
+      "__test_question" : {
+        "_createdAt" : 1513159529,
+        "_createdAtReverse" : -1513159529,
+        "_updatedAt" : 1513159529,
+        "area" : 0,
+        "body" : "aaaaaaaaaa",
+        "categories" : [ 0, 1, 5 ],
+        "comments" : {
+          "__test_comment" : true
+        },
+        "imageUrl" : "7aYrmkyd60VmNyyW9fnyO9BnH2A3/images/image:63",
+        "limit" : 1513159529,
+        "reports" : {
+          "__test_report" : true
+        },
+        "state" : 0,
+        "title" : "test_question",
+        "userId" : "__test_user"
+      },
+      "__test_question_closed" : {
+        "_createdAt" : 1513159529,
+        "_createdAtReverse" : -1513159529,
+        "_updatedAt" : 1513159529,
+        "area" : 1,
+        "body" : "aaaaaaaaaa",
+        "categories" : [ 0 ],
+        "limit" : 1513159529,
+        "state" : 1,
+        "title" : "test_question_closed",
+        "userId" : "__test_user"
+      }
+    },
+    "report" : {
+      "__test_report" : {
+        "_createdAt" : 1513159529,
+        "_createdAtReverse" : -1513159529,
+        "_updatedAt" : 1514955157,
+        "body" : "aaaaaaaaaa",
+        "category" : 0,
+        "commentId" : "__test_comment",
+        "questionId" : "__test_question",
+        "state" : 1,
+        "userId" : "__test_user"
+      }
+    },
+    "user" : {
+      "__test_user" : {
+        "_createdAt" : 1513159529,
+        "_createdAtReverse" : -1513159529,
+        "_updatedAt" : 1513159529,
+        "accessRights" : 0,
+        "ageRange" : 0,
+        "answers" : {
+          "__test_comment" : true
+        },
+        "area" : 0,
+        "authType" : 0,
+        "block" : {
+          "count" : 0
+        },
+        "deleted" : {
+          "count" : 0
+        },
+        "deviceType" : 0,
+        "favorite" : {
+          "count" : 0
+        },
+        "fcmToken" : "aaaaaaaaaa",
+        "gender" : 0,
+        "good" : {
+          "count" : 0
+        },
+        "imageUrl" : "7aYrmkyd60VmNyyW9fnyO9BnH2A3/images/image:63",
+        "languages" : [ 0, 1 ],
+        "lastLogin" : 1513159529,
+        "name" : "test_user",
+        "position" : 0,
+        "profileText" : "よろしくお願いいたします",
+        "questions" : {
+          "__test_question" : true,
+          "__test_question_closed" : true
+        },
+        "replies" : {
+          "__test_comment" : true
+        },
+        "reported" : {
+          "count" : 0
+        },
+        "reports" : {
+          "__test_report" : true
+        },
+        "state" : 1
+      }
+    }
+  }
+}

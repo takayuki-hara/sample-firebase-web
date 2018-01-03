@@ -1,5 +1,5 @@
 /*----------------------------------------------------------
-メニュー関連
+メニュー
 ------------------------------------------------------------*/
 
 /* --- ナビゲーションバー --- */
@@ -40,20 +40,23 @@ div.nav ul.nl li a:hover {
     color:#e0e0e0;
 }
 
-
 /*----------------------------------------------------------
-（参考）https://saruwakakun.com/html-css/reference/h-design
+メイン
 ------------------------------------------------------------*/
 
-/*************
-/* タイトル
-*************/
+/* --- 縦スクロール --- */
+div.vscroll {
+    overflow-y: auto;
+}
+
+/* --- タイトル1 --- */
 .title01 {
     color: #7C7C7C;
     border-bottom: solid 2px #0288D1;
     padding: 0.1em;
 }
 
+/* --- タイトル2 --- */
 .title02 {
     padding: 0.2em 0.5em;
     color: #7C7C7C;
@@ -61,18 +64,21 @@ div.nav ul.nl li a:hover {
     border-left: solid 5px #0288D1;
 }
 
+/* --- タイトル3 --- */
 .title03 {
     color: #7C7C7C;
     padding: 0.1em;
     background: linear-gradient(transparent 80%, #0288D1 80%);
 }
 
+/* --- タイトル4 --- */
 .title04 {
     color: #ffffff;
     background: #0288D1;
     padding: 0.2em;
 }
 
+/* --- タイトル5 --- */
 .title05 {
     padding:4px 5px;
     color: #7C7C7C;
@@ -82,102 +88,11 @@ div.nav ul.nl li a:hover {
     background:#E3F0FD;
 }
 
-
-
-/*----------------------------------------------------------
-テーブル関連：（参考）http://webworkersclip.com/2875/
-------------------------------------------------------------*/
-
-/*************
-/* テーブル1（シンプルで見やすい表）
-*************/
-table.type01 {
-	border-collapse: collapse;
-	text-align: left;
-	line-height: 1.5;
-
-}
-table.type01 thead th {
-	padding: 10px;
-	font-weight: bold;
-	vertical-align: top;
-	color: #369;
-	border-bottom: 3px solid #036;
-}
-table.type01 tbody th {
-	width: 50px;
-	padding: 10px;
-	font-weight: bold;
-	vertical-align: top;
-	border-bottom: 1px solid #ccc;
-	background: #f3f6f7;
-}
-table.type01 td {
-	width: 350px;
-	padding: 10px;
-	vertical-align: top;
-	border-bottom: 1px solid #ccc;
-}
-
-/*************
-/* テーブル2（交互に背景色）
-*************/
-table.type02 {
-	border-collapse: collapse;
-	text-align: left;
-	line-height: 1.5;
-	border-top: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
-}
-table.type02 th {
-	padding: 10px;
-	font-weight: bold;
-	vertical-align: top;
-}
-table.type02 td {
-	padding: 10px;
-	vertical-align: top;
-}
-table.type02 .even {
-	background: #efefef;
-}
-
-/*************
-/* テーブル3（左カラムがヘッダー）
-*************/
-table.type03 {
-	border-collapse: collapse;
-	text-align: left;
-	line-height: 1.5;
-	border-top: 1px solid #ccc;
-	border-left: 3px solid #369;
-}
-table.type03 th {
-	width: 147px;
-	padding: 10px;
-	font-weight: bold;
-	vertical-align: top;
-	color: #153d73;
-	border-right: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
-
-}
-table.type03 td {
-	width: 349px;
-	padding: 10px;
-	vertical-align: top;
-	border-right: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
-}
-
-
 /*----------------------------------------------------------
 その他
 ------------------------------------------------------------*/
 
-/*************
-/* フッター
-*************/
+/* --- フッター --- */
 #footer{
     position: fixed;
     bottom: 0;
@@ -188,20 +103,9 @@ table.type03 td {
     background:#424242;
 }
 
-/* --- 縦スクロール --- */
-div.vscroll {
-    overflow-y: auto;
-}
-
-/* --- 右寄せ --- */
-div.rfloat {
-    float: right;
-}
-
-
-/*************
-/* ユーザー
-*************/
+/***********************
+/* ユーザーリスト
+***********************/
 button.detail {
     height: 62px;
     float: right;
@@ -212,3 +116,11 @@ img.profile {
     width: 30px;
     height: 30px;
 }
+
+/*----------------------------------------------------------
+ * 参考
+ * http://www.tagindex.com/template/
+ * https://saruwakakun.com/html-css/reference/h-design
+ * http://webworkersclip.com/2875/
+------------------------------------------------------------*/
+

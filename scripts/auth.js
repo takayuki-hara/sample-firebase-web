@@ -62,7 +62,6 @@ Authenticator.prototype.signIn = function(e) {
     this.password = document.getElementById('password');
 
     this.auth.signInWithEmailAndPassword(this.email.value, this.password.value).catch(function(error) {
-        // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
         window.alert('認証エラー');
@@ -86,7 +85,7 @@ Authenticator.prototype.onAuthStateChanged = function(user) {
         this.signOutButton.removeAttribute('hidden');
 
         // Hide sign-in button.
-        //this.signInButton.setAttribute('hidden', 'true');
+        this.signInButton.setAttribute('hidden', 'true');
 
         if (this.isLoginPage()) {
             this.checkAdminUser()
@@ -110,8 +109,6 @@ Authenticator.prototype.toLogin = function() {
     if (this.isLoginPage()) {
         return;
     }
-
-    console.log('ログインしてください');
     location.href = "../views/login.html";
 };
 
@@ -128,8 +125,8 @@ Authenticator.prototype.isLoginPage = function() {
 
 // Check login page.
 Authenticator.prototype.checkAdminUser = function() {
-    var userId = firebase.auth().currentUser.uid;
-    return firebase.database().ref('/v1/user/' + userId).once('value').then(function(snapshot) {
+    var currentUser = this.auth.currentUser;
+    return this.database.ref('/v1/user/' + currentUser.uid).once('value').then(function(snapshot) {
         var accessRights = snapshot.val() && snapshot.val().accessRights;
         if (accessRights == null) {
             window.alert('認証できましたがユーザー登録が完了していません。\nユーザー登録を行なってください。');

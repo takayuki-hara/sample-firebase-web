@@ -15,8 +15,8 @@
  */
 'use strict';
 
-// Initializes QuestionList.
-function QuestionList() {
+// Initializes CommentList.
+function CommentList() {
 
     // Shortcuts to DOM Elements.
     this.customForm = document.getElementById('custom-form');
@@ -38,38 +38,38 @@ function QuestionList() {
 }
 
 // Sets up shortcuts to Firebase features and initiate firebase auth.
-QuestionList.prototype.initFirebase = function() {
+CommentList.prototype.initFirebase = function() {
     // Shortcuts to Firebase SDK features.
     this.auth = firebase.auth();
     this.database = firebase.database();
     this.storage = firebase.storage();
 };
 
-QuestionList.prototype.moveDetail = function(e) {
+CommentList.prototype.moveDetail = function(e) {
     e.preventDefault();
-    if (this.selectedQuestionId) {
-        location.href = "../views/questiondetail.html?qid=" + this.selectedQuestionId;
+    if (this.selectedCommentId) {
+        location.href = "../views/commentdetail.html?cid=" + this.selectedCommentId;
     }
 };
 
-QuestionList.prototype.moveBefore = function(e) {
+CommentList.prototype.moveBefore = function(e) {
     e.preventDefault();
-    location.href = "../views/questions.html?endAt=" + this.firstCreatedAt;
+    location.href = "../views/comments.html?endAt=" + this.firstCreatedAt;
 };
 
-QuestionList.prototype.moveNext = function(e) {
+CommentList.prototype.moveNext = function(e) {
     e.preventDefault();
-    location.href = "../views/questions.html?startAt=" + this.lastCreatedAt;
+    location.href = "../views/comments.html?startAt=" + this.lastCreatedAt;
 };
 
-QuestionList.prototype.initialize = function() {
+CommentList.prototype.initialize = function() {
     this.parameters = getUrlParameters();
     if (this.parameters) {
         this.setIndex();
     }
 };
 
-QuestionList.prototype.setButtons = function() {
+CommentList.prototype.setButtons = function() {
     if (this.startAt < 0) {
         this.beforeButton.removeAttribute('disabled');
         if (!this.hasNext) {
@@ -86,7 +86,7 @@ QuestionList.prototype.setButtons = function() {
     }
 };
 
-QuestionList.prototype.setIndex = function() {
+CommentList.prototype.setIndex = function() {
     if (this.parameters == null) {
         return;
     }
@@ -97,9 +97,9 @@ QuestionList.prototype.setIndex = function() {
     }
 };
 
-QuestionList.prototype.fetch = function() {
+CommentList.prototype.fetch = function() {
     var fetchNum = 21;
-    var ref = this.database.ref('/v1/question/');
+    var ref = this.database.ref('/v1/comment/');
     var query = ref.orderByChild("_createdAtReverse").limitToFirst(fetchNum);
 
     if (this.startAt < 0) {
@@ -119,22 +119,14 @@ QuestionList.prototype.fetch = function() {
                 this.hasNext = true;
                 return;
             }
-            this.fetchUser(val.userId).then(function(user) {
-                this.display(data.key, user.name, user.imageUrl, val.title, val.state, val.limit);
-            }.bind(this));
+            this.display(data.key, val.userId, val.questionId, val.commentId, val.state, val.category, val.body);
             ctr++;
         }.bind(this));
         this.setButtons();
     }.bind(this));
 };
 
-QuestionList.prototype.fetchUser = function(userId) {
-    return this.database.ref('/v1/user/' + userId).once('value').then(function(snapshot) {
-        return snapshot.val();
-    });
-};
-
-QuestionList.prototype.display = function(key, name, imageUrl, title, state, limit) {
+CommentList.prototype.display = function(key, userId, questionId, commentId, state, category, body) {
     var template =
     '<div class="mdl-shadow--2dp mdl-cell mdl-cell--12-col">' +
     '</div>';
@@ -148,15 +140,6 @@ QuestionList.prototype.display = function(key, name, imageUrl, title, state, lim
         this.customForm.appendChild(div);
     }
 
-    var url = "/images/profile_placeholder.png";
-    if (imageUrl) {
-        url = imageUrl;
-    }
-    var image = document.createElement('img');
-    image.setAttribute("class", "profile");
-    this.setImageUrl(url, image);
-    div.appendChild(image);
-
     var button = document.createElement("button");
     button.setAttribute("class", "detail mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect");
     button.setAttribute("onclick", "setValue('" + key + "')");
@@ -166,40 +149,21 @@ QuestionList.prototype.display = function(key, name, imageUrl, title, state, lim
     div.appendChild(button);
 
     var text = document.createElement("span");
-    text.innerHTML = "【" + name + "】 " + title + "<br><font color='#7f7f7f'>State：" + getQuestionStatusString(state) + "／期限：" + unixtimeToString(limit) + "</font>";
+    text.innerHTML = "【投稿者】" + userIdStringToLinkHtml(userId) + "<br>" +
+                     "【質問ID】" + questionIdStringToLinkHtml(questionId) + "<br>" +
+                     "【コメントID】" + commentIdStringToLinkHtml(commentId) + "<br>" +
+                     "【本文】" + body + "<br>" +
+                     "<br><font color='#7f7f7f'>State：" + getCommentStatusString(state) + "／種別：" + getCommentCategoryString(category) + "</font>";
     div.appendChild(text);
-
 };
 
-// Sets the URL of the given img element with the URL of the image stored in Firebase Storage.
-QuestionList.prototype.setImageUrl = function(imageUri, imgElement) {
-    if (!imageUri) {
-        return;
-    }
-
-    // If the image is a Firebase Storage URI we fetch the URL.
-    if (imageUri.startsWith('gs://')) {             // Google Cloud Storage URI
-        imgElement.src = 'https://www.google.com/images/spin-32.gif'; // Display a loading image first.
-        this.storage.refFromURL(imageUri).getMetadata().then(function(metadata) {
-            imgElement.src = metadata.downloadURLs[0];
-        });
-    } else if (imageUri.startsWith('/images/')) {   // Document path
-        imgElement.src = imageUri;
-    } else {    // initial file path and name
-        imgElement.src = 'https://www.google.com/images/spin-32.gif'; // Display a loading image first.
-        this.storage.ref(imageUri).getMetadata().then(function(metadata) {
-            imgElement.src = metadata.downloadURLs[0];
-        });
-    }
-};
-
-// どの質問を選択したのかを保持しておくための処理
+// どのコメントを選択したのかを保持しておくための処理
 function setValue(val)
 {
-    window.QuestionList.selectedQuestionId = val;
+    window.CommentList.selectedCommentId = val;
 }
 
 window.onload = function() {
     window.authenticater = new Authenticator();
-    window.QuestionList = new QuestionList();
+    window.CommentList = new CommentList();
 };

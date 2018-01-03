@@ -15,7 +15,7 @@
  */
 'use strict';
 
-// Initializes UserRegister.
+// Initializes UserDetail.
 function UserDetail() {
 
     // Shortcuts to DOM Elements.
@@ -44,17 +44,17 @@ function UserDetail() {
     this.freezeButton = document.getElementById('freeze');
     this.deleteButton = document.getElementById('delete');
 
-    this.createdAtValue = document.getElementById('createdAtValue');
-    this.updatedAtValue = document.getElementById('updatedAtValue');
     this.stateValue = document.getElementById('stateValue');
     this.accessRightsValue = document.getElementById('accessRightsValue');
     this.authTypeValue = document.getElementById('authTypeValue');
     this.deviceTypeValue = document.getElementById('deviceTypeValue');
-    this.lastLoginValue = document.getElementById('lastLoginValue');
     this.questionsValue = document.getElementById('questionsValue');
     this.repliesValue = document.getElementById('repliesValue');
     this.answersValue = document.getElementById('answersValue');
     this.reportsValue = document.getElementById('reportsValue');
+    this.lastLoginValue = document.getElementById('lastLoginValue');
+    this.createdAtValue = document.getElementById('createdAtValue');
+    this.updatedAtValue = document.getElementById('updatedAtValue');
 
     // Button Events.
     this.submitButton.addEventListener('click', this.saveData.bind(this));
@@ -98,36 +98,36 @@ UserDetail.prototype.setButtons = function() {
 };
 
 UserDetail.prototype.fetchData = function() {
-    this.ref = firebase.database().ref('/v1/user/' + this.uid);
-    //var query = this.ref; //ref.orderByChild("_createdAtReverse").equalTo(this.uid);
+    this.ref = this.database.ref('/v1/user/' + this.uid);
 
     this.ref.once('value').then(function(snapshot) {
         var val = snapshot.val();
         this.userIdValue.textContent = val.name;
-        this.languageValue.textContent = getLanguageString(val.languages[0]);
+        this.languageValue.innerText = languageArrayToString(val.languages);
         this.positionValue.textContent = getPositionString(val.position);
         this.genderValue.textContent = getGenderString(val.gender);
         this.ageValue.textContent = getAgeString(val.ageRange);
         this.areaValue.textContent = getAreaString(val.area);
         this.introductionValue.textContent = val.profileText;
 
-        this.createdAtValue.textContent = unixtimeToString(val._createdAt);
-        this.updatedAtValue.textContent = unixtimeToString(val._updatedAt);
         this.stateValue.textContent = getUserStatusString(val.state);
         this.accessRightsValue.textContent = getAccessRightsString(val.accessRights);
         this.authTypeValue.textContent = getAuthTypeString(val.authType);
         this.deviceTypeValue.textContent = getDeviceTypeString(val.deviceType);
-        this.lastLoginValue.textContent = unixtimeToString(val.lastLogin);
-        this.questionsValue.innerText = associativeArrayToString(val.questions);
-        this.repliesValue.innerText = associativeArrayToString(val.replies);
-        this.answersValue.innerText = associativeArrayToString(val.answers);
+        this.questionsValue.innerHTML = questionArrayToLinkHtml(val.questions);
+        this.repliesValue.innerHTML = commentArrayToLinkHtml(val.replies);
+        this.answersValue.innerHTML = commentArrayToLinkHtml(val.answers);
         this.reportsValue.innerText = associativeArrayToString(val.reports);
+        this.lastLoginValue.textContent = unixtimeToString(val.lastLogin);
+        this.createdAtValue.textContent = unixtimeToString(val._createdAt);
+        this.updatedAtValue.textContent = unixtimeToString(val._updatedAt);
 
         this.setImageUrl(val.imageUrl, this.tmpImage);
 
         this.stateValue.value = val.state;
         this.setButtons();
     }.bind(this)).catch(function(error) {
+        console.error('Error writing fetch user to Firebase Database', error);
         window.alert('ユーザーが見つかりません！');
     });
 };
@@ -174,6 +174,7 @@ UserDetail.prototype.saveData = function(e) {
         profileText: this.introduction.value,
     });
     window.alert('ユーザー情報を更新しました！');
+    window.location.reload();
 };
 
 UserDetail.prototype.freezeData = function(e) {
