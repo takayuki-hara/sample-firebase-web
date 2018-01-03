@@ -91,7 +91,7 @@ CommentDetail.prototype.setButtons = function() {
 };
 
 CommentDetail.prototype.fetchData = function() {
-    this.ref = firebase.database().ref('/v1/comment/' + this.cid);
+    this.ref = this.database.ref('/v1/comment/' + this.cid);
 
     this.ref.once('value').then(function(snapshot) {
         var val = snapshot.val();

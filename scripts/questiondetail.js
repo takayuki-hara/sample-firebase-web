@@ -103,7 +103,7 @@ QuestionDetail.prototype.setButtons = function() {
 };
 
 QuestionDetail.prototype.fetchData = function() {
-    this.ref = firebase.database().ref('/v1/question/' + this.qid);
+    this.ref = this.database.ref('/v1/question/' + this.qid);
 
     this.ref.once('value').then(function(snapshot) {
         var val = snapshot.val();

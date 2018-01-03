@@ -99,7 +99,7 @@ QuestionList.prototype.setIndex = function() {
 
 QuestionList.prototype.fetch = function() {
     var fetchNum = 21;
-    var ref = firebase.database().ref('/v1/question/');
+    var ref = this.database.ref('/v1/question/');
     var query = ref.orderByChild("_createdAtReverse").limitToFirst(fetchNum);
 
     if (this.startAt < 0) {
@@ -112,7 +112,6 @@ QuestionList.prototype.fetch = function() {
         var ctr = 0;
         snapshot.forEach(function(data) {
             var val = data.val();
-            console.log("The " + data.key + " score is " + val);
             this.lastCreatedAt = val._createdAtReverse;
             if (ctr == 0) {
                 this.firstCreatedAt = val._createdAtReverse;
@@ -141,7 +140,6 @@ QuestionList.prototype.display = function(key, name, imageUrl, title, state, lim
     '</div>';
 
     var div = document.getElementById(key);
-    // If an element for that message does not exists yet we create it.
     if (!div) {
         var container = document.createElement('div');
         container.innerHTML = template;
@@ -175,6 +173,10 @@ QuestionList.prototype.display = function(key, name, imageUrl, title, state, lim
 
 // Sets the URL of the given img element with the URL of the image stored in Firebase Storage.
 QuestionList.prototype.setImageUrl = function(imageUri, imgElement) {
+    if (!imageUri) {
+        return;
+    }
+
     // If the image is a Firebase Storage URI we fetch the URL.
     if (imageUri.startsWith('gs://')) {             // Google Cloud Storage URI
         imgElement.src = 'https://www.google.com/images/spin-32.gif'; // Display a loading image first.

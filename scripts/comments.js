@@ -99,7 +99,7 @@ CommentList.prototype.setIndex = function() {
 
 CommentList.prototype.fetch = function() {
     var fetchNum = 21;
-    var ref = firebase.database().ref('/v1/comment/');
+    var ref = this.database.ref('/v1/comment/');
     var query = ref.orderByChild("_createdAtReverse").limitToFirst(fetchNum);
 
     if (this.startAt < 0) {
@@ -112,7 +112,6 @@ CommentList.prototype.fetch = function() {
         var ctr = 0;
         snapshot.forEach(function(data) {
             var val = data.val();
-            console.log("The " + data.key + " score is " + val);
             this.lastCreatedAt = val._createdAtReverse;
             if (ctr == 0) {
                 this.firstCreatedAt = val._createdAtReverse;
@@ -133,7 +132,6 @@ CommentList.prototype.display = function(key, userId, questionId, commentId, sta
     '</div>';
 
     var div = document.getElementById(key);
-    // If an element for that message does not exists yet we create it.
     if (!div) {
         var container = document.createElement('div');
         container.innerHTML = template;

@@ -15,7 +15,7 @@
  */
 'use strict';
 
-// Initializes UserRegister.
+// Initializes UserDetail.
 function UserDetail() {
 
     // Shortcuts to DOM Elements.
@@ -98,8 +98,7 @@ UserDetail.prototype.setButtons = function() {
 };
 
 UserDetail.prototype.fetchData = function() {
-    this.ref = firebase.database().ref('/v1/user/' + this.uid);
-    //var query = this.ref; //ref.orderByChild("_createdAtReverse").equalTo(this.uid);
+    this.ref = this.database.ref('/v1/user/' + this.uid);
 
     this.ref.once('value').then(function(snapshot) {
         var val = snapshot.val();
