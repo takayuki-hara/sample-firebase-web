@@ -92,7 +92,7 @@ UserDetail.prototype.initialize = function() {
 };
 
 UserDetail.prototype.setButtons = function() {
-    if (stateValue.value == 2) {
+    if (this.stateValue.value == 2) {
         this.freezeButton.textContent = '復帰';
     }
 };
@@ -179,14 +179,14 @@ UserDetail.prototype.saveData = function(e) {
 UserDetail.prototype.freezeData = function(e) {
     e.preventDefault();
 
-    if (stateValue.value == 1) {
+    if (this.stateValue.value == 1) {
         this.ref.update({
             _updatedAt: getNowUnixtime(),
             state: 2
         });
         window.alert('ユーザーを凍結しました！');
         window.location.reload();
-    } else if (stateValue.value == 2) {
+    } else if (this.stateValue.value == 2) {
         this.ref.update({
             _updatedAt: getNowUnixtime(),
             state: 1
@@ -229,6 +229,8 @@ UserDetail.prototype.saveImage = function(event) {
     }.bind(this)).catch(function(error) {
          console.error('There was an error uploading a file to Firebase Storage:', error);
     });
+
+    // TODO: 古い画像の削除
 };
 
 UserDetail.prototype.updateImageUrl = function(url) {

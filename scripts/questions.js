@@ -168,7 +168,7 @@ QuestionList.prototype.display = function(key, name, imageUrl, title, state, lim
     div.appendChild(button);
 
     var text = document.createElement("span");
-    text.innerHTML = "【" + name + "】 " + title + "<br><font color='#7f7f7f'>State：" + getCommentStatusString(state) + "／期限：" + unixtimeToString(limit) + "</font>";
+    text.innerHTML = "【" + name + "】 " + title + "<br><font color='#7f7f7f'>State：" + getQuestionStatusString(state) + "／期限：" + unixtimeToString(limit) + "</font>";
     div.appendChild(text);
 
 };
