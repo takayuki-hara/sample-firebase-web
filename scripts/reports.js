@@ -15,8 +15,8 @@
  */
 'use strict';
 
-// Initializes UserList.
-function UserList() {
+// Initializes ReportList.
+function ReportList() {
 
     // Shortcuts to DOM Elements.
     this.customForm = document.getElementById('custom-form');
@@ -25,7 +25,7 @@ function UserList() {
     this.detailButtons = document.getElementsByName('detail');
 
     // Events.
-    this.customForm.addEventListener('click', this.moveDetail.bind(this));
+    this.customForm.addEventListener('click', this.changeState.bind(this));
     this.beforeButton.addEventListener('click', this.moveBefore.bind(this));
     this.nextButton.addEventListener('click', this.moveNext.bind(this));
 
@@ -38,38 +38,41 @@ function UserList() {
 }
 
 // Sets up shortcuts to Firebase features and initiate firebase auth.
-UserList.prototype.initFirebase = function() {
+ReportList.prototype.initFirebase = function() {
     // Shortcuts to Firebase SDK features.
     this.auth = firebase.auth();
     this.database = firebase.database();
     this.storage = firebase.storage();
 };
 
-UserList.prototype.moveDetail = function(e) {
-    e.preventDefault();
-    if (this.selectedUserId) {
-        location.href = "../views/userdetail.html?uid=" + this.selectedUserId;
-    }
+ReportList.prototype.changeState = function(state) {
+    var ref = firebase.database().ref('/v1/report/' + this.selectedReportId);
+    ref.update({
+        _updatedAt: getNowUnixtime(),
+        state: this.toState
+    });
+    window.alert('通報の状態を更新しました！');
+    window.location.reload();
 };
 
-UserList.prototype.moveBefore = function(e) {
+ReportList.prototype.moveBefore = function(e) {
     e.preventDefault();
-    location.href = "../views/users.html?endAt=" + this.firstCreatedAt;
+    location.href = "../views/reports.html?endAt=" + this.firstCreatedAt;
 };
 
-UserList.prototype.moveNext = function(e) {
+ReportList.prototype.moveNext = function(e) {
     e.preventDefault();
-    location.href = "../views/users.html?startAt=" + this.lastCreatedAt;
+    location.href = "../views/reports.html?startAt=" + this.lastCreatedAt;
 };
 
-UserList.prototype.initialize = function() {
+ReportList.prototype.initialize = function() {
     this.parameters = getUrlParameters();
     if (this.parameters) {
         this.setIndex();
     }
 };
 
-UserList.prototype.setButtons = function() {
+ReportList.prototype.setButtons = function() {
     if (this.startAt < 0) {
         this.beforeButton.removeAttribute('disabled');
         if (!this.hasNext) {
@@ -86,7 +89,7 @@ UserList.prototype.setButtons = function() {
     }
 };
 
-UserList.prototype.setIndex = function() {
+ReportList.prototype.setIndex = function() {
     if (this.parameters == null) {
         return;
     }
@@ -97,9 +100,9 @@ UserList.prototype.setIndex = function() {
     }
 };
 
-UserList.prototype.fetch = function() {
+ReportList.prototype.fetch = function() {
     var fetchNum = 21;
-    var ref = firebase.database().ref('/v1/user/');
+    var ref = firebase.database().ref('/v1/report/');
     var query = ref.orderByChild("_createdAtReverse").limitToFirst(fetchNum);
 
     if (this.startAt < 0) {
@@ -120,14 +123,14 @@ UserList.prototype.fetch = function() {
                 this.hasNext = true;
                 return;
             }
-            this.display(data.key, val.name, val.position, val.gender, val.ageRange, val.area, val.imageUrl);
+            this.display(data.key, val.userId, val.questionId, val.commentId, val.state, val.category, val.target, val.body);
             ctr++;
         }.bind(this));
         this.setButtons();
     }.bind(this));
 };
 
-UserList.prototype.display = function(key, name, pos, gender, age, area, imageUrl) {
+ReportList.prototype.display = function(key, userId, questionId, commentId, state, category, target, body) {
     var template =
     '<div class="mdl-shadow--2dp mdl-cell mdl-cell--12-col">' +
     '</div>';
@@ -142,53 +145,54 @@ UserList.prototype.display = function(key, name, pos, gender, age, area, imageUr
         this.customForm.appendChild(div);
     }
 
-    var url = "/images/profile_placeholder.png";
-    if (imageUrl) {
-        url = imageUrl;
+    if (state != 2) {
+        var button2 = document.createElement("button");
+        button2.setAttribute("class", "detail mdl-button mdl-js-button mdl-button--colored mdl-js-ripple-effect");
+        button2.setAttribute("onclick", "setValue('" + key + "', 2)");
+        button2.setAttribute("name", "detail");
+        button2.setAttribute("type", "button");
+        button2.innerHTML = "保留";
+        div.appendChild(button2);
     }
-    var image = document.createElement('img');
-    image.setAttribute("class", "profile");
-    this.setImageUrl(url, image);
-    div.appendChild(image);
+
+    if (state != 1) {
+        var button = document.createElement("button");
+        button.setAttribute("class", "detail mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect");
+        button.setAttribute("onclick", "setValue('" + key + "', 1)");
+        button.setAttribute("name", "detail");
+        button.setAttribute("type", "button");
+        button.innerHTML = "処理済";
+        div.appendChild(button);
+    }
+
+    if (state != 0) {
+        var button = document.createElement("button");
+        button.setAttribute("class", "detail mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect");
+        button.setAttribute("onclick", "setValue('" + key + "', 0)");
+        button.setAttribute("name", "detail");
+        button.setAttribute("type", "button");
+        button.innerHTML = "未処理";
+        div.appendChild(button);
+    }
 
     var text = document.createElement("span");
-    text.innerHTML = "【" + name + "】 Pos:" + getPositionString(pos) + "／Gender:" + getGenderString(gender) + "／Age:" + getAgeString(age) + "／Area:" + getAreaString(area);
+    text.innerHTML = "【通報者】" + userId + "<br>" +
+                     "【質問ID】" + questionId + "<br>" +
+                     "【コメントID】" + commentId + "<br>" +
+                     "【本文】" + body + "<br>" +
+                     "<br><font color='#7f7f7f'>State：" + getReportStatusString(state) + "／対象：" + getReportTargetString(target) + "／通報理由：" + getReportCategoryString(category) + "</font>";
     div.appendChild(text);
 
-    var button = document.createElement("button");
-    button.setAttribute("class", "detail mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect");
-    button.setAttribute("onclick", "setValue('" + key + "')");
-    button.setAttribute("name", "detail");
-    button.setAttribute("type", "button");
-    button.innerHTML = "Detail";
-    div.appendChild(button);
 };
 
-// Sets the URL of the given img element with the URL of the image stored in Firebase Storage.
-UserList.prototype.setImageUrl = function(imageUri, imgElement) {
-    // If the image is a Firebase Storage URI we fetch the URL.
-    if (imageUri.startsWith('gs://')) {             // Google Cloud Storage URI
-        imgElement.src = 'https://www.google.com/images/spin-32.gif'; // Display a loading image first.
-        this.storage.refFromURL(imageUri).getMetadata().then(function(metadata) {
-            imgElement.src = metadata.downloadURLs[0];
-        });
-    } else if (imageUri.startsWith('/images/')) {   // Document path
-        imgElement.src = imageUri;
-    } else {    // initial file path and name
-        imgElement.src = 'https://www.google.com/images/spin-32.gif'; // Display a loading image first.
-        this.storage.ref(imageUri).getMetadata().then(function(metadata) {
-            imgElement.src = metadata.downloadURLs[0];
-        });
-    }
-};
-
-// どのユーザーを選択したのかを保持しておくための処理
-function setValue(val)
+// リストのタップ時の処理
+function setValue(val, state)
 {
-    window.UserList.selectedUserId = val;
+    window.ReportList.selectedReportId = val;
+    window.ReportList.toState = state;
 }
 
 window.onload = function() {
     window.authenticater = new Authenticator();
-    window.UserList = new UserList();
+    window.ReportList = new ReportList();
 };
