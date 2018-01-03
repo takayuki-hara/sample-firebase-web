@@ -88,8 +88,17 @@
       </div>
 
       <!-- Messages container -->
-      <div class="mdl-shadow--2dp mdl-cell mdl-cell--8-col">
-        <p><center>画像一覧</center></p>
+      <div class="vscroll mdl-shadow--2dp mdl-cell mdl-cell--8-col">
+        <form id="custom-form" action="#">
+        </form>
+      </div>
+      <div class="mdl-cell mdl-cell--1-col">
+        <button id="before" type="button" disabled width="100" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+          Before
+        </button><br><br>
+        <button id="next" type="button" width="100" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+          &nbsp;&nbsp;Next&nbsp;&nbsp;
+        </button>
       </div>
 
     </div>
@@ -104,7 +113,8 @@
 <script src="/__/firebase/4.1.3/firebase.js"></script>
 <script src="/__/firebase/init.js"></script>
 
+<script src="../scripts/utilities.js"></script>
 <script src="../scripts/auth.js"></script>
-<script src="../scripts/main.js"></script>
+<script src="../scripts/comments.js"></script>
 </body>
 </html>

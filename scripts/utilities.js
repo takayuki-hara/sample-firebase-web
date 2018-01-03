@@ -67,6 +67,14 @@ function associativeArrayToString(array) {
     return ret;
 }
 
+// undefined,null,0,false,空文字を空文字に変換する
+function undefinedToEmpty(value) {
+    if (!value) {
+        return "";
+    }
+    return value;
+}
+
 
 /**
  * データベース関連の変換関数
@@ -328,7 +336,7 @@ function getCommentStatusString(value) {
     }
 }
 
-// コメント情報：コメントの状態
+// コメント情報：コメントの種別
 function getCommentCategoryString(value) {
     switch (parseInt(value, 10)) {
         case 0:     return "Answer";
