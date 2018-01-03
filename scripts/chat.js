@@ -133,7 +133,7 @@ FriendlyChat.prototype.saveImageMessage = function(event) {
         photoUrl: currentUser.photoURL || '/images/profile_placeholder.png'
     }).then(function(data) {
         // Upload the image to Firebase Storage.
-        var filePath = currentUser.uid + '/' + data.key + '/' + file.name;
+        var filePath = 'chat/' + currentUser.uid + '/' + data.key + '/' + file.name;
         return this.storage.ref(filePath).put(file).then(function(snapshot) {
 
             // Get the file's Storage URI and update the chat message placeholder.

@@ -20,11 +20,11 @@ function UserDetail() {
 
     // Shortcuts to DOM Elements.
     this.uploadImageButton = document.getElementById('uploadImage');
-    this.imageForm = document.getElementById('profimage-form');
+    this.imageForm = document.getElementById('tmpimage-form');
     this.mediaCapture = document.getElementById('mediaCapture');
-    this.profImage = document.getElementById('profImage');
+    this.tmpImage = document.getElementById('tmpImage');
 
-    this.userForm = document.getElementById('user-form');
+    this.userForm = document.getElementById('input-form');
     this.userId = document.getElementById('userId');
     this.userIdValue = document.getElementById('userIdValue');
     this.language = document.getElementById('language');
@@ -41,8 +41,8 @@ function UserDetail() {
     this.introductionValue = document.getElementById('introductionValue');
 
     this.submitButton = document.getElementById('submit');
-    this.freezeButton = document.getElementById('userFreeze');
-    this.deleteButton = document.getElementById('userDelete');
+    this.freezeButton = document.getElementById('freeze');
+    this.deleteButton = document.getElementById('delete');
 
     this.createdAtValue = document.getElementById('createdAtValue');
     this.updatedAtValue = document.getElementById('updatedAtValue');
@@ -57,16 +57,16 @@ function UserDetail() {
     this.reportsValue = document.getElementById('reportsValue');
 
     // Button Events.
-    this.submitButton.addEventListener('click', this.saveUser.bind(this));
-    this.freezeButton.addEventListener('click', this.freezeUser.bind(this));
-    this.deleteButton.addEventListener('click', this.deleteUser.bind(this));
+    this.submitButton.addEventListener('click', this.saveData.bind(this));
+    this.freezeButton.addEventListener('click', this.freezeData.bind(this));
+    this.deleteButton.addEventListener('click', this.deleteData.bind(this));
 
     // Events for image upload.
     this.uploadImageButton.addEventListener('click', function(e) {
         e.preventDefault();
         this.mediaCapture.click();
     }.bind(this));
-    this.mediaCapture.addEventListener('change', this.saveProfileImage.bind(this));
+    this.mediaCapture.addEventListener('change', this.saveImage.bind(this));
 
     // Initialize.
     this.initFirebase();
@@ -86,16 +86,22 @@ UserDetail.prototype.initialize = function() {
     if (this.parameters) {
         if (this.parameters["uid"]) {
             this.uid = this.parameters["uid"];
-            this.fetchUser();
+            this.fetchData();
         }
     }
 };
 
-UserDetail.prototype.fetchUser = function() {
-    this.userRef = firebase.database().ref('/v1/user/' + this.uid);
-    //var query = this.userRef; //ref.orderByChild("_createdAtReverse").equalTo(this.uid);
+UserDetail.prototype.setButtons = function() {
+    if (stateValue.value == 2) {
+        this.freezeButton.textContent = '復帰';
+    }
+};
 
-    this.userRef.once('value').then(function(snapshot) {
+UserDetail.prototype.fetchData = function() {
+    this.ref = firebase.database().ref('/v1/user/' + this.uid);
+    //var query = this.ref; //ref.orderByChild("_createdAtReverse").equalTo(this.uid);
+
+    this.ref.once('value').then(function(snapshot) {
         var val = snapshot.val();
         this.userIdValue.textContent = val.name;
         this.languageValue.textContent = getLanguageString(val.languages[0]);
@@ -104,7 +110,6 @@ UserDetail.prototype.fetchUser = function() {
         this.ageValue.textContent = getAgeString(val.ageRange);
         this.areaValue.textContent = getAreaString(val.area);
         this.introductionValue.textContent = val.profileText;
-        this.setImageUrl(val.imageUrl, this.profImage);
 
         this.createdAtValue.textContent = unixtimeToString(val._createdAt);
         this.updatedAtValue.textContent = unixtimeToString(val._updatedAt);
@@ -118,7 +123,13 @@ UserDetail.prototype.fetchUser = function() {
         this.answersValue.innerText = associativeArrayToString(val.answers);
         this.reportsValue.innerText = associativeArrayToString(val.reports);
 
-    }.bind(this));
+        this.setImageUrl(val.imageUrl, this.tmpImage);
+
+        this.stateValue.value = val.state;
+        this.setButtons();
+    }.bind(this)).catch(function(error) {
+        window.alert('ユーザーが見つかりません！');
+    });
 };
 
 // Sets the URL of the given img element with the URL of the image stored in Firebase Storage.
@@ -144,7 +155,7 @@ UserDetail.prototype.setImageUrl = function(imageUri, imgElement) {
 };
 
 // Saves a user info on the Firebase DB.
-UserDetail.prototype.saveUser = function(e) {
+UserDetail.prototype.saveData = function(e) {
     e.preventDefault();
 
     if (!this.userId.value) {
@@ -152,10 +163,8 @@ UserDetail.prototype.saveUser = function(e) {
         return;
     }
 
-    var date = new Date();
-    var unixTimestamp = Math.round( date.getTime() / 1000 );
-    this.userRef.update({
-        _updatedAt: unixTimestamp,
+    this.ref.update({
+        _updatedAt: getNowUnixtime(),
         name: this.userId.value,
         position: getPositionCode(this.positions),
         languages: [getLanguageCode(this.language.value)],
@@ -167,30 +176,37 @@ UserDetail.prototype.saveUser = function(e) {
     window.alert('ユーザー情報を更新しました！');
 };
 
-UserDetail.prototype.freezeUser = function(e) {
+UserDetail.prototype.freezeData = function(e) {
     e.preventDefault();
 
-    var date = new Date();
-    var unixTimestamp = Math.round( date.getTime() / 1000 );
-    this.userRef.update({
-        _updatedAt: unixTimestamp,
-        state: 2
-    });
-    window.alert('ユーザーを凍結しました！');
-    this.freezeButton.setAttribute('disabled', 'true');
+    if (stateValue.value == 1) {
+        this.ref.update({
+            _updatedAt: getNowUnixtime(),
+            state: 2
+        });
+        window.alert('ユーザーを凍結しました！');
+        window.location.reload();
+    } else if (stateValue.value == 2) {
+        this.ref.update({
+            _updatedAt: getNowUnixtime(),
+            state: 1
+        });
+        window.alert('ユーザーを復帰させました！');
+        window.location.reload();
+    }
 };
 
-UserDetail.prototype.deleteUser = function(e) {
+UserDetail.prototype.deleteData = function(e) {
     e.preventDefault();
 
     if (window.confirm('ユーザーを削除します。よろしいですね？？\n※この作業は戻せません')) {
-        this.userRef.remove();
+        this.ref.remove();
         window.alert('ユーザー削除完了しました！');
         location.href = "../views/users.html";
     };
 };
 
-UserDetail.prototype.saveProfileImage = function(event) {
+UserDetail.prototype.saveImage = function(event) {
     event.preventDefault();
     var file = event.target.files[0];
 
@@ -204,23 +220,20 @@ UserDetail.prototype.saveProfileImage = function(event) {
     }
 
     var currentUser = this.auth.currentUser;
-    var filePath = this.uid + '/profile/' + file.name;
+    var filePath = 'user/' + this.uid + '/' + file.name;
     this.storage.ref(filePath).put(file).then(function(snapshot) {
-        // Get the file's Storage URI and update the chat message placeholder.
         var fullPath = snapshot.metadata.fullPath;
-        this.updateProfileImage(fullPath);
+        this.updateImageUrl(fullPath);
         this.updateAuthPhotoURL(snapshot.metadata.downloadURLs[0]);
-        this.setImageUrl(url, this.profImage);
+        this.setImageUrl(fullPath, this.tmpImage);
     }.bind(this)).catch(function(error) {
          console.error('There was an error uploading a file to Firebase Storage:', error);
     });
 };
 
-UserDetail.prototype.updateProfileImage = function(url) {
-    var date = new Date();
-    var unixTimestamp = Math.round( date.getTime() / 1000 );
-    this.userRef.update({
-        _updatedAt: unixTimestamp,
+UserDetail.prototype.updateImageUrl = function(url) {
+    this.ref.update({
+        _updatedAt: getNowUnixtime(),
         imageUrl: url
     });
 };

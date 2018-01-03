@@ -123,7 +123,7 @@ UserList.prototype.fetch = function() {
             this.display(data.key, val.name, val.position, val.gender, val.ageRange, val.area, val.imageUrl);
             ctr++;
         }.bind(this));
-        window.UserList.setButtons();
+        this.setButtons();
     }.bind(this));
 };
 

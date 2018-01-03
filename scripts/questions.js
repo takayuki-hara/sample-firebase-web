@@ -98,7 +98,7 @@ QuestionList.prototype.setIndex = function() {
 };
 
 QuestionList.prototype.fetch = function() {
-    var fetchNum = 3;
+    var fetchNum = 21;
     var ref = firebase.database().ref('/v1/question/');
     var query = ref.orderByChild("_createdAtReverse").limitToFirst(fetchNum);
 
@@ -125,7 +125,7 @@ QuestionList.prototype.fetch = function() {
             }.bind(this));
             ctr++;
         }.bind(this));
-        window.QuestionList.setButtons();
+        this.setButtons();
     }.bind(this));
 };
 

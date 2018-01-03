@@ -70,6 +70,8 @@ PostQuestion.prototype.saveQuestion = function(e) {
     }).then(function(data) {
         this.updateUserData(data.key);
         this.moveDetail(data.key);
+        window.alert('質問を投稿しました！');
+        window.location.reload();
     }.bind(this)).catch(function(error) {
         console.error('Error writing new message to Firebase Database', error);
     });
