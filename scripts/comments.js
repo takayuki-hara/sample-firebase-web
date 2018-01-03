@@ -151,9 +151,9 @@ CommentList.prototype.display = function(key, userId, questionId, commentId, sta
     div.appendChild(button);
 
     var text = document.createElement("span");
-    text.innerHTML = "【投稿者】" + userId + "<br>" +
-                     "【質問ID】" + questionId + "<br>" +
-                     "【コメントID】" + undefinedToEmpty(commentId) + "<br>" +
+    text.innerHTML = "【投稿者】" + userIdStringToLinkHtml(userId) + "<br>" +
+                     "【質問ID】" + questionIdStringToLinkHtml(questionId) + "<br>" +
+                     "【コメントID】" + commentIdStringToLinkHtml(commentId) + "<br>" +
                      "【本文】" + body + "<br>" +
                      "<br><font color='#7f7f7f'>State：" + getCommentStatusString(state) + "／種別：" + getCommentCategoryString(category) + "</font>";
     div.appendChild(text);
