@@ -99,7 +99,7 @@ CommentDetail.prototype.fetchData = function() {
 
         this.createdAtValue.textContent = unixtimeToString(val._createdAt);
         this.updatedAtValue.textContent = unixtimeToString(val._updatedAt);
-        this.userIdValue.textContent = val.userId;
+        this.userIdValue.innerHTML = userIdStringToLinkHtml(val.userId);
         this.questionIdValue.textContent = val.questionId;
         this.commentIdValue.textContent = val.commentId;
         this.stateValue.textContent = getCommentStatusString(val.state);

@@ -67,6 +67,14 @@ function associativeArrayToString(array) {
     return ret;
 }
 
+// 連想配列をユーザー情報のリンク文字列にして返す（複数は改行で分ける）
+function userIdStringToLinkHtml(value) {
+    if (!value) {
+        return "";
+    }
+    return ("<a href='../views/userdetail.html?uid=" + value + "' target='_blank'>" + value + "</a>");
+}
+
 // undefined,null,0,false,空文字を空文字に変換する
 function undefinedToEmpty(value) {
     if (!value) {

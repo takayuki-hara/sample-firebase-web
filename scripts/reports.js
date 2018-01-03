@@ -176,7 +176,7 @@ ReportList.prototype.display = function(key, userId, questionId, commentId, stat
     }
 
     var text = document.createElement("span");
-    text.innerHTML = "【通報者】" + userId + "<br>" +
+    text.innerHTML = "【通報者】" + userIdStringToLinkHtml(userId) + "<br>" +
                      "【質問ID】" + questionId + "<br>" +
                      "【コメントID】" + undefinedToEmpty(commentId) + "<br>" +
                      "【本文】" + body + "<br>" +

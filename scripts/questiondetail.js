@@ -116,7 +116,7 @@ QuestionDetail.prototype.fetchData = function() {
         this.createdAtValue.textContent = unixtimeToString(val._createdAt);
         this.updatedAtValue.textContent = unixtimeToString(val._updatedAt);
         this.stateValue.textContent = getQuestionStatusString(val.state);
-        this.userIdValue.textContent = val.userId;
+        this.userIdValue.innerHTML = userIdStringToLinkHtml(val.userId);
         this.commentsValue.innerText = associativeArrayToString(val.comments);
         this.reportsValue.innerText = associativeArrayToString(val.reports);
 
