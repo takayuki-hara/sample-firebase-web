@@ -1,0 +1,630 @@
+{
+  "admin" : {
+    "messages" : {
+      "-L1u6COBWzAHP3a75Iyd" : {
+        "name" : "bbb",
+        "photoUrl" : "https://firebasestorage.googleapis.com/v0/b/qaboard-sample.appspot.com/o/user%2FvSbDNBuRL5XeedhsIe9cnlAfK482%2F99f01.jpg?alt=media&token=0f46c7bc-6b6a-4220-af07-1586763aae7a",
+        "text" : "投稿します"
+      },
+      "-L1u6JTYF9FvPgiRbtEq" : {
+        "imageUrl" : "gs://qaboard-sample.appspot.com/chat/vSbDNBuRL5XeedhsIe9cnlAfK482/-L1u6JTYF9FvPgiRbtEq/itigo2.png",
+        "name" : "bbb",
+        "photoUrl" : "https://firebasestorage.googleapis.com/v0/b/qaboard-sample.appspot.com/o/user%2FvSbDNBuRL5XeedhsIe9cnlAfK482%2F99f01.jpg?alt=media&token=0f46c7bc-6b6a-4220-af07-1586763aae7a"
+      },
+      "-L1u6Qdx_MQ64A2Bx8xz" : {
+        "name" : "bbb",
+        "photoUrl" : "https://firebasestorage.googleapis.com/v0/b/qaboard-sample.appspot.com/o/user%2FvSbDNBuRL5XeedhsIe9cnlAfK482%2F99f01.jpg?alt=media&token=0f46c7bc-6b6a-4220-af07-1586763aae7a",
+        "text" : "管理者向けのちょっとしたチャットです"
+      },
+      "-L1u6YfBtgJOxoxb80UU" : {
+        "name" : "bbb",
+        "photoUrl" : "https://firebasestorage.googleapis.com/v0/b/qaboard-sample.appspot.com/o/user%2FvSbDNBuRL5XeedhsIe9cnlAfK482%2F99f01.jpg?alt=media&token=0f46c7bc-6b6a-4220-af07-1586763aae7a",
+        "text" : "Firebaseのサンプルをほぼそのまま使ってます"
+      }
+    }
+  },
+  "v1" : {
+    "block" : {
+      "__test_user" : {
+        "__test_user" : true
+      }
+    },
+    "comment" : {
+      "-L1tyOSP_ouq1uBanczf" : {
+        "_createdAt" : 1514948631,
+        "_createdAtReverse" : -1514948631,
+        "_updatedAt" : 1514973649,
+        "body" : "新幹線を使いましょう",
+        "category" : 0,
+        "imageUrl" : "qa/-L1p3V7ynjNTk4pD5aNz/vSbDNBuRL5XeedhsIe9cnlAfK482/300px-Osaka_Castle_Nishinomaru_Garden_April_2005.jpg",
+        "questionId" : "-L1p3V7ynjNTk4pD5aNz",
+        "state" : 0,
+        "userId" : "vSbDNBuRL5XeedhsIe9cnlAfK482"
+      },
+      "-L1vTOB9AjpQLBR3020s" : {
+        "_createdAt" : 1514973795,
+        "_createdAtReverse" : -1514973795,
+        "_updatedAt" : 1514974013,
+        "body" : "同じ質問に２度目の回答です2",
+        "category" : 0,
+        "imageUrl" : "",
+        "questionId" : "-L1tvngzbUdWqoXQSdGB",
+        "state" : 0,
+        "userId" : "DIwwsSEyPOQAhhBJxaUHESu18vU2"
+      },
+      "-L1vTZ7UyYZP6EoV5RAv" : {
+        "_createdAt" : 1514973840,
+        "_createdAtReverse" : -1514973840,
+        "_updatedAt" : 1514973840,
+        "body" : "回答への返信です",
+        "category" : 1,
+        "imageUrl" : "",
+        "questionId" : "-L1tvngzbUdWqoXQSdGB",
+        "state" : 0,
+        "userId" : "vSbDNBuRL5XeedhsIe9cnlAfK482"
+      },
+      "__test_comment" : {
+        "_createdAt" : 1513159529,
+        "_createdAtReverse" : -1513159529,
+        "_updatedAt" : 1513159529,
+        "body" : "aaaaaaaaaa",
+        "category" : 0,
+        "imageUrl" : "7aYrmkyd60VmNyyW9fnyO9BnH2A3/images/image:63",
+        "questionId" : "__test_question",
+        "reports" : {
+          "__test_report" : true
+        },
+        "state" : 0,
+        "userId" : "__test_user"
+      }
+    },
+    "openquestion" : {
+      "__test_question" : true
+    },
+    "question" : {
+      "-L1p0tV2CpS2ZEBFDJNo" : {
+        "_createdAt" : 1514865662,
+        "_createdAtReverse" : -1514865662,
+        "_updatedAt" : 1514966229,
+        "area" : 0,
+        "body" : "現在東京駅にいます",
+        "categories" : [ 9 ],
+        "imageUrl" : "qa/-L1p0tV2CpS2ZEBFDJNo/DIwwsSEyPOQAhhBJxaUHESu18vU2/AS20171201001209_commL.jpg",
+        "limit" : 1514942619,
+        "state" : 1,
+        "title" : "皇居に行きたい2",
+        "userId" : "DIwwsSEyPOQAhhBJxaUHESu18vU2"
+      },
+      "-L1p3V7ynjNTk4pD5aNz" : {
+        "_createdAt" : 1514866345,
+        "_createdAtReverse" : -1514866345,
+        "_updatedAt" : 1514866345,
+        "area" : 9,
+        "body" : "東京駅にいます",
+        "categories" : [ 0 ],
+        "comments" : {
+          "-L1tyOSP_ouq1uBanczf" : true
+        },
+        "imageUrl" : "",
+        "limit" : 1514868145,
+        "reports" : {
+          "-L1u2JbWyeT-A2Z3dp3V" : true
+        },
+        "state" : 0,
+        "title" : "名古屋城に行きたい",
+        "userId" : "DIwwsSEyPOQAhhBJxaUHESu18vU2"
+      },
+      "-L1p8SuUAtjxGlyNMZjD" : {
+        "_createdAt" : 1514867646,
+        "_createdAtReverse" : -1514867646,
+        "_updatedAt" : 1514945449,
+        "area" : 1,
+        "body" : "近くにいます",
+        "categories" : [ 2 ],
+        "imageUrl" : "",
+        "limit" : 1514869446,
+        "state" : 1,
+        "title" : "大阪で食べたい",
+        "userId" : "DIwwsSEyPOQAhhBJxaUHESu18vU2"
+      },
+      "-L1p99k8tChyCtgUCF2m" : {
+        "_createdAt" : 1514867830,
+        "_createdAtReverse" : -1514867830,
+        "_updatedAt" : 1514945608,
+        "area" : 5,
+        "body" : "明日の予定",
+        "categories" : [ 4 ],
+        "imageUrl" : "",
+        "limit" : 1514869630,
+        "state" : 2,
+        "title" : "九州で癒されたい",
+        "userId" : "DIwwsSEyPOQAhhBJxaUHESu18vU2"
+      },
+      "-L1pAsXO4H0bxcCxL4O_" : {
+        "_createdAt" : 1514868280,
+        "_createdAtReverse" : -1514868280,
+        "_updatedAt" : 1514868280,
+        "area" : 0,
+        "body" : "代々木公園の近くなのですが、、",
+        "categories" : [ 8 ],
+        "imageUrl" : "",
+        "limit" : 1514870080,
+        "state" : 0,
+        "title" : "ネット環境を探しています",
+        "userId" : "DIwwsSEyPOQAhhBJxaUHESu18vU2"
+      },
+      "-L1pBKCRSMrRlfbVzYTk" : {
+        "_createdAt" : 1514868397,
+        "_createdAtReverse" : -1514868397,
+        "_updatedAt" : 1514868397,
+        "area" : 0,
+        "body" : "東京駅の近くによい映画館はありませんか？",
+        "categories" : [ 6 ],
+        "imageUrl" : "",
+        "limit" : 1514870197,
+        "state" : 0,
+        "title" : "面白いアニメが見られる映画館を探してます",
+        "userId" : "DIwwsSEyPOQAhhBJxaUHESu18vU2"
+      },
+      "-L1pBoebfnawq6vyBRQM" : {
+        "_createdAt" : 1514868526,
+        "_createdAtReverse" : -1514868526,
+        "_updatedAt" : 1514868526,
+        "area" : 10,
+        "body" : "DBの処理のところで悩んでます",
+        "categories" : [ 3 ],
+        "imageUrl" : "",
+        "limit" : 1514870326,
+        "state" : 0,
+        "title" : "うまくいかない",
+        "userId" : "DIwwsSEyPOQAhhBJxaUHESu18vU2"
+      },
+      "-L1tczs3-tz1SfnEgm6B" : {
+        "_createdAt" : 1514943021,
+        "_createdAtReverse" : -1514943021,
+        "_updatedAt" : 1514943021,
+        "area" : 4,
+        "body" : "どこでできる？",
+        "categories" : [ 1 ],
+        "imageUrl" : "",
+        "limit" : 1514944821,
+        "state" : 0,
+        "title" : "両替したい",
+        "userId" : "DIwwsSEyPOQAhhBJxaUHESu18vU2"
+      },
+      "-L1tunZZubKy45JDPb-Y" : {
+        "_createdAt" : 1514947689,
+        "_createdAtReverse" : -1514947689,
+        "_updatedAt" : 1514947689,
+        "area" : 5,
+        "body" : "投稿後はどう遷移したら良いでしょう？",
+        "categories" : [ 9 ],
+        "imageUrl" : "",
+        "limit" : 1514949489,
+        "state" : 0,
+        "title" : "質問です",
+        "userId" : "vSbDNBuRL5XeedhsIe9cnlAfK482"
+      },
+      "-L1tvngzbUdWqoXQSdGB" : {
+        "_createdAt" : 1514947952,
+        "_createdAtReverse" : -1514947952,
+        "_updatedAt" : 1514947952,
+        "area" : 1,
+        "body" : "東京から",
+        "categories" : [ 0 ],
+        "comments" : {
+          "-L1vTEunDt01x0DFzwC6" : true,
+          "-L1vTOB9AjpQLBR3020s" : true,
+          "-L1vTZ7UyYZP6EoV5RAv" : true
+        },
+        "imageUrl" : "",
+        "limit" : 1514949752,
+        "reports" : {
+          "-L1vTJPj3Xeib_8-UQVF" : true,
+          "-L1vTVMeNGIel2EbQKvY" : true
+        },
+        "state" : 0,
+        "title" : "京都に行こう",
+        "userId" : "vSbDNBuRL5XeedhsIe9cnlAfK482"
+      },
+      "__test_question" : {
+        "_createdAt" : 1513159529,
+        "_createdAtReverse" : -1513159529,
+        "_updatedAt" : 1513159529,
+        "area" : 0,
+        "body" : "aaaaaaaaaa",
+        "categories" : [ 0, 1, 5 ],
+        "comments" : {
+          "__test_comment" : true
+        },
+        "imageUrl" : "7aYrmkyd60VmNyyW9fnyO9BnH2A3/images/image:63",
+        "limit" : 1513159529,
+        "reports" : {
+          "__test_report" : true
+        },
+        "state" : 0,
+        "title" : "test_question",
+        "userId" : "__test_user"
+      },
+      "__test_question_closed" : {
+        "_createdAt" : 1513159529,
+        "_createdAtReverse" : -1513159529,
+        "_updatedAt" : 1513159529,
+        "area" : 1,
+        "body" : "aaaaaaaaaa",
+        "categories" : [ 0 ],
+        "limit" : 1513159529,
+        "state" : 1,
+        "title" : "test_question_closed",
+        "userId" : "__test_user"
+      }
+    },
+    "report" : {
+      "-L1u2JbWyeT-A2Z3dp3V" : {
+        "_createdAt" : 1514949921,
+        "_createdAtReverse" : -1514949921,
+        "_updatedAt" : 1514955103,
+        "body" : "通報します",
+        "category" : 0,
+        "questionId" : "-L1p3V7ynjNTk4pD5aNz",
+        "state" : 2,
+        "target" : 0,
+        "userId" : "vSbDNBuRL5XeedhsIe9cnlAfK482"
+      },
+      "-L1vTJPj3Xeib_8-UQVF" : {
+        "_createdAt" : 1514973776,
+        "_createdAtReverse" : -1514973776,
+        "_updatedAt" : 1514973776,
+        "body" : "通報しちゃいます",
+        "category" : 0,
+        "questionId" : "-L1tvngzbUdWqoXQSdGB",
+        "state" : 0,
+        "target" : 0,
+        "userId" : "DIwwsSEyPOQAhhBJxaUHESu18vU2"
+      },
+      "-L1vTVMeNGIel2EbQKvY" : {
+        "_createdAt" : 1514973825,
+        "_createdAtReverse" : -1514973825,
+        "_updatedAt" : 1514973825,
+        "body" : "コメントへの通報です",
+        "category" : 0,
+        "questionId" : "-L1tvngzbUdWqoXQSdGB",
+        "state" : 0,
+        "target" : 1,
+        "userId" : "vSbDNBuRL5XeedhsIe9cnlAfK482"
+      },
+      "__test_report" : {
+        "_createdAt" : 1513159529,
+        "_createdAtReverse" : -1513159529,
+        "_updatedAt" : 1514955157,
+        "body" : "aaaaaaaaaa",
+        "category" : 0,
+        "commentId" : "__test_comment",
+        "questionId" : "__test_question",
+        "state" : 1,
+        "userId" : "__test_user"
+      }
+    },
+    "user" : {
+      "CFBe59Ugp1dImFGpVpPCplmOGu32" : {
+        "_createdAt" : 1514692355,
+        "_createdAtReverse" : -1514692355,
+        "_updatedAt" : 1514692355,
+        "accessRights" : 0,
+        "ageRange" : 0,
+        "area" : 0,
+        "authType" : 3,
+        "deviceType" : 2,
+        "fcmToken" : "",
+        "gender" : 0,
+        "imageUrl" : "",
+        "languages" : [ 0 ],
+        "lastLogin" : 1514692355,
+        "name" : "ddd",
+        "position" : 0,
+        "profileText" : "ddd",
+        "state" : 1
+      },
+      "DIwwsSEyPOQAhhBJxaUHESu18vU2" : {
+        "_createdAt" : 1514855525,
+        "_createdAtReverse" : -1514855525,
+        "_updatedAt" : 1514945910,
+        "accessRights" : 1,
+        "ageRange" : 2,
+        "answers" : {
+          "-L1vTEunDt01x0DFzwC6" : true,
+          "-L1vTOB9AjpQLBR3020s" : true
+        },
+        "area" : 0,
+        "authType" : 3,
+        "deviceType" : 2,
+        "fcmToken" : "",
+        "gender" : 0,
+        "imageUrl" : "user/DIwwsSEyPOQAhhBJxaUHESu18vU2/JNY8Cxxm.jpg",
+        "languages" : [ 0 ],
+        "lastLogin" : 1514855525,
+        "name" : "aaa",
+        "position" : 2,
+        "profileText" : "aaa",
+        "questions" : {
+          "-L1pBoebfnawq6vyBRQM" : true,
+          "-L1tczs3-tz1SfnEgm6B" : true
+        },
+        "reports" : {
+          "-L1vTJPj3Xeib_8-UQVF" : true
+        },
+        "state" : 1
+      },
+      "DhqEIK8dVmUjLL18HCuOgd1xnAq1" : {
+        "_createdAt" : 1514692603,
+        "_createdAtReverse" : -1514692603,
+        "_updatedAt" : 1514692603,
+        "accessRights" : 0,
+        "ageRange" : 1,
+        "area" : 2,
+        "authType" : 3,
+        "deviceType" : 2,
+        "fcmToken" : "",
+        "gender" : 0,
+        "imageUrl" : "",
+        "languages" : [ 0 ],
+        "lastLogin" : 1514692603,
+        "name" : "lll",
+        "position" : 0,
+        "profileText" : "lll",
+        "state" : 1
+      },
+      "FH9106znMPbY40TWEqCo6jgVE1E3" : {
+        "_createdAt" : 1514692451,
+        "_createdAtReverse" : -1514692451,
+        "_updatedAt" : 1514692451,
+        "accessRights" : 0,
+        "ageRange" : 3,
+        "area" : 3,
+        "authType" : 3,
+        "deviceType" : 2,
+        "fcmToken" : "",
+        "gender" : 1,
+        "imageUrl" : "",
+        "languages" : [ 0 ],
+        "lastLogin" : 1514692451,
+        "name" : "hhh",
+        "position" : 0,
+        "profileText" : "hhh",
+        "state" : 1
+      },
+      "Fw8fBsrlDTQgiViXQLjZ7FwWQYl1" : {
+        "_createdAt" : 1514692547,
+        "_createdAtReverse" : -1514692547,
+        "_updatedAt" : 1514692547,
+        "accessRights" : 0,
+        "ageRange" : 1,
+        "area" : 3,
+        "authType" : 3,
+        "deviceType" : 2,
+        "fcmToken" : "",
+        "gender" : 0,
+        "imageUrl" : "",
+        "languages" : [ 1 ],
+        "lastLogin" : 1514692547,
+        "name" : "kkk",
+        "position" : 1,
+        "profileText" : "kkk",
+        "state" : 1
+      },
+      "V1fjSxHc0GUwubrQ6L8xLLh9S8G3" : {
+        "_createdAt" : 1514692422,
+        "_createdAtReverse" : -1514692422,
+        "_updatedAt" : 1514692422,
+        "accessRights" : 0,
+        "ageRange" : 0,
+        "area" : 0,
+        "authType" : 3,
+        "deviceType" : 2,
+        "fcmToken" : "",
+        "gender" : 0,
+        "imageUrl" : "",
+        "languages" : [ 0 ],
+        "lastLogin" : 1514692422,
+        "name" : "ggg",
+        "position" : 0,
+        "profileText" : "ggg",
+        "state" : 1
+      },
+      "__test_user" : {
+        "_createdAt" : 1513159529,
+        "_createdAtReverse" : -1513159529,
+        "_updatedAt" : 1513159529,
+        "accessRights" : 0,
+        "ageRange" : 0,
+        "answers" : {
+          "__test_comment" : true
+        },
+        "area" : 0,
+        "authType" : 0,
+        "block" : {
+          "count" : 0
+        },
+        "deleted" : {
+          "count" : 0
+        },
+        "deviceType" : 0,
+        "favorite" : {
+          "count" : 0
+        },
+        "fcmToken" : "aaaaaaaaaa",
+        "gender" : 0,
+        "good" : {
+          "count" : 0
+        },
+        "imageUrl" : "user/DIwwsSEyPOQAhhBJxaUHESu18vU2/JNY8Cxxm.jpg",
+        "languages" : [ 0, 1 ],
+        "lastLogin" : 1513159529,
+        "name" : "test_user",
+        "position" : 0,
+        "profileText" : "よろしくお願いいたします",
+        "questions" : {
+          "__test_question" : true,
+          "__test_question_closed" : true
+        },
+        "replies" : {
+          "__test_comment" : true
+        },
+        "reported" : {
+          "count" : 0
+        },
+        "reports" : {
+          "__test_report" : true
+        },
+        "state" : 1
+      },
+      "alGK1dnuRNQHjd2tuHQVYZPUQCo2" : {
+        "_createdAt" : 1514692380,
+        "_createdAtReverse" : -1514692380,
+        "_updatedAt" : 1514692380,
+        "accessRights" : 0,
+        "ageRange" : 2,
+        "area" : 1,
+        "authType" : 3,
+        "deviceType" : 2,
+        "fcmToken" : "",
+        "gender" : 1,
+        "imageUrl" : "",
+        "languages" : [ 0 ],
+        "lastLogin" : 1514692380,
+        "name" : "eee",
+        "position" : 1,
+        "profileText" : "eee",
+        "state" : 1
+      },
+      "j69cQwfYWkagEaCARuqnwua9Kdl1" : {
+        "_createdAt" : 1514692630,
+        "_createdAtReverse" : -1514692630,
+        "_updatedAt" : 1514942879,
+        "accessRights" : 0,
+        "ageRange" : 1,
+        "area" : 0,
+        "authType" : 3,
+        "deviceType" : 2,
+        "fcmToken" : "",
+        "gender" : 1,
+        "imageUrl" : "",
+        "languages" : [ 1 ],
+        "lastLogin" : 1514692630,
+        "name" : "mmm",
+        "position" : 0,
+        "profileText" : "mmm",
+        "state" : 1
+      },
+      "mUGXsP2HthffCEqsi1qDPMnZwNl2" : {
+        "_createdAt" : 1514692512,
+        "_createdAtReverse" : -1514692512,
+        "_updatedAt" : 1514692512,
+        "accessRights" : 0,
+        "ageRange" : 1,
+        "area" : 1,
+        "authType" : 3,
+        "deviceType" : 2,
+        "fcmToken" : "",
+        "gender" : 1,
+        "imageUrl" : "",
+        "languages" : [ 3 ],
+        "lastLogin" : 1514692512,
+        "name" : "jjj",
+        "position" : 1,
+        "profileText" : "jjj",
+        "state" : 1
+      },
+      "srROzq2dDIdVSqmcZhewlFGgP4j1" : {
+        "_createdAt" : 1514692486,
+        "_createdAtReverse" : -1514692486,
+        "_updatedAt" : 1514692486,
+        "accessRights" : 0,
+        "ageRange" : 1,
+        "area" : 1,
+        "authType" : 3,
+        "deviceType" : 2,
+        "fcmToken" : "",
+        "gender" : 2,
+        "imageUrl" : "",
+        "languages" : [ 2 ],
+        "lastLogin" : 1514692486,
+        "name" : "iii",
+        "position" : 2,
+        "profileText" : "iii",
+        "state" : 1
+      },
+      "vSbDNBuRL5XeedhsIe9cnlAfK482" : {
+        "_createdAt" : 1514631159,
+        "_createdAtReverse" : -1514631159,
+        "_updatedAt" : 1514947960,
+        "accessRights" : 1,
+        "ageRange" : 2,
+        "answers" : {
+          "-L1tyOSP_ouq1uBanczf" : true
+        },
+        "area" : 2,
+        "authType" : 3,
+        "deviceType" : 2,
+        "fcmToken" : "",
+        "gender" : 2,
+        "imageUrl" : "user/vSbDNBuRL5XeedhsIe9cnlAfK482/99f01.jpg",
+        "languages" : [ 2 ],
+        "lastLogin" : 1514631159,
+        "name" : "bbb",
+        "position" : 1,
+        "profileText" : "bbb@gmail.com",
+        "questions" : {
+          "-L1tunZZubKy45JDPb-Y" : true,
+          "-L1tvngzbUdWqoXQSdGB" : true
+        },
+        "replies" : {
+          "-L1vTZ7UyYZP6EoV5RAv" : true
+        },
+        "reports" : {
+          "-L1u2JbWyeT-A2Z3dp3V" : true,
+          "-L1vTVMeNGIel2EbQKvY" : true
+        },
+        "state" : 1
+      },
+      "w9hExVVKbdX0rA7PzWjVWpGMuBT2" : {
+        "_createdAt" : 1514692400,
+        "_createdAtReverse" : -1514692400,
+        "_updatedAt" : 1514692400,
+        "accessRights" : 0,
+        "ageRange" : 0,
+        "area" : 0,
+        "authType" : 3,
+        "deviceType" : 2,
+        "fcmToken" : "",
+        "gender" : 0,
+        "imageUrl" : "",
+        "languages" : [ 0 ],
+        "lastLogin" : 1514692400,
+        "name" : "fff",
+        "position" : 0,
+        "profileText" : "fff",
+        "state" : 1
+      },
+      "xdC3D31FdPVJfXilB4sRTV1wIMQ2" : {
+        "_createdAt" : 1514691015,
+        "_createdAtReverse" : -1514691015,
+        "_updatedAt" : 1514691015,
+        "accessRights" : 0,
+        "ageRange" : 0,
+        "area" : 0,
+        "authType" : 3,
+        "deviceType" : 2,
+        "fcmToken" : "",
+        "gender" : 0,
+        "imageUrl" : "",
+        "languages" : [ 0 ],
+        "lastLogin" : 1514691015,
+        "name" : "ccc",
+        "position" : 0,
+        "profileText" : "ccc",
+        "state" : 1
+      }
+    }
+  }
+}

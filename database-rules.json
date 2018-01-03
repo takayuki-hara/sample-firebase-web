@@ -1,0 +1,20 @@
+{
+  "rules": {
+    ".read": "auth != null",
+    ".write": "auth != null",
+    "v1": {
+      "user": {
+        ".indexOn": ["_createdAt", "_createdAtReverse", "state", "name"]
+      },
+      "question": {
+        ".indexOn": ["_createdAt", "_createdAtReverse", "state"]
+      },
+      "comment": {
+        ".indexOn": ["_createdAt", "_createdAtReverse", "state"]
+      },
+      "report": {
+        ".indexOn": ["_createdAt", "_createdAtReverse", "state"]
+      }
+    }
+  }
+}
