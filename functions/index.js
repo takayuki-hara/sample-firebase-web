@@ -20,76 +20,76 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
-const gcs = require('@google-cloud/storage')();
-const spawn = require('child-process-promise').spawn;
-const path = require('path');
-const os = require('os');
-const fs = require('fs');
+//const gcs = require('@google-cloud/storage')();
+//const spawn = require('child-process-promise').spawn;
+//const path = require('path');
+//const os = require('os');
+//const fs = require('fs');
 
 
 
-// Adds a message that welcomes new users into the chat.
-exports.addWelcomeMessages = functions.auth.user().onCreate(event => {
-  const user = event.data;
-  console.log('A new user signed in for the first time.');
-  const fullName = user.displayName || 'Anonymous';
+//// Adds a message that welcomes new users into the chat.
+//exports.addWelcomeMessages = functions.auth.user().onCreate(event => {
+//  const user = event.data;
+//  console.log('A new user signed in for the first time.');
+//  const fullName = user.displayName || 'Anonymous';
+//
+//  // Saves the new welcome message into the database
+//  // which then displays it in the FriendlyChat clients.
+//  return admin.database().ref('messages').push({
+//    name: 'Firebase Bot',
+//    photoUrl: '/images/firebase-logo.png', // Firebase logo
+//    text: `${fullName} signed in for the first time! Welcome!` // Using back-ticks.
+//  }).then(() => console.log('Welcome message written to database.'));
+//});
 
-  // Saves the new welcome message into the database
-  // which then displays it in the FriendlyChat clients.
-  return admin.database().ref('messages').push({
-    name: 'Firebase Bot',
-    photoUrl: '/images/firebase-logo.png', // Firebase logo
-    text: `${fullName} signed in for the first time! Welcome!` // Using back-ticks.
-  }).then(() => console.log('Welcome message written to database.'));
-});
 
+//// Masking uploaded images.
+//exports.maskingImages = functions.storage.object().onChange(event => {
+//  const object = event.data;
+//  // Exit if this is a deletion or a deploy event.
+//  if (object.resourceState === 'not_exists') {
+//    return console.log('This is a deletion event.');
+//  } else if (!object.name) {
+//    return console.log('This is a deploy event.');
+//  }
+//
+//  return maskImage(object.name, object.bucket);
+//});
 
-// Masking uploaded images.
-exports.maskingImages = functions.storage.object().onChange(event => {
-  const object = event.data;
-  // Exit if this is a deletion or a deploy event.
-  if (object.resourceState === 'not_exists') {
-    return console.log('This is a deletion event.');
-  } else if (!object.name) {
-    return console.log('This is a deploy event.');
-  }
-
-  return maskImage(object.name, object.bucket);
-});
-
-// Mask the given image located in the given bucket using ImageMagick.
-function maskImage(filePath, bucketName, metadata) {
-  const tempLocalFile = path.join(os.tmpdir(), path.basename(filePath));
-  const messageId = filePath.split(path.sep)[1];
-  const bucket = gcs.bucket(bucketName);
-
-  // Download file from bucket.
-  return bucket.file(filePath).download({destination: tempLocalFile})
-    .then(() => {
-      console.log('Image has been downloaded to', tempLocalFile);
-
-      // Blur the image using ImageMagick.
-      //return spawn('convert', [tempLocalFile, '-channel', 'RGBA', '-blur', '0x24', tempLocalFile]);
-
-      return spawn('convert', ['-size', '512x512', 'xc:none', '-draw', "roundrectangle 0,0 511,511 512,512", tempLocalFile, '-resize', '512x512', '-compose', 'src-in', '-composite', '-unsharp', '0x1', tempLocalFile]);
-    }).then(() => {
-      console.log('Image has been masked');
-      // Uploading the Masked image back into the bucket.
-      return bucket.upload(tempLocalFile, {destination: filePath});
-    }).then(() => {
-      console.log('Masked image has been uploaded to', filePath);
-      // Deleting the local file to free up disk space.
-      fs.unlinkSync(tempLocalFile);
-      console.log('Deleted local file.');
-      // Indicate that the message has been moderated.
-      return admin.database().ref(`/messages/${messageId}`).update({moderated: true});
-    }).then(() => {
-      console.log('Marked the image as moderated in the database.');
-    });
-}
+//// Mask the given image located in the given bucket using ImageMagick.
+//function maskImage(filePath, bucketName, metadata) {
+//  const tempLocalFile = path.join(os.tmpdir(), path.basename(filePath));
+//  const messageId = filePath.split(path.sep)[1];
+//  const bucket = gcs.bucket(bucketName);
+//
+//  // Download file from bucket.
+//  return bucket.file(filePath).download({destination: tempLocalFile})
+//    .then(() => {
+//      console.log('Image has been downloaded to', tempLocalFile);
+//
+//      // Blur the image using ImageMagick.
+//      //return spawn('convert', [tempLocalFile, '-channel', 'RGBA', '-blur', '0x24', tempLocalFile]);
+//
+//      return spawn('convert', ['-size', '512x512', 'xc:none', '-draw', "roundrectangle 0,0 511,511 512,512", tempLocalFile, '-resize', '512x512', '-compose', 'src-in', '-composite', '-unsharp', '0x1', tempLocalFile]);
+//    }).then(() => {
+//      console.log('Image has been masked');
+//      // Uploading the Masked image back into the bucket.
+//      return bucket.upload(tempLocalFile, {destination: filePath});
+//    }).then(() => {
+//      console.log('Masked image has been uploaded to', filePath);
+//      // Deleting the local file to free up disk space.
+//      fs.unlinkSync(tempLocalFile);
+//      console.log('Deleted local file.');
+//      // Indicate that the message has been moderated.
+//      return admin.database().ref(`/messages/${messageId}`).update({moderated: true});
+//    }).then(() => {
+//      console.log('Marked the image as moderated in the database.');
+//    });
+//}
 
 // Sends a notifications to all users when a new message is posted.
-exports.sendNotifications = functions.database.ref('/messages/{messageId}').onCreate(event => {
+exports.sendNotifications = functions.database.ref('/admin/messages/{messageId}').onCreate(event => {
   const snapshot = event.data;
 
   // Notification details.
@@ -104,7 +104,7 @@ exports.sendNotifications = functions.database.ref('/messages/{messageId}').onCr
   };
 
   // Get the list of device tokens.
-  return admin.database().ref('fcmTokens').once('value').then(allTokens => {
+  return admin.database().ref('admin/fcmTokens').once('value').then(allTokens => {
     if (allTokens.val()) {
       // Listing all tokens.
       const tokens = Object.keys(allTokens.val());

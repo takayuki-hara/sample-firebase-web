@@ -95,6 +95,11 @@ Authenticator.prototype.onAuthStateChanged = function(user) {
         } else {
             this.checkAdminUser();
         }
+
+        // Regist FCM Token.
+        if (isTopPage()) {
+            this.saveMessagingDeviceToken();
+        }
     } else { // User is signed out!
 
         this.toLogin();
@@ -143,6 +148,32 @@ Authenticator.prototype.checkUser = function() {
             this.signOut();
         }
     }.bind(this));
+};
+
+// Saves the messaging device token to the datastore.
+Authenticator.prototype.saveMessagingDeviceToken = function() {
+    firebase.messaging().getToken().then(function(currentToken) {
+        if (currentToken) {
+            console.log('Got FCM device token:', currentToken);
+            console.log(this.auth.currentUser.uid);
+            // Saving the Device Token to the datastore.
+            this.database.ref('/admin/fcmTokens').child(currentToken).set(this.auth.currentUser.uid);
+        } else {
+            // Need to request permissions to show notifications.
+            this.requestNotificationsPermissions();
+        }
+    }.bind(this)).catch(function(error){
+        console.error('Unable to get messaging token.', error);
+    });
+};
+
+// Requests permissions to show notifications.
+Authenticator.prototype.requestNotificationsPermissions = function() {
+    firebase.messaging().requestPermission().then(function() {
+        this.saveMessagingDeviceToken();
+    }.bind(this)).catch(function(error) {
+        console.error('Unable to get permission to notify.', error);
+    });
 };
 
 // Checks that the Firebase SDK has been correctly setup and configured.

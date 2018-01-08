@@ -1,6 +1,6 @@
 {
-  "name": "friendlychat-codelab",
-  "description": "Firebase SDK for Cloud Functions codelab",
+  "name": "qaboard-sample",
+  "description": "Sample of QABoard",
   "dependencies": {
     "@google-cloud/storage": "^1.4.0",
     "child-process-promise": "^2.2.1",
