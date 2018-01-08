@@ -22,70 +22,76 @@ admin.initializeApp(functions.config().firebase);
 
 // Sends a notifications to all users when a new message is posted.
 exports.sendNewMessageNotifications = functions.database.ref('/admin/messages/{messageId}').onCreate(event => {
-  const snapshot = event.data;
+    const snapshot = event.data;
 
-  // Notification details.
-  const text = snapshot.val().text;
-  const payload = {
-    notification: {
-      title: `${snapshot.val().name} posted ${text ? 'a message' : 'an image'}`,
-      body: text ? (text.length <= 100 ? text : text.substring(0, 97) + '...') : '',
-      icon: snapshot.val().photoUrl || '/images/profile_placeholder.png',
-      click_action: `https://${functions.config().firebase.authDomain}`
-    }
-  };
+    // Notification details.
+    const text = snapshot.val().text;
+    const payload = {
+        notification: {
+            title: `${snapshot.val().name} posted ${text ? 'a message' : 'an image'}`,
+            body: text ? (text.length <= 100 ? text : text.substring(0, 97) + '...') : '',
+            icon: snapshot.val().photoUrl || '/images/profile_placeholder.png',
+            click_action: `https://${functions.config().firebase.authDomain}`
+        }
+    };
 
-  // Get the list of device tokens.
-  return admin.database().ref('admin/fcmTokens').once('value').then(allTokens => {
-    if (allTokens.val()) {
-      // Listing all tokens.
-      const tokens = Object.keys(allTokens.val());
+    // Get the list of device tokens.
+    return admin.database().ref('admin/fcmTokens').once('value').then(allTokens => {
+        if (allTokens.val()) {
+            // Listing all tokens.
+            const tokens = Object.keys(allTokens.val());
 
-      // Send notifications to all tokens.
-      return admin.messaging().sendToDevice(tokens, payload).then(response => {
-        // For each message check if there was an error.
-        const tokensToRemove = [];
-        response.results.forEach((result, index) => {
-          const error = result.error;
-          if (error) {
-            console.error('Failure sending notification to', tokens[index], error);
-            // Cleanup the tokens who are not registered anymore.
-            if (error.code === 'messaging/invalid-registration-token' ||
-                error.code === 'messaging/registration-token-not-registered') {
-              tokensToRemove.push(allTokens.ref.child(tokens[index]).remove());
-            }
-          }
-        });
-        return Promise.all(tokensToRemove);
-      });
-    }
-  });
+            // Send notifications to all tokens.
+            return admin.messaging().sendToDevice(tokens, payload).then(response => {
+                // For each message check if there was an error.
+                const tokensToRemove = [];
+                response.results.forEach((result, index) => {
+                    const error = result.error;
+                    if (error) {
+                        console.error('Failure sending notification to', tokens[index], error);
+                        // Cleanup the tokens who are not registered anymore.
+                        if (error.code === 'messaging/invalid-registration-token' ||
+                            error.code === 'messaging/registration-token-not-registered') {
+                            tokensToRemove.push(allTokens.ref.child(tokens[index]).remove());
+                        }
+                    }
+                });
+                return Promise.all(tokensToRemove);
+            });
+        }
+    });
 });
 
 // Sends a notifications to all users when a new comment is posted.
-exports.sendNewAnswerNotifications = functions.database.ref('/v1/comment/{commentId}').onCreate(event => {
-  const snapshot = event.data;
+exports.sendNewCommentNotifications = functions.database.ref('/v1/comment/{commentId}').onCreate(event => {
+    const snapshot = event.data;
+    const text = snapshot.val().body;
 
-  // payload
-  const text = snapshot.val().text;
-  const payload = {
-    notification: {
-      title: 'New Answer',
-      body: 'There was a new answer to your question.',
-      click_action: `https://${functions.config().firebase.authDomain}`
-    }
-  };
+    return admin.database().ref('v1/question/' + snapshot.val().questionId).once('value').then(data => {
+        const question = data.val();
+        if (question.userId == snapshot.val().userId) {
+            sendNotification(text, snapshot.val().userId); // Send to respondents
+        } else {
+            sendNotification(text, question.userId); // Send to questioner
+        }
+    });
+});
 
-  return admin.database().ref('v1/question/' + snapshot.val().questionId).once('value').then(data => {
-    const question = data.val();
-    if (question.userId == snapshot.val().userId) {
-        return; // my comment
-    }
-    return admin.database().ref('v1/user/' + question.userId).once('value').then(info => {
+function sendNotification(text, userId) {
+    // payload
+    const payload = {
+        notification: {
+            title: 'New Message',
+            body: text ? (text.length <= 100 ? text : text.substring(0, 97) + '...') : 'There was a new message for you.',
+            click_action: `https://${functions.config().firebase.authDomain}`
+        }
+    };
+
+    return admin.database().ref('v1/user/' + userId).once('value').then(info => {
         const user = info.val();
         const token = user.fcmToken;
         if (!token) {
-            return; // no tocken
+            return; // no token
         }
         return admin.messaging().sendToDevice(token, payload).then(response => {
             console.log("Successfully sent message:", response);
@@ -93,5 +99,4 @@ exports.sendNewAnswerNotifications = functions.database.ref('/v1/comment/{commen
             console.log("Error sending message:", error);
         });
     });
-  });
-});
+}
