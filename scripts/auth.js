@@ -42,13 +42,6 @@ Authenticator.prototype.initFirebase = function() {
 };
 
 
-// Signs-in.
-//Authenticator.prototype.signIn = function() {
-//    // Sign in Firebase using popup auth and Google as the identity provider.
-//    var provider = new firebase.auth.GoogleAuthProvider();
-//    this.auth.signInWithPopup(provider);
-//};
-
 // Signs-out.
 Authenticator.prototype.signOut = function() {
     // Sign out of Firebase.
@@ -87,8 +80,18 @@ Authenticator.prototype.onAuthStateChanged = function(user) {
         // Hide sign-in button.
         this.signInButton.setAttribute('hidden', 'true');
 
-        if (this.isLoginPage()) {
-            this.checkAdminUser()
+        // Check access rights.
+        if (isLoginPage()) {
+            this.checkUser();
+        } else if (isUserRegistPage()) {
+            // no proc
+        } else {
+            this.checkAdminUser();
+        }
+
+        // Regist FCM Token.
+        if (isTopPage()) {
+            this.saveMessagingDeviceToken();
         }
     } else { // User is signed out!
 
@@ -106,25 +109,25 @@ Authenticator.prototype.onAuthStateChanged = function(user) {
 
 // Redirect login page.
 Authenticator.prototype.toLogin = function() {
-    if (this.isLoginPage()) {
+    if (isLoginPage()) {
         return;
     }
     location.href = "../views/login.html";
 };
 
-// Check login page.
-Authenticator.prototype.isLoginPage = function() {
-    var path = location.pathname;
-    var pathinfo = path.split('/');
-    var filename = pathinfo.pop();
-    if (filename == "login.html") {
-        return true;
-    }
-    return false;
+// Check admin user.
+Authenticator.prototype.checkAdminUser = function() {
+    var currentUser = this.auth.currentUser;
+    return this.database.ref('/admin/managers/').once('value').then(function(snapshot) {
+        return; // check ok
+    }.bind(this)).catch(function(error) {
+        window.alert('システム管理者ユーザーではありません。\nシステムにログインできません。');
+        this.signOut();
+    }.bind(this));
 };
 
 // Check login page.
-Authenticator.prototype.checkAdminUser = function() {
+Authenticator.prototype.checkUser = function() {
     var currentUser = this.auth.currentUser;
     return this.database.ref('/v1/user/' + currentUser.uid).once('value').then(function(snapshot) {
         var accessRights = snapshot.val() && snapshot.val().accessRights;
@@ -135,7 +138,35 @@ Authenticator.prototype.checkAdminUser = function() {
             location.href = "../views/top.html";
         } else {
             window.alert('システム管理者ユーザーではありません。\nシステムにログインできません。');
+            this.signOut();
         }
+    }.bind(this));
+};
+
+// Saves the messaging device token to the datastore.
+Authenticator.prototype.saveMessagingDeviceToken = function() {
+    firebase.messaging().getToken().then(function(currentToken) {
+        if (currentToken) {
+            console.log('Got FCM device token:', currentToken);
+            console.log(this.auth.currentUser.uid);
+            // Saving the Device Token to the datastore.
+            this.database.ref('/admin/fcmTokens').child(currentToken).set(this.auth.currentUser.uid);
+            this.database.ref('/v1/user/' + this.auth.currentUser.uid).child('fcmToken').set(currentToken);
+        } else {
+            // Need to request permissions to show notifications.
+            this.requestNotificationsPermissions();
+        }
+    }.bind(this)).catch(function(error){
+        console.error('Unable to get messaging token.', error);
+    });
+};
+
+// Requests permissions to show notifications.
+Authenticator.prototype.requestNotificationsPermissions = function() {
+    firebase.messaging().requestPermission().then(function() {
+        this.saveMessagingDeviceToken();
+    }.bind(this)).catch(function(error) {
+        console.error('Unable to get permission to notify.', error);
     });
 };
 

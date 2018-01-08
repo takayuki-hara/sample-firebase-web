@@ -52,8 +52,6 @@
 </head>
 <body>
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-
-  <!-- Header section containing logo -->
   <header class="mdl-layout__header mdl-color-text--white mdl-color--light-blue-700">
     <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
       <div class="mdl-layout__header-row mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop">
@@ -68,8 +66,7 @@
       </div>
     </div>
   </header>
-
-  <main>
+  <main class="mdl-layout__content">
     <center>
       <br><br><br>システムの運用管理者ユーザーのみログインできます。
       <div id="messages-card" class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--6-col-tablet mdl-cell--6-col-desktop">
@@ -80,7 +77,7 @@
         </p>
         <p>
           <button id="sign-in" class="mdl-button mdl-js-button mdl-js-ripple-effect">
-            <i class="material-icons">verified_user</i>Sign-in
+            <i class="material-icons">verified_user</i>Login
           </button>
         </p>
         <br>
@@ -88,9 +85,12 @@
     </center>
   </main>
 
-  <div id="footer">Copyright © 2018 XXXXX Inc. All Right Reserved. </div>
+  <footer class="mdl-mini-footer">
+    <div class="mdl-mini-footer__right-section">
+      Copyright © 2018 XXXXX Inc. All Right Reserved.
+    </div>
+  </footer>
 </div>
-
 <!-- Import and configure the Firebase SDK -->
 <!-- These scripts are made available when the app is served or deployed on Firebase Hosting -->
 <!-- If you do not want to serve/host your project using Firebase Hosting see https://firebase.google.com/docs/web/setup -->

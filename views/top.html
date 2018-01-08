@@ -51,43 +51,37 @@
   <link rel="stylesheet" href="../styles/main.css">
 </head>
 <body>
-<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-
-  <!-- Header section containing logo -->
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
   <header class="mdl-layout__header mdl-color-text--white mdl-color--light-blue-700">
     <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
-      <div class="mdl-layout__header-row mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop">
-        <h3><i class="material-icons">explore</i> QABoard Sample</h3>
-      </div>
       <div id="user-container">
         <div hidden id="user-pic"></div>
         <div hidden id="user-name"></div>
         <button hidden id="sign-out" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-color-text--white">
-          Sign-out
+          Logout
         </button>
         <button hidden id="sign-in" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-color-text--white">
-          <i class="material-icons">account_circle</i>Sign-in with Google
+          <i class="material-icons">account_circle</i>Login with Google
         </button>
       </div>
     </div>
   </header>
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title"><i class="material-icons">explore</i>QABoard</span>
+    <nav class="mdl-navigation">
+      <a class="mdl-navigation__link" href="top.html">トップ</a>
+      <a class="mdl-navigation__link" href="users.html">ユーザー</a>
+      <a class="mdl-navigation__link" href="postquestion.html">質問投稿</a>
+      <a class="mdl-navigation__link" href="questions.html">質問一覧</a>
+      <a class="mdl-navigation__link" href="comments.html">回答・リプライ一覧</a>
+      <a class="mdl-navigation__link" href="reports.html">通報一覧</a>
+      <a class="mdl-navigation__link" href="chat.html">管理者チャット</a>
+    </nav>
+  </div>
+  <main class="mdl-layout__content">
+    <div id="main-container" class="mdl-grid">
 
-  <main>
-    <div id="messages-card-container" class="mdl-grid">
-
-      <div class="nav mdl-cell mdl-cell--2-col">
-        <ul class="nl">
-          <li><a href="top.html">トップ</a></li>
-          <li><a href="users.html">ユーザー</a></li>
-          <li><a href="questions.html">質問一覧</a></li>
-          <li><a href="comments.html">回答・リプライ一覧</a></li>
-          <li><a href="reports.html">通報一覧</a></li>
-          <li><a href="postquestion.html">質問投稿</a></li>
-          <li><a href="chat.html">管理者チャット</a></li>
-        </ul>
-      </div>
-
-      <div class="vscroll mdl-shadow--2dp mdl-cell mdl-cell--8-col">
+      <div class="vscroll mdl-shadow--2dp mdl-cell mdl-cell--10-col">
         <h4 class="title02">トップ</h4>
         <p><center>管理者サイトのトップページです。</center></p>
       </div>
@@ -95,9 +89,12 @@
     </div>
   </main>
 
-  <div id="footer">Copyright © 2018 XXXXX Inc. All Right Reserved. </div>
+  <footer class="mdl-mini-footer">
+    <div class="mdl-mini-footer__right-section">
+      Copyright © 2018 XXXXX Inc. All Right Reserved.
+    </div>
+  </footer>
 </div>
-
 <!-- Import and configure the Firebase SDK -->
 <!-- These scripts are made available when the app is served or deployed on Firebase Hosting -->
 <!-- If you do not want to serve/host your project using Firebase Hosting see https://firebase.google.com/docs/web/setup -->

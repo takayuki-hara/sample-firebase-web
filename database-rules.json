@@ -1,13 +1,25 @@
 {
   "rules": {
-    ".read": "auth != null",
-    ".write": "auth != null",
+
+    // Administrator
+    "admin": {
+      // Only some preregistered users can be accessed
+      ".read": "root.child('admin/managers/'+auth.uid).exists()",
+      ".write": "root.child('admin/managers/'+auth.uid).exists()"
+    },
+
+    // Service
     "v1": {
+      // Only authorized users can access
+      ".read": "auth != null",
+      ".write": "auth != null",
+
+      // Indexes
       "user": {
         ".indexOn": ["_createdAt", "_createdAtReverse", "state", "name"]
       },
       "question": {
-        ".indexOn": ["_createdAt", "_createdAtReverse", "state"]
+        ".indexOn": ["_createdAt", "_createdAtReverse", "state", "limit", "userId"]
       },
       "comment": {
         ".indexOn": ["_createdAt", "_createdAtReverse", "state"]
