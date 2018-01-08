@@ -22,6 +22,39 @@ function isIndexPage() {
     return false;
 }
 
+// ログインページかどうか
+function isLoginPage() {
+    var path = location.pathname;
+    var pathinfo = path.split('/');
+    var filename = pathinfo.pop();
+    if (filename == "login.html") {
+        return true;
+    }
+    return false;
+}
+
+// ユーザー登録ページかどうか
+function isUserRegistPage() {
+    var path = location.pathname;
+    var pathinfo = path.split('/');
+    var filename = pathinfo.pop();
+    if (filename == "userregist.html") {
+        return true;
+    }
+    return false;
+}
+
+// トップページかどうか
+function isTopPage() {
+    var path = location.pathname;
+    var pathinfo = path.split('/');
+    var filename = pathinfo.pop();
+    if (filename == "top.html") {
+        return true;
+    }
+    return false;
+}
+
 // URLのクエリストリングを連想配列にする
 function　getUrlParameters() {
     if (window.location.search) {

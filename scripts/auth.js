@@ -88,9 +88,9 @@ Authenticator.prototype.onAuthStateChanged = function(user) {
         this.signInButton.setAttribute('hidden', 'true');
 
         // Check access rights.
-        if (this.isLoginPage()) {
+        if (isLoginPage()) {
             this.checkUser();
-        } else if (this.isUserRegistPage()) {
+        } else if (isUserRegistPage()) {
             // no proc
         } else {
             this.checkAdminUser();
@@ -111,32 +111,10 @@ Authenticator.prototype.onAuthStateChanged = function(user) {
 
 // Redirect login page.
 Authenticator.prototype.toLogin = function() {
-    if (this.isLoginPage()) {
+    if (isLoginPage()) {
         return;
     }
     location.href = "../views/login.html";
-};
-
-// Check login page.
-Authenticator.prototype.isLoginPage = function() {
-    var path = location.pathname;
-    var pathinfo = path.split('/');
-    var filename = pathinfo.pop();
-    if (filename == "login.html") {
-        return true;
-    }
-    return false;
-};
-
-// Check regist page.
-Authenticator.prototype.isUserRegistPage = function() {
-    var path = location.pathname;
-    var pathinfo = path.split('/');
-    var filename = pathinfo.pop();
-    if (filename == "userregist.html") {
-        return true;
-    }
-    return false;
 };
 
 // Check admin user.
