@@ -87,8 +87,13 @@ Authenticator.prototype.onAuthStateChanged = function(user) {
         // Hide sign-in button.
         this.signInButton.setAttribute('hidden', 'true');
 
+        // Check access rights.
         if (this.isLoginPage()) {
-            this.checkAdminUser()
+            this.checkUser();
+        } else if (this.isUserRegistPage()) {
+            // no proc
+        } else {
+            this.checkAdminUser();
         }
     } else { // User is signed out!
 
@@ -123,8 +128,30 @@ Authenticator.prototype.isLoginPage = function() {
     return false;
 };
 
-// Check login page.
+// Check regist page.
+Authenticator.prototype.isUserRegistPage = function() {
+    var path = location.pathname;
+    var pathinfo = path.split('/');
+    var filename = pathinfo.pop();
+    if (filename == "userregist.html") {
+        return true;
+    }
+    return false;
+};
+
+// Check admin user.
 Authenticator.prototype.checkAdminUser = function() {
+    var currentUser = this.auth.currentUser;
+    return this.database.ref('/admin/managers/').once('value').then(function(snapshot) {
+        return; // check ok
+    }.bind(this)).catch(function(error) {
+        window.alert('システム管理者ユーザーではありません。\nシステムにログインできません。');
+        this.signOut();
+    }.bind(this));
+};
+
+// Check login page.
+Authenticator.prototype.checkUser = function() {
     var currentUser = this.auth.currentUser;
     return this.database.ref('/v1/user/' + currentUser.uid).once('value').then(function(snapshot) {
         var accessRights = snapshot.val() && snapshot.val().accessRights;
@@ -135,8 +162,9 @@ Authenticator.prototype.checkAdminUser = function() {
             location.href = "../views/top.html";
         } else {
             window.alert('システム管理者ユーザーではありません。\nシステムにログインできません。');
+            this.signOut();
         }
-    });
+    }.bind(this));
 };
 
 // Checks that the Firebase SDK has been correctly setup and configured.

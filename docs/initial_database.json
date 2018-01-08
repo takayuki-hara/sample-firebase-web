@@ -1,5 +1,9 @@
 {
   "admin" : {
+    "managers" : {
+      "DIwwsSEyPOQAhhBJxaUHESu18vU2" : true,
+      "vSbDNBuRL5XeedhsIe9cnlAfK482" : true
+    },
     "messages" : {
       "-L1u6YfBtgJOxoxb80UU" : {
         "name" : "bbb",
