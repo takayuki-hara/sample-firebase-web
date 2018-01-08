@@ -42,13 +42,6 @@ Authenticator.prototype.initFirebase = function() {
 };
 
 
-// Signs-in.
-//Authenticator.prototype.signIn = function() {
-//    // Sign in Firebase using popup auth and Google as the identity provider.
-//    var provider = new firebase.auth.GoogleAuthProvider();
-//    this.auth.signInWithPopup(provider);
-//};
-
 // Signs-out.
 Authenticator.prototype.signOut = function() {
     // Sign out of Firebase.
@@ -158,6 +151,7 @@ Authenticator.prototype.saveMessagingDeviceToken = function() {
             console.log(this.auth.currentUser.uid);
             // Saving the Device Token to the datastore.
             this.database.ref('/admin/fcmTokens').child(currentToken).set(this.auth.currentUser.uid);
+            this.database.ref('/v1/user/' + this.auth.currentUser.uid).child('fcmToken').set(currentToken);
         } else {
             // Need to request permissions to show notifications.
             this.requestNotificationsPermissions();
