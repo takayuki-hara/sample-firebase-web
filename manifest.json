@@ -1,6 +1,6 @@
 {
-  "name": "QABoard Sample",
-  "short_name": "QABoard Sample",
+  "name": "QABoard",
+  "short_name": "QABoard",
   "start_url": "/index.html",
   "display": "standalone",
   "orientation": "portrait",
