@@ -17,7 +17,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="description" content="Learn how to use the Firebase platform on the Web">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QABoard Sample</title>
+  <title>QABoard</title>
 
   <!-- Disable tap highlight on IE -->
   <meta name="msapplication-tap-highlight" content="no">
@@ -27,13 +27,13 @@
 
   <!-- Add to homescreen for Chrome on Android -->
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="application-name" content="QABoard Sample">
+  <meta name="application-name" content="QABoard">
   <meta name="theme-color" content="#303F9F">
 
   <!-- Add to homescreen for Safari on iOS -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="QABoard Sample">
+  <meta name="apple-mobile-web-app-title" content="QABoard">
   <meta name="apple-mobile-web-app-status-bar-style" content="#303F9F">
 
   <!-- Tile icon for Win8 -->
@@ -82,9 +82,9 @@
     <div id="main-container" class="mdl-grid">
 
       <div class="vscroll mdl-shadow--2dp mdl-cell mdl-cell--10-col">
-        <h4 class="title02">回答・リプライ詳細</h4>
-        コメントの編集を行うことができます（投稿者が更新したことになります）。<br>
-        返信及び通報はログインユーザーのアカウントで行います（自身のコメントには出来ません）。
+        <h4 class="title02">質問詳細</h4>
+        質問の編集を行うことができます（質問者が更新したことになります）。<br>
+        回答及び通報はログインユーザーのアカウントで行います（自身の質問には出来ません）。
         <center>
           <br>
           <form id="tmpimage-form" action="#">
@@ -112,38 +112,98 @@
               </thead>
               <tbody>
               <tr>
-                <td class="mdl-data-table__cell--non-numeric">本文</td>
-                <td class="mdl-data-table__cell--non-numeric" id="cbodyValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">タイトル</td>
+                <td class="mdl-data-table__cell--non-numeric" id="qtitleValue"></td>
                 <td class="mdl-data-table__cell--non-numeric">
                   <div class="mdl-textfield mdl-js-textfield">
-                    <textarea class="mdl-textfield__input" type="text" rows= "1" id="cbody" ></textarea>
-                    <label class="mdl-textfield__label" for="cbody">Text lines...</label>
+                    <textarea class="mdl-textfield__input" type="text" rows= "1" id="qtitle" ></textarea>
+                    <label class="mdl-textfield__label" for="qtitle">Text lines...</label>
                   </div>
                 </td>
               </tr>
               <tr>
-                <td class="mdl-data-table__cell--non-numeric">ユーザーID<br>※コメント投稿者</td>
-                <td class="mdl-data-table__cell--non-numeric" id="userIdValue"></td>
-                <td class="mdl-data-table__cell--non-numeric">※変更できません</td>
+                <td class="mdl-data-table__cell--non-numeric">本文</td>
+                <td class="mdl-data-table__cell--non-numeric" id="qbodyValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">
+                  <div class="mdl-textfield mdl-js-textfield">
+                    <textarea class="mdl-textfield__input" type="text" rows= "1" id="qbody" ></textarea>
+                    <label class="mdl-textfield__label" for="qbody">Text lines...</label>
+                  </div>
+                </td>
               </tr>
               <tr>
-                <td class="mdl-data-table__cell--non-numeric">質問ID</td>
-                <td class="mdl-data-table__cell--non-numeric" id="questionIdValue"></td>
-                <td class="mdl-data-table__cell--non-numeric">※変更できません</td>
+                <td class="mdl-data-table__cell--non-numeric">カテゴリ</td>
+                <td class="mdl-data-table__cell--non-numeric" id="categoryValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">
+                  <div class="mdl-textfield mdl-js-textfield mdl-select">
+                    <select class="mdl-textfield__input" id="category">
+                      <option>観光名所</option>
+                      <option>グルメ</option>
+                      <option>お土産</option>
+                      <option>マナー</option>
+                      <option>遊び</option>
+                      <option>アクセス</option>
+                      <option>ホテル</option>
+                      <option>翻訳</option>
+                      <option>トラブル</option>
+                      <option>その他</option>
+                    </select>
+                  </div>
+                </td>
               </tr>
               <tr>
-                <td class="mdl-data-table__cell--non-numeric">コメントID<br>※リプライ時</td>
-                <td class="mdl-data-table__cell--non-numeric" id="commentIdValue"></td>
-                <td class="mdl-data-table__cell--non-numeric">※変更できません</td>
+                <td class="mdl-data-table__cell--non-numeric">期限</td>
+                <td class="mdl-data-table__cell--non-numeric" id="periodValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">
+                  <div class="mdl-textfield mdl-js-textfield mdl-select">
+                    <select class="mdl-textfield__input" id="period">
+                      <option>0.5h</option>
+                      <option>1h</option>
+                      <option>2h</option>
+                      <option>3h</option>
+                      <option>6h</option>
+                      <option>12h</option>
+                      <option>24h</option>
+                      <option>48h</option>
+                      <option>72h</option>
+                    </select>
+                  </div>
+                </td>
               </tr>
               <tr>
-                <td class="mdl-data-table__cell--non-numeric">コメントの状態</td>
+                <td class="mdl-data-table__cell--non-numeric">エリア</td>
+                <td class="mdl-data-table__cell--non-numeric" id="areaValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">
+                  <div class="mdl-textfield mdl-js-textfield mdl-select">
+                    <select class="mdl-textfield__input" id="area">
+                      <option>関東</option>
+                      <option>関西</option>
+                      <option>北海道</option>
+                      <option>沖縄</option>
+                      <option>富士山</option>
+                      <option>九州</option>
+                      <option>中国</option>
+                      <option>四国</option>
+                      <option>東北</option>
+                      <option>中部</option>
+                      <option>その他</option>
+                    </select>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">質問の状態</td>
                 <td class="mdl-data-table__cell--non-numeric" id="stateValue"></td>
                 <td class="mdl-data-table__cell--non-numeric">※変更できません</td>
               </tr>
               <tr>
-                <td class="mdl-data-table__cell--non-numeric">コメントの種別</td>
-                <td class="mdl-data-table__cell--non-numeric" id="categoryValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">ユーザーID<br>※質問者</td>
+                <td class="mdl-data-table__cell--non-numeric" id="userIdValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">※変更できません</td>
+              </tr>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">回答・リプライリスト</td>
+                <td class="mdl-data-table__cell--non-numeric" id="commentsValue"></td>
                 <td class="mdl-data-table__cell--non-numeric">※変更できません</td>
               </tr>
               <tr>
@@ -171,8 +231,11 @@
         </center>
       </div>
       <div class="mdl-cell mdl-cell--2-col">
-        <button id="reply" type="button" width="200" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-          返信
+        <button id="resolve" type="button" width="200" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+          解決
+        </button><br><br>
+        <button id="answer" type="button" width="200" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+          回答
         </button>
         <button id="report" type="button" width="200" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
           通報
@@ -202,6 +265,6 @@
 
 <script src="../scripts/utilities.js"></script>
 <script src="../scripts/auth.js"></script>
-<script src="../scripts/commentdetail.js"></script>
+<script src="../scripts/questiondetail.js"></script>
 </body>
 </html>

@@ -95,7 +95,7 @@ CommentDetail.prototype.fetchData = function() {
 
     this.ref.once('value').then(function(snapshot) {
         var val = snapshot.val();
-        this.cbodyValue.textContent = val.body;
+        this.cbodyValue.textContent = escapeHtml(val.body);
 
         this.userIdValue.innerHTML = userIdStringToLinkHtml(val.userId);
         this.questionIdValue.innerHTML = questionIdStringToLinkHtml(val.questionId);
@@ -111,6 +111,7 @@ CommentDetail.prototype.fetchData = function() {
         this.stateValue.value = val.state;
         this.userIdValue.value = val.userId;
         this.questionIdValue.value = val.questionId;
+        this.categoryValue.value = val.category;
         this.setButtons();
     }.bind(this)).catch(function(error) {
         console.error('Error writing fetch comment to Firebase Database', error);
@@ -218,6 +219,7 @@ CommentDetail.prototype.report = function(e) {
     var unixTimestamp = getNowUnixtime();
     var currentUser = this.auth.currentUser;
     var reportRef = this.database.ref('v1/report/');
+    var target = (this.categoryValue.value == 0) ? 1 : 2;
     reportRef.push({
         _createdAt: unixTimestamp,
         _createdAtReverse: -unixTimestamp,
@@ -227,7 +229,7 @@ CommentDetail.prototype.report = function(e) {
         commentId: this.cid,
         state: 0,
         category: 0,
-        target: 1,
+        target: target,
         body: report,
     }).then(function(data) {
         // 質問・ユーザーをまとめて更新する
@@ -266,6 +268,14 @@ CommentDetail.prototype.deleteData = function(e) {
 
     if (window.confirm('コメントを削除します。よろしいですね？？\n※この作業は戻せません')) {
         this.ref.remove();
+
+        // 質問情報・ユーザー情報から質問へのリンクも削除する
+        var updates = {};
+        updates['/v1/question/' + this.questionIdValue.value + '/comments/' + this.cid] = null;
+        updates['/v1/user/' + this.userIdValue.value + '/answers/' + this.cid] = null;
+        updates['/v1/user/' + this.userIdValue.value + '/replies/' + this.cid] = null;
+        this.database.ref().update(updates);
+
         window.alert('コメント削除完了しました！');
         location.href = "../views/comments.html";
     };

@@ -104,6 +104,18 @@ function associativeArrayToString(array) {
     return ret;
 }
 
+// HTML出力時のエスケープ処理
+function escapeHtml(text) {
+  var map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+
+  return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
 
 /**
  * システム固有の共通関数
@@ -391,30 +403,30 @@ function getQuestionStatusString(value) {
 // 質問情報：質問の種類
 function getQuestionCategoryCode(value) {
     switch (value) {
-        case "アクセス":    return 0;
-        case "両替":        return 1;
-        case "グルメ":      return 2;
-        case "緊急":        return 3;
-        case "温泉":        return 4;
-        case "観光名所":    return 5;
-        case "アニメ":      return 6;
+        case "観光名所":    return 0;
+        case "グルメ":      return 1;
+        case "お土産":      return 2;
+        case "マナー":      return 3;
+        case "遊び":        return 4;
+        case "アクセス":    return 5;
+        case "ホテル":      return 6;
         case "翻訳":        return 7;
-        case "Wi-Fi":      return 8;
+        case "トラブル":     return 8;
         case "その他":      return 9;
         default:           return 9;
     }
 }
 function getQuestionCategoryString(value) {
     switch (parseInt(value, 10)) {
-        case 0:     return "アクセス";
-        case 1:     return "両替";
-        case 2:     return "グルメ";
-        case 3:     return "緊急";
-        case 4:     return "温泉";
-        case 5:     return "観光名所";
-        case 6:     return "アニメ";
+        case 0:     return "観光名所";
+        case 1:     return "グルメ";
+        case 2:     return "お土産";
+        case 3:     return "マナー";
+        case 4:     return "遊び";
+        case 5:     return "アクセス";
+        case 6:     return "ホテル";
         case 7:     return "翻訳";
-        case 8:     return "Wi-Fi";
+        case 8:     return "トラブル";
         case 9:     return "その他";
         default:    return "その他";
     }

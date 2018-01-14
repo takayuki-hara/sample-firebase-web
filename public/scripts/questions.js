@@ -15,8 +15,8 @@
  */
 'use strict';
 
-// Initializes ReportList.
-function ReportList() {
+// Initializes QuestionList.
+function QuestionList() {
 
     // Shortcuts to DOM Elements.
     this.customForm = document.getElementById('custom-form');
@@ -25,7 +25,7 @@ function ReportList() {
     this.detailButtons = document.getElementsByName('detail');
 
     // Events.
-    this.customForm.addEventListener('click', this.changeState.bind(this));
+    this.customForm.addEventListener('click', this.moveDetail.bind(this));
     this.beforeButton.addEventListener('click', this.moveBefore.bind(this));
     this.nextButton.addEventListener('click', this.moveNext.bind(this));
 
@@ -38,41 +38,38 @@ function ReportList() {
 }
 
 // Sets up shortcuts to Firebase features and initiate firebase auth.
-ReportList.prototype.initFirebase = function() {
+QuestionList.prototype.initFirebase = function() {
     // Shortcuts to Firebase SDK features.
     this.auth = firebase.auth();
     this.database = firebase.database();
     this.storage = firebase.storage();
 };
 
-ReportList.prototype.changeState = function(state) {
-    var ref = this.database.ref('/v1/report/' + this.selectedReportId);
-    ref.update({
-        _updatedAt: getNowUnixtime(),
-        state: this.toState
-    });
-    window.alert('通報の状態を更新しました！');
-    window.location.reload();
-};
-
-ReportList.prototype.moveBefore = function(e) {
+QuestionList.prototype.moveDetail = function(e) {
     e.preventDefault();
-    location.href = "../views/reports.html?endAt=" + this.firstCreatedAt;
+    if (this.selectedQuestionId) {
+        location.href = "../views/questiondetail.html?qid=" + this.selectedQuestionId;
+    }
 };
 
-ReportList.prototype.moveNext = function(e) {
+QuestionList.prototype.moveBefore = function(e) {
     e.preventDefault();
-    location.href = "../views/reports.html?startAt=" + this.lastCreatedAt;
+    location.href = "../views/questions.html?endAt=" + this.firstCreatedAt;
 };
 
-ReportList.prototype.initialize = function() {
+QuestionList.prototype.moveNext = function(e) {
+    e.preventDefault();
+    location.href = "../views/questions.html?startAt=" + this.lastCreatedAt;
+};
+
+QuestionList.prototype.initialize = function() {
     this.parameters = getUrlParameters();
     if (this.parameters) {
         this.setIndex();
     }
 };
 
-ReportList.prototype.setButtons = function() {
+QuestionList.prototype.setButtons = function() {
     if (this.startAt < 0) {
         this.beforeButton.removeAttribute('disabled');
         if (!this.hasNext) {
@@ -89,7 +86,7 @@ ReportList.prototype.setButtons = function() {
     }
 };
 
-ReportList.prototype.setIndex = function() {
+QuestionList.prototype.setIndex = function() {
     if (this.parameters == null) {
         return;
     }
@@ -100,9 +97,9 @@ ReportList.prototype.setIndex = function() {
     }
 };
 
-ReportList.prototype.fetch = function() {
+QuestionList.prototype.fetch = function() {
     var fetchNum = 21;
-    var ref = this.database.ref('/v1/report/');
+    var ref = this.database.ref('/v1/question/');
     var query = ref.orderByChild("_createdAtReverse").limitToFirst(fetchNum);
 
     if (this.startAt < 0) {
@@ -122,14 +119,20 @@ ReportList.prototype.fetch = function() {
                 this.hasNext = true;
                 return;
             }
-            this.display(data.key, val.userId, val.questionId, val.commentId, val.state, val.category, val.target, val.body);
+            this.display(data.key, val.userId, val.title, val.state, val.limit);
             ctr++;
         }.bind(this));
         this.setButtons();
     }.bind(this));
 };
 
-ReportList.prototype.display = function(key, userId, questionId, commentId, state, category, target, body) {
+QuestionList.prototype.fetchUser = function(userId) {
+    return this.database.ref('/v1/user/' + userId).once('value').then(function(snapshot) {
+        return snapshot.val();
+    });
+};
+
+QuestionList.prototype.display = function(key, userId, title, state, limit) {
     var template =
     '<div class="mdl-shadow--2dp mdl-cell mdl-cell--12-col">' +
     '</div>';
@@ -143,54 +146,59 @@ ReportList.prototype.display = function(key, userId, questionId, commentId, stat
         this.customForm.appendChild(div);
     }
 
-    if (state != 2) {
-        var button2 = document.createElement("button");
-        button2.setAttribute("class", "detail mdl-button mdl-js-button mdl-button--colored mdl-js-ripple-effect");
-        button2.setAttribute("onclick", "setValue('" + key + "', 2)");
-        button2.setAttribute("name", "detail");
-        button2.setAttribute("type", "button");
-        button2.innerHTML = "保留にする";
-        div.appendChild(button2);
-    }
+    this.fetchUser(userId).then(function(user) {
+        var url = "/images/profile_placeholder.png";
+        if (user.imageUrl) {
+            url = user.imageUrl;
+        }
+        var image = document.createElement('img');
+        image.setAttribute("class", "profile");
+        this.setImageUrl(url, image);
+        div.appendChild(image);
 
-    if (state != 1) {
         var button = document.createElement("button");
         button.setAttribute("class", "detail mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect");
-        button.setAttribute("onclick", "setValue('" + key + "', 1)");
+        button.setAttribute("onclick", "setValue('" + key + "')");
         button.setAttribute("name", "detail");
         button.setAttribute("type", "button");
-        button.innerHTML = "処理済みにする";
+        button.innerHTML = "Detail";
         div.appendChild(button);
-    }
 
-    if (state != 0) {
-        var button = document.createElement("button");
-        button.setAttribute("class", "detail mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect");
-        button.setAttribute("onclick", "setValue('" + key + "', 0)");
-        button.setAttribute("name", "detail");
-        button.setAttribute("type", "button");
-        button.innerHTML = "未処理にする";
-        div.appendChild(button);
-    }
-
-    var text = document.createElement("span");
-    text.innerHTML = "【通報者】" + userIdStringToLinkHtml(userId) + "<br>" +
-                     "【質問ID】" + questionIdStringToLinkHtml(questionId) + "<br>" +
-                     "【コメントID】" + commentIdStringToLinkHtml(commentId) + "<br>" +
-                     "【本文】" + body + "<br>" +
-                     "<br><font color='#7f7f7f'>State：" + getReportStatusString(state) + "／対象：" + getReportTargetString(target) + "／通報理由：" + getReportCategoryString(category) + "</font>";
-    div.appendChild(text);
-
+        var text = document.createElement("span");
+        text.innerHTML = "【" + escapeHtml(escapeHtml(user.name)) + "】 " + escapeHtml(escapeHtml(title)) + "<br><font color='#7f7f7f'>State：" + getQuestionStatusString(state) + "／期限：" + unixtimeToString(limit) + "</font>";
+        div.appendChild(text);
+    }.bind(this));
 };
 
-// リストのタップ時の処理
-function setValue(val, state)
+// Sets the URL of the given img element with the URL of the image stored in Firebase Storage.
+QuestionList.prototype.setImageUrl = function(imageUri, imgElement) {
+    if (!imageUri) {
+        return;
+    }
+
+    // If the image is a Firebase Storage URI we fetch the URL.
+    if (imageUri.startsWith('gs://')) {             // Google Cloud Storage URI
+        imgElement.src = 'https://www.google.com/images/spin-32.gif'; // Display a loading image first.
+        this.storage.refFromURL(imageUri).getMetadata().then(function(metadata) {
+            imgElement.src = metadata.downloadURLs[0];
+        });
+    } else if (imageUri.startsWith('/images/')) {   // Document path
+        imgElement.src = imageUri;
+    } else {    // initial file path and name
+        imgElement.src = 'https://www.google.com/images/spin-32.gif'; // Display a loading image first.
+        this.storage.ref(imageUri).getMetadata().then(function(metadata) {
+            imgElement.src = metadata.downloadURLs[0];
+        });
+    }
+};
+
+// どの質問を選択したのかを保持しておくための処理
+function setValue(val)
 {
-    window.ReportList.selectedReportId = val;
-    window.ReportList.toState = state;
+    window.QuestionList.selectedQuestionId = val;
 }
 
 window.onload = function() {
     window.authenticater = new Authenticator();
-    window.ReportList = new ReportList();
+    window.QuestionList = new QuestionList();
 };

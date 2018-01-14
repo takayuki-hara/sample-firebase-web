@@ -102,13 +102,13 @@ UserDetail.prototype.fetchData = function() {
 
     this.ref.once('value').then(function(snapshot) {
         var val = snapshot.val();
-        this.userIdValue.textContent = val.name;
+        this.userIdValue.textContent = escapeHtml(val.name);
         this.languageValue.innerText = languageArrayToString(val.languages);
         this.positionValue.textContent = getPositionString(val.position);
         this.genderValue.textContent = getGenderString(val.gender);
         this.ageValue.textContent = getAgeString(val.ageRange);
         this.areaValue.textContent = getAreaString(val.area);
-        this.introductionValue.textContent = val.profileText;
+        this.introductionValue.textContent = escapeHtml(val.profileText);
 
         this.stateValue.textContent = getUserStatusString(val.state);
         this.accessRightsValue.textContent = getAccessRightsString(val.accessRights);

@@ -17,7 +17,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="description" content="Learn how to use the Firebase platform on the Web">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QABoard Sample</title>
+  <title>QABoard</title>
 
   <!-- Disable tap highlight on IE -->
   <meta name="msapplication-tap-highlight" content="no">
@@ -27,13 +27,13 @@
 
   <!-- Add to homescreen for Chrome on Android -->
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="application-name" content="QABoard Sample">
+  <meta name="application-name" content="QABoard">
   <meta name="theme-color" content="#303F9F">
 
   <!-- Add to homescreen for Safari on iOS -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="QABoard Sample">
+  <meta name="apple-mobile-web-app-title" content="QABoard">
   <meta name="apple-mobile-web-app-status-bar-style" content="#303F9F">
 
   <!-- Tile icon for Win8 -->
@@ -51,12 +51,9 @@
   <link rel="stylesheet" href="../styles/main.css">
 </head>
 <body>
-<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
   <header class="mdl-layout__header mdl-color-text--white mdl-color--light-blue-700">
     <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
-      <div class="mdl-layout__header-row mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop">
-        <h3><i class="material-icons">explore</i> QABoard Sample</h3>
-      </div>
       <div id="user-container">
         <div hidden id="user-pic"></div>
         <div hidden id="user-name"></div>
@@ -69,21 +66,53 @@
       </div>
     </div>
   </header>
-
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title"><i class="material-icons">explore</i>QABoard</span>
+    <nav class="mdl-navigation">
+      <a class="mdl-navigation__link" href="top.html">トップ</a>
+      <a class="mdl-navigation__link" href="users.html">ユーザー</a>
+      <a class="mdl-navigation__link" href="postquestion.html">質問投稿</a>
+      <a class="mdl-navigation__link" href="questions.html">質問一覧</a>
+      <a class="mdl-navigation__link" href="comments.html">回答・リプライ一覧</a>
+      <a class="mdl-navigation__link" href="reports.html">通報一覧</a>
+      <a class="mdl-navigation__link" href="chat.html">管理者チャット</a>
+    </nav>
+  </div>
   <main class="mdl-layout__content">
     <div id="main-container" class="mdl-grid">
+
       <div class="vscroll mdl-shadow--2dp mdl-cell mdl-cell--10-col">
-        <h4 class="title02">ユーザー登録</h4>
+        <h4 class="title02">ユーザー詳細</h4>
+        ユーザー情報の編集を行うことが出来ます。
         <center>
           <br>
-          ログイン中のアカウントをサービスで使用するためにはユーザー登録が必要です。<br>
-          下記の入力フォームに記載の上、登録ボタンを押して登録してください。<br>
-          プロフィール画像については、ユーザー詳細画面にて登録できます。<br>
-          なお、ここで登録しただけではシステムには入れません。システム管理者にご連絡ください。<br><br>
-          <form id="user-form" action="#">
-            <table class="mdl-data-table mdl-js-data-table">
+          <form id="tmpimage-form" action="#">
+            <table>
               <tr>
-                <td class="mdl-data-table__cell--non-numeric">ユーザーID（ニックネーム）</td>
+                <td><img id="tmpImage" src="/images/profile_placeholder.png" width="100" height="100"></td>
+                <td>
+                  <input id="mediaCapture" type="file" accept="image/*,capture=camera">
+                  <button id="uploadImage" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--amber-400 mdl-color-text--white">
+                    <i class="material-icons">image</i>画像を追加／変更する
+                  </button>
+                </td>
+              </tr>
+            </table>
+          </form>
+          <br>
+          <form id="input-form" action="#">
+            <table class="mdl-data-table mdl-js-data-table">
+              <thead>
+              <tr>
+                <th class="mdl-data-table__cell--non-numeric">項目</th>
+                <th class="mdl-data-table__cell--non-numeric">現在の値</th>
+                <th class="mdl-data-table__cell--non-numeric">変更したい値</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">ユーザーID<br>※ニックネーム</td>
+                <td class="mdl-data-table__cell--non-numeric" id="userIdValue"></td>
                 <td class="mdl-data-table__cell--non-numeric">
                   <div class="mdl-textfield mdl-js-textfield">
                     <input class="mdl-textfield__input" type="text" id="userId">
@@ -93,6 +122,7 @@
               </tr>
               <tr>
                 <td class="mdl-data-table__cell--non-numeric">対応言語</td>
+                <td class="mdl-data-table__cell--non-numeric" id="languageValue"></td>
                 <td class="mdl-data-table__cell--non-numeric">
                   <div class="mdl-textfield mdl-js-textfield mdl-select">
                     <select class="mdl-textfield__input" id="language">
@@ -123,6 +153,7 @@
               </tr>
               <tr>
                 <td class="mdl-data-table__cell--non-numeric">立場</td>
+                <td class="mdl-data-table__cell--non-numeric" id="positionValue"></td>
                 <td class="mdl-data-table__cell--non-numeric">
                   <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="position-1">
                     <input type="radio" id="position-1" class="mdl-radio__button" name="positions" value="0" checked>
@@ -140,6 +171,7 @@
               </tr>
               <tr>
                 <td class="mdl-data-table__cell--non-numeric">性別</td>
+                <td class="mdl-data-table__cell--non-numeric" id="genderValue"></td>
                 <td class="mdl-data-table__cell--non-numeric">
                   <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="gender-1">
                     <input type="radio" id="gender-1" class="mdl-radio__button" name="genders" value="0" checked>
@@ -157,6 +189,7 @@
               </tr>
               <tr>
                 <td class="mdl-data-table__cell--non-numeric">年齢層</td>
+                <td class="mdl-data-table__cell--non-numeric" id="ageValue"></td>
                 <td class="mdl-data-table__cell--non-numeric">
                   <div class="mdl-textfield mdl-js-textfield mdl-select">
                     <select class="mdl-textfield__input" id="age">
@@ -172,6 +205,7 @@
               </tr>
               <tr>
                 <td class="mdl-data-table__cell--non-numeric">エリア</td>
+                <td class="mdl-data-table__cell--non-numeric" id="areaValue"></td>
                 <td class="mdl-data-table__cell--non-numeric">
                   <div class="mdl-textfield mdl-js-textfield mdl-select">
                     <select class="mdl-textfield__input" id="area">
@@ -192,20 +226,87 @@
               </tr>
               <tr>
                 <td class="mdl-data-table__cell--non-numeric">自己紹介</td>
+                <td class="mdl-data-table__cell--non-numeric" id="introductionValue"></td>
                 <td class="mdl-data-table__cell--non-numeric">
                   <div class="mdl-textfield mdl-js-textfield">
-                    <textarea class="mdl-textfield__input" type="text" rows= "3" id="introduction" ></textarea>
+                    <textarea class="mdl-textfield__input" type="text" rows= "1" id="introduction" ></textarea>
                     <label class="mdl-textfield__label" for="introduction">Text lines...</label>
                   </div>
                 </td>
               </tr>
-            </table><br>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">アカウント状態</td>
+                <td class="mdl-data-table__cell--non-numeric" id="stateValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">※変更できません</td>
+              </tr>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">アクセス権限</td>
+                <td class="mdl-data-table__cell--non-numeric" id="accessRightsValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">※変更できません</td>
+              </tr>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">認証方法</td>
+                <td class="mdl-data-table__cell--non-numeric" id="authTypeValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">※変更できません</td>
+              </tr>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">端末の種類</td>
+                <td class="mdl-data-table__cell--non-numeric" id="deviceTypeValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">※変更できません</td>
+              </tr>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">投稿した質問リスト</td>
+                <td class="mdl-data-table__cell--non-numeric" id="questionsValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">※変更できません</td>
+              </tr>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">回答へのリプライリスト</td>
+                <td class="mdl-data-table__cell--non-numeric" id="repliesValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">※変更できません</td>
+              </tr>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">質問への回答リスト</td>
+                <td class="mdl-data-table__cell--non-numeric" id="answersValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">※変更できません</td>
+              </tr>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">通報リスト</td>
+                <td class="mdl-data-table__cell--non-numeric" id="reportsValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">※変更できません</td>
+              </tr>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">最終ログイン</td>
+                <td class="mdl-data-table__cell--non-numeric" id="lastLoginValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">※変更できません</td>
+              </tr>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">登録日</td>
+                <td class="mdl-data-table__cell--non-numeric" id="createdAtValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">※変更できません</td>
+              </tr>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">更新日</td>
+                <td class="mdl-data-table__cell--non-numeric" id="updatedAtValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">※変更できません</td>
+              </tr>
+              </tbody>
+            </table><br><br>
+            ※変更しない値は、現在の値と同じ設定にしておいてください<br><br>
             <button id="submit" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-              登録
-            </button><br><br><br>
+              更新
+            </button><br><br>
           </form>
         </center>
       </div>
+      <div class="mdl-cell mdl-cell--2-col">
+        <button id="freeze" type="button" width="100" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+          凍結
+        </button>
+        <button id="delete" type="button" width="100" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+          削除
+        </button>
+      </div>
+
     </div>
   </main>
 
@@ -223,6 +324,6 @@
 
 <script src="../scripts/utilities.js"></script>
 <script src="../scripts/auth.js"></script>
-<script src="../scripts/userregist.js"></script>
+<script src="../scripts/userdetail.js"></script>
 </body>
 </html>

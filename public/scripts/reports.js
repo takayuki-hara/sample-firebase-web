@@ -15,8 +15,8 @@
  */
 'use strict';
 
-// Initializes CommentList.
-function CommentList() {
+// Initializes ReportList.
+function ReportList() {
 
     // Shortcuts to DOM Elements.
     this.customForm = document.getElementById('custom-form');
@@ -25,7 +25,7 @@ function CommentList() {
     this.detailButtons = document.getElementsByName('detail');
 
     // Events.
-    this.customForm.addEventListener('click', this.moveDetail.bind(this));
+    this.customForm.addEventListener('click', this.changeState.bind(this));
     this.beforeButton.addEventListener('click', this.moveBefore.bind(this));
     this.nextButton.addEventListener('click', this.moveNext.bind(this));
 
@@ -38,38 +38,44 @@ function CommentList() {
 }
 
 // Sets up shortcuts to Firebase features and initiate firebase auth.
-CommentList.prototype.initFirebase = function() {
+ReportList.prototype.initFirebase = function() {
     // Shortcuts to Firebase SDK features.
     this.auth = firebase.auth();
     this.database = firebase.database();
     this.storage = firebase.storage();
 };
 
-CommentList.prototype.moveDetail = function(e) {
-    e.preventDefault();
-    if (this.selectedCommentId) {
-        location.href = "../views/commentdetail.html?cid=" + this.selectedCommentId;
+ReportList.prototype.changeState = function(state) {
+    if (!this.selectedReportId) {
+        return;
     }
+    var ref = this.database.ref('/v1/report/' + this.selectedReportId);
+    ref.update({
+        _updatedAt: getNowUnixtime(),
+        state: this.toState
+    });
+    window.alert('通報の状態を更新しました！');
+    window.location.reload();
 };
 
-CommentList.prototype.moveBefore = function(e) {
+ReportList.prototype.moveBefore = function(e) {
     e.preventDefault();
-    location.href = "../views/comments.html?endAt=" + this.firstCreatedAt;
+    location.href = "../views/reports.html?endAt=" + this.firstCreatedAt;
 };
 
-CommentList.prototype.moveNext = function(e) {
+ReportList.prototype.moveNext = function(e) {
     e.preventDefault();
-    location.href = "../views/comments.html?startAt=" + this.lastCreatedAt;
+    location.href = "../views/reports.html?startAt=" + this.lastCreatedAt;
 };
 
-CommentList.prototype.initialize = function() {
+ReportList.prototype.initialize = function() {
     this.parameters = getUrlParameters();
     if (this.parameters) {
         this.setIndex();
     }
 };
 
-CommentList.prototype.setButtons = function() {
+ReportList.prototype.setButtons = function() {
     if (this.startAt < 0) {
         this.beforeButton.removeAttribute('disabled');
         if (!this.hasNext) {
@@ -86,7 +92,7 @@ CommentList.prototype.setButtons = function() {
     }
 };
 
-CommentList.prototype.setIndex = function() {
+ReportList.prototype.setIndex = function() {
     if (this.parameters == null) {
         return;
     }
@@ -97,9 +103,9 @@ CommentList.prototype.setIndex = function() {
     }
 };
 
-CommentList.prototype.fetch = function() {
+ReportList.prototype.fetch = function() {
     var fetchNum = 21;
-    var ref = this.database.ref('/v1/comment/');
+    var ref = this.database.ref('/v1/report/');
     var query = ref.orderByChild("_createdAtReverse").limitToFirst(fetchNum);
 
     if (this.startAt < 0) {
@@ -119,14 +125,14 @@ CommentList.prototype.fetch = function() {
                 this.hasNext = true;
                 return;
             }
-            this.display(data.key, val.userId, val.questionId, val.commentId, val.state, val.category, val.body);
+            this.display(data.key, val.userId, val.questionId, val.commentId, val.state, val.category, val.target, val.body);
             ctr++;
         }.bind(this));
         this.setButtons();
     }.bind(this));
 };
 
-CommentList.prototype.display = function(key, userId, questionId, commentId, state, category, body) {
+ReportList.prototype.display = function(key, userId, questionId, commentId, state, category, target, body) {
     var template =
     '<div class="mdl-shadow--2dp mdl-cell mdl-cell--12-col">' +
     '</div>';
@@ -140,30 +146,54 @@ CommentList.prototype.display = function(key, userId, questionId, commentId, sta
         this.customForm.appendChild(div);
     }
 
-    var button = document.createElement("button");
-    button.setAttribute("class", "detail mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect");
-    button.setAttribute("onclick", "setValue('" + key + "')");
-    button.setAttribute("name", "detail");
-    button.setAttribute("type", "button");
-    button.innerHTML = "Detail";
-    div.appendChild(button);
+    if (state != 2) {
+        var button2 = document.createElement("button");
+        button2.setAttribute("class", "detail mdl-button mdl-js-button mdl-button--colored mdl-js-ripple-effect");
+        button2.setAttribute("onclick", "setValue('" + key + "', 2)");
+        button2.setAttribute("name", "detail");
+        button2.setAttribute("type", "button");
+        button2.innerHTML = "保留にする";
+        div.appendChild(button2);
+    }
+
+    if (state != 1) {
+        var button = document.createElement("button");
+        button.setAttribute("class", "detail mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect");
+        button.setAttribute("onclick", "setValue('" + key + "', 1)");
+        button.setAttribute("name", "detail");
+        button.setAttribute("type", "button");
+        button.innerHTML = "処理済みにする";
+        div.appendChild(button);
+    }
+
+    if (state != 0) {
+        var button = document.createElement("button");
+        button.setAttribute("class", "detail mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect");
+        button.setAttribute("onclick", "setValue('" + key + "', 0)");
+        button.setAttribute("name", "detail");
+        button.setAttribute("type", "button");
+        button.innerHTML = "未処理にする";
+        div.appendChild(button);
+    }
 
     var text = document.createElement("span");
-    text.innerHTML = "【投稿者】" + userIdStringToLinkHtml(userId) + "<br>" +
+    text.innerHTML = "【通報者】" + userIdStringToLinkHtml(userId) + "<br>" +
                      "【質問ID】" + questionIdStringToLinkHtml(questionId) + "<br>" +
                      "【コメントID】" + commentIdStringToLinkHtml(commentId) + "<br>" +
-                     "【本文】" + body + "<br>" +
-                     "<br><font color='#7f7f7f'>State：" + getCommentStatusString(state) + "／種別：" + getCommentCategoryString(category) + "</font>";
+                     "【本文】" + escapeHtml(escapeHtml(body)) + "<br>" +
+                     "<br><font color='#7f7f7f'>State：" + getReportStatusString(state) + "／対象：" + getReportTargetString(target) + "／通報理由：" + getReportCategoryString(category) + "</font>";
     div.appendChild(text);
+
 };
 
-// どのコメントを選択したのかを保持しておくための処理
-function setValue(val)
+// リストのタップ時の処理
+function setValue(val, state)
 {
-    window.CommentList.selectedCommentId = val;
+    window.ReportList.selectedReportId = val;
+    window.ReportList.toState = state;
 }
 
 window.onload = function() {
     window.authenticater = new Authenticator();
-    window.CommentList = new CommentList();
+    window.ReportList = new ReportList();
 };
