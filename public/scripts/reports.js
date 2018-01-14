@@ -46,6 +46,9 @@ ReportList.prototype.initFirebase = function() {
 };
 
 ReportList.prototype.changeState = function(state) {
+    if (!this.selectedReportId) {
+        return;
+    }
     var ref = this.database.ref('/v1/report/' + this.selectedReportId);
     ref.update({
         _updatedAt: getNowUnixtime(),
