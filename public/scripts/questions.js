@@ -119,9 +119,7 @@ QuestionList.prototype.fetch = function() {
                 this.hasNext = true;
                 return;
             }
-            this.fetchUser(val.userId).then(function(user) {
-                this.display(data.key, user.name, user.imageUrl, val.title, val.state, val.limit);
-            }.bind(this));
+            this.display(data.key, val.userId, val.title, val.state, val.limit);
             ctr++;
         }.bind(this));
         this.setButtons();
@@ -134,7 +132,7 @@ QuestionList.prototype.fetchUser = function(userId) {
     });
 };
 
-QuestionList.prototype.display = function(key, name, imageUrl, title, state, limit) {
+QuestionList.prototype.display = function(key, userId, title, state, limit) {
     var template =
     '<div class="mdl-shadow--2dp mdl-cell mdl-cell--12-col">' +
     '</div>';
@@ -148,27 +146,28 @@ QuestionList.prototype.display = function(key, name, imageUrl, title, state, lim
         this.customForm.appendChild(div);
     }
 
-    var url = "/images/profile_placeholder.png";
-    if (imageUrl) {
-        url = imageUrl;
-    }
-    var image = document.createElement('img');
-    image.setAttribute("class", "profile");
-    this.setImageUrl(url, image);
-    div.appendChild(image);
+    this.fetchUser(userId).then(function(user) {
+        var url = "/images/profile_placeholder.png";
+        if (user.imageUrl) {
+            url = user.imageUrl;
+        }
+        var image = document.createElement('img');
+        image.setAttribute("class", "profile");
+        this.setImageUrl(url, image);
+        div.appendChild(image);
 
-    var button = document.createElement("button");
-    button.setAttribute("class", "detail mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect");
-    button.setAttribute("onclick", "setValue('" + key + "')");
-    button.setAttribute("name", "detail");
-    button.setAttribute("type", "button");
-    button.innerHTML = "Detail";
-    div.appendChild(button);
+        var button = document.createElement("button");
+        button.setAttribute("class", "detail mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect");
+        button.setAttribute("onclick", "setValue('" + key + "')");
+        button.setAttribute("name", "detail");
+        button.setAttribute("type", "button");
+        button.innerHTML = "Detail";
+        div.appendChild(button);
 
-    var text = document.createElement("span");
-    text.innerHTML = "【" + escapeHtml(escapeHtml(name)) + "】 " + escapeHtml(escapeHtml(title)) + "<br><font color='#7f7f7f'>State：" + getQuestionStatusString(state) + "／期限：" + unixtimeToString(limit) + "</font>";
-    div.appendChild(text);
-
+        var text = document.createElement("span");
+        text.innerHTML = "【" + escapeHtml(escapeHtml(user.name)) + "】 " + escapeHtml(escapeHtml(title)) + "<br><font color='#7f7f7f'>State：" + getQuestionStatusString(state) + "／期限：" + unixtimeToString(limit) + "</font>";
+        div.appendChild(text);
+    }.bind(this));
 };
 
 // Sets the URL of the given img element with the URL of the image stored in Firebase Storage.
