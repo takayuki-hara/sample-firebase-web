@@ -150,7 +150,7 @@ UserList.prototype.display = function(key, name, pos, gender, age, area, imageUr
     div.appendChild(image);
 
     var text = document.createElement("span");
-    text.innerHTML = "【" + name + "】 Pos:" + getPositionString(pos) + "／Gender:" + getGenderString(gender) + "／Age:" + getAgeString(age) + "／Area:" + getAreaString(area);
+    text.innerHTML = "【" + escapeHtml(escapeHtml(name)) + "】 Pos:" + getPositionString(pos) + "／Gender:" + getGenderString(gender) + "／Age:" + getAgeString(age) + "／Area:" + getAreaString(area);
     div.appendChild(text);
 
     var button = document.createElement("button");

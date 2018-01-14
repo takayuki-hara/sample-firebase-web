@@ -107,8 +107,8 @@ QuestionDetail.prototype.fetchData = function() {
 
     this.ref.once('value').then(function(snapshot) {
         var val = snapshot.val();
-        this.qtitleValue.textContent = val.title;
-        this.qbodyValue.textContent = val.body;
+        this.qtitleValue.textContent = escapeHtml(val.title);
+        this.qbodyValue.textContent = escapeHtml(val.body);
         this.categoryValue.innerText = categoryArrayToString(val.categories);
         this.periodValue.textContent = unixtimeToString(val.limit);
         this.areaValue.textContent = getAreaString(val.area);

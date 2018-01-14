@@ -104,6 +104,18 @@ function associativeArrayToString(array) {
     return ret;
 }
 
+// HTML出力時のエスケープ処理
+function escapeHtml(text) {
+  var map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+
+  return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
 
 /**
  * システム固有の共通関数

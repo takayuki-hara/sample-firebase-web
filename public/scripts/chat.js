@@ -68,8 +68,8 @@ FriendlyChat.prototype.loadMessages = function() {
         var val = data.val();
         this.displayMessage(data.key, val.name, val.text, val.photoUrl, val.imageUrl);
     }.bind(this);
-    this.messagesRef.limitToLast(100).on('child_added', setMessage);
-    this.messagesRef.limitToLast(100).on('child_changed', setMessage);
+    this.messagesRef.limitToLast(200).on('child_added', setMessage);
+    this.messagesRef.limitToLast(200).on('child_changed', setMessage);
 };
 
 // Saves a new message on the Firebase DB.
@@ -179,7 +179,7 @@ FriendlyChat.prototype.displayMessage = function(key, name, text, picUrl, imageU
     div.querySelector('.name').textContent = name;
     var messageElement = div.querySelector('.message');
     if (text) { // If the message is text.
-        messageElement.textContent = text;
+        messageElement.textContent = escapeHtml(text);
         // Replace all line breaks by <br>.
         messageElement.innerHTML = messageElement.innerHTML.replace(/\n/g, '<br>');
     } else if (imageUri) { // If the message is an image.

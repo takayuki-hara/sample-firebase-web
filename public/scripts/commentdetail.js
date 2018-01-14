@@ -95,7 +95,7 @@ CommentDetail.prototype.fetchData = function() {
 
     this.ref.once('value').then(function(snapshot) {
         var val = snapshot.val();
-        this.cbodyValue.textContent = val.body;
+        this.cbodyValue.textContent = escapeHtml(val.body);
 
         this.userIdValue.innerHTML = userIdStringToLinkHtml(val.userId);
         this.questionIdValue.innerHTML = questionIdStringToLinkHtml(val.questionId);
