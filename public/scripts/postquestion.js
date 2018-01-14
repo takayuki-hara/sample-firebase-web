@@ -88,7 +88,7 @@ PostQuestion.prototype.updateUserData = function(qid) {
 };
 
 PostQuestion.prototype.moveDetail = function(qid) {
-    location.href = "../views/questionDetail.html?qid=" + qid;
+    location.href = "../views/questiondetail.html?qid=" + qid;
 };
 
 window.onload = function() {
