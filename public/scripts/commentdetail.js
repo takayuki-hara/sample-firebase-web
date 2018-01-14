@@ -111,6 +111,7 @@ CommentDetail.prototype.fetchData = function() {
         this.stateValue.value = val.state;
         this.userIdValue.value = val.userId;
         this.questionIdValue.value = val.questionId;
+        this.categoryValue.value = val.category;
         this.setButtons();
     }.bind(this)).catch(function(error) {
         console.error('Error writing fetch comment to Firebase Database', error);
@@ -218,6 +219,7 @@ CommentDetail.prototype.report = function(e) {
     var unixTimestamp = getNowUnixtime();
     var currentUser = this.auth.currentUser;
     var reportRef = this.database.ref('v1/report/');
+    var target = (this.categoryValue.value == 0) ? 1 : 2;
     reportRef.push({
         _createdAt: unixTimestamp,
         _createdAtReverse: -unixTimestamp,
@@ -227,7 +229,7 @@ CommentDetail.prototype.report = function(e) {
         commentId: this.cid,
         state: 0,
         category: 0,
-        target: 1,
+        target: target,
         body: report,
     }).then(function(data) {
         // 質問・ユーザーをまとめて更新する
