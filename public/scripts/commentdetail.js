@@ -268,6 +268,14 @@ CommentDetail.prototype.deleteData = function(e) {
 
     if (window.confirm('コメントを削除します。よろしいですね？？\n※この作業は戻せません')) {
         this.ref.remove();
+
+        // 質問情報・ユーザー情報から質問へのリンクも削除する
+        var updates = {};
+        updates['/v1/question/' + this.questionIdValue.value + '/comments/' + this.cid] = null;
+        updates['/v1/user/' + this.userIdValue.value + '/answers/' + this.cid] = null;
+        updates['/v1/user/' + this.userIdValue.value + '/replies/' + this.cid] = null;
+        this.database.ref().update(updates);
+
         window.alert('コメント削除完了しました！');
         location.href = "../views/comments.html";
     };

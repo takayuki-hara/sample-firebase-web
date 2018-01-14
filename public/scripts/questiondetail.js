@@ -300,11 +300,17 @@ QuestionDetail.prototype.deleteData = function(e) {
 
     if (window.confirm('質問を削除します。よろしいですね？？\n※この作業は戻せません')) {
         this.ref.remove();
+
+        // ユーザー情報から質問へのリンクも削除する
+        var updates = {};
+        updates['/v1/user/' + this.userIdValue.value + '/questions/' + this.qid] = null;
+        this.database.ref().update(updates);
+
         window.alert('質問削除完了しました！');
         location.href = "../views/questions.html";
     };
 
-    // TODO: 画像、関連コメントの削除
+    // TODO: 画像の削除
 };
 
 QuestionDetail.prototype.saveImage = function(event) {
