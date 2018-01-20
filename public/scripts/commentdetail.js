@@ -32,7 +32,7 @@ function CommentDetail() {
     this.replyButton = document.getElementById('reply');
     this.reportButton = document.getElementById('report');
     this.freezeButton = document.getElementById('freeze');
-    this.deleteButton = document.getElementById('delete');
+//    this.deleteButton = document.getElementById('delete');
 
     this.userIdValue = document.getElementById('userIdValue');
     this.questionIdValue = document.getElementById('questionIdValue');
@@ -48,7 +48,7 @@ function CommentDetail() {
     this.replyButton.addEventListener('click', this.reply.bind(this));
     this.reportButton.addEventListener('click', this.report.bind(this));
     this.freezeButton.addEventListener('click', this.freezeData.bind(this));
-    this.deleteButton.addEventListener('click', this.deleteData.bind(this));
+//    this.deleteButton.addEventListener('click', this.deleteData.bind(this));
 
     // Events for image upload.
     this.uploadImageButton.addEventListener('click', function(e) {
@@ -263,25 +263,25 @@ CommentDetail.prototype.freezeData = function(e) {
     window.location.reload();
 };
 
-CommentDetail.prototype.deleteData = function(e) {
-    e.preventDefault();
-
-    if (window.confirm('コメントを削除します。よろしいですね？？\n※この作業は戻せません')) {
-        this.ref.remove();
-
-        // 質問情報・ユーザー情報から質問へのリンクも削除する
-        var updates = {};
-        updates['/v1/question/' + this.questionIdValue.value + '/comments/' + this.cid] = null;
-        updates['/v1/user/' + this.userIdValue.value + '/answers/' + this.cid] = null;
-        updates['/v1/user/' + this.userIdValue.value + '/replies/' + this.cid] = null;
-        this.database.ref().update(updates);
-
-        window.alert('コメント削除完了しました！');
-        location.href = "../views/comments.html";
-    };
-
-    // TODO: 画像の削除
-};
+//CommentDetail.prototype.deleteData = function(e) {
+//    e.preventDefault();
+//
+//    if (window.confirm('コメントを削除します。よろしいですね？？\n※この作業は戻せません')) {
+//        this.ref.remove();
+//
+//        // 質問情報・ユーザー情報から質問へのリンクも削除する
+//        var updates = {};
+//        updates['/v1/question/' + this.questionIdValue.value + '/comments/' + this.cid] = null;
+//        updates['/v1/user/' + this.userIdValue.value + '/answers/' + this.cid] = null;
+//        updates['/v1/user/' + this.userIdValue.value + '/replies/' + this.cid] = null;
+//        this.database.ref().update(updates);
+//
+//        window.alert('コメント削除完了しました！');
+//        location.href = "../views/comments.html";
+//    };
+//
+//    // TODO: 画像の削除
+//};
 
 CommentDetail.prototype.saveImage = function(event) {
     event.preventDefault();

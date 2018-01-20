@@ -178,8 +178,8 @@ function languageArrayToString(array) {
     }
 
     var ret = "";
-    for (var item in array) {
-        ret += getLanguageString(item) + '\n';
+    for (var index in array) {
+        ret += getLanguageString(array[index]) + '\n';
     }
     return ret;
 }
@@ -191,8 +191,8 @@ function categoryArrayToString(array) {
     }
 
     var ret = "";
-    for (var item in array) {
-        ret += getQuestionCategoryString(item) + '\n';
+    for (var index in array) {
+        ret += getQuestionCategoryString(array[index]) + '\n';
     }
     return ret;
 }

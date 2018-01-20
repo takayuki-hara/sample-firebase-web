@@ -41,7 +41,7 @@ function QuestionDetail() {
     this.answerButton = document.getElementById('answer');
     this.reportButton = document.getElementById('report');
     this.freezeButton = document.getElementById('freeze');
-    this.deleteButton = document.getElementById('delete');
+//    this.deleteButton = document.getElementById('delete');
 
     this.stateValue = document.getElementById('stateValue');
     this.userIdValue = document.getElementById('userIdValue');
@@ -56,7 +56,7 @@ function QuestionDetail() {
     this.answerButton.addEventListener('click', this.answer.bind(this));
     this.reportButton.addEventListener('click', this.report.bind(this));
     this.freezeButton.addEventListener('click', this.freezeData.bind(this));
-    this.deleteButton.addEventListener('click', this.deleteData.bind(this));
+//    this.deleteButton.addEventListener('click', this.deleteData.bind(this));
 
     // Events for image upload.
     this.uploadImageButton.addEventListener('click', function(e) {
@@ -168,7 +168,7 @@ QuestionDetail.prototype.saveData = function(e) {
         title: this.qtitle.value,
         body: this.qbody.value,
         categories: [getQuestionCategoryCode(this.category.value)],
-        limit: unixTimestamp + getPeriodSecond(this.period),
+        limit: unixTimestamp + getPeriodSecond(this.period.value),
         area: getAreaCode(this.area.value),
     });
     window.alert('質問情報を更新しました！');
@@ -295,23 +295,23 @@ QuestionDetail.prototype.freezeData = function(e) {
     window.location.reload();
 };
 
-QuestionDetail.prototype.deleteData = function(e) {
-    e.preventDefault();
-
-    if (window.confirm('質問を削除します。よろしいですね？？\n※この作業は戻せません')) {
-        this.ref.remove();
-
-        // ユーザー情報から質問へのリンクも削除する
-        var updates = {};
-        updates['/v1/user/' + this.userIdValue.value + '/questions/' + this.qid] = null;
-        this.database.ref().update(updates);
-
-        window.alert('質問削除完了しました！');
-        location.href = "../views/questions.html";
-    };
-
-    // TODO: 画像の削除
-};
+//QuestionDetail.prototype.deleteData = function(e) {
+//    e.preventDefault();
+//
+//    if (window.confirm('質問を削除します。よろしいですね？？\n※この作業は戻せません')) {
+//        this.ref.remove();
+//
+//        // ユーザー情報から質問へのリンクも削除する
+//        var updates = {};
+//        updates['/v1/user/' + this.userIdValue.value + '/questions/' + this.qid] = null;
+//        this.database.ref().update(updates);
+//
+//        window.alert('質問削除完了しました！');
+//        location.href = "../views/questions.html";
+//    };
+//
+//    // TODO: 画像の削除
+//};
 
 QuestionDetail.prototype.saveImage = function(event) {
     event.preventDefault();

@@ -42,7 +42,8 @@ function UserDetail() {
 
     this.submitButton = document.getElementById('submit');
     this.freezeButton = document.getElementById('freeze');
-    this.deleteButton = document.getElementById('delete');
+    this.leaveButton = document.getElementById('leave');
+//    this.deleteButton = document.getElementById('delete');
 
     this.stateValue = document.getElementById('stateValue');
     this.accessRightsValue = document.getElementById('accessRightsValue');
@@ -59,7 +60,8 @@ function UserDetail() {
     // Button Events.
     this.submitButton.addEventListener('click', this.saveData.bind(this));
     this.freezeButton.addEventListener('click', this.freezeData.bind(this));
-    this.deleteButton.addEventListener('click', this.deleteData.bind(this));
+    this.leaveButton.addEventListener('click', this.leaveData.bind(this));
+//    this.deleteButton.addEventListener('click', this.deleteData.bind(this));
 
     // Events for image upload.
     this.uploadImageButton.addEventListener('click', function(e) {
@@ -94,6 +96,9 @@ UserDetail.prototype.initialize = function() {
 UserDetail.prototype.setButtons = function() {
     if (this.stateValue.value == 2) {
         this.freezeButton.textContent = '復帰';
+    } else if (this.stateValue.value == 3) {
+        this.freezeButton.setAttribute('disabled', 'true');
+        this.leaveButton.setAttribute('disabled', 'true');
     }
 };
 
@@ -197,15 +202,28 @@ UserDetail.prototype.freezeData = function(e) {
     }
 };
 
-UserDetail.prototype.deleteData = function(e) {
+UserDetail.prototype.leaveData = function(e) {
     e.preventDefault();
 
-    if (window.confirm('ユーザーを削除します。よろしいですね？？\n※この作業は戻せません')) {
-        this.ref.remove();
-        window.alert('ユーザー削除完了しました！');
-        location.href = "../views/users.html";
-    };
+    if (window.confirm('ユーザーを退会状態にします。よろしいですね？？\n※この作業はアプリからは戻せません')) {
+        this.ref.update({
+            _updatedAt: getNowUnixtime(),
+            state: 3
+        });
+        window.alert('ユーザーを退会状態にしました！');
+        window.location.reload();
+    }
 };
+
+//UserDetail.prototype.deleteData = function(e) {
+//    e.preventDefault();
+//
+//    if (window.confirm('ユーザーを削除します。よろしいですね？？\n※この作業は戻せません')) {
+//        this.ref.remove();
+//        window.alert('ユーザー削除完了しました！');
+//        location.href = "../views/users.html";
+//    };
+//};
 
 UserDetail.prototype.saveImage = function(event) {
     event.preventDefault();

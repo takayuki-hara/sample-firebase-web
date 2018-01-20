@@ -17,7 +17,7 @@ service firebase.storage {
 
     // Only an individual user can write to "their" files
     match /user/{userId}/{allPaths=**} {
-      allow write: if request.auth.uid == userId;
+      allow write: if request.auth != null;
     }
   }
 }
