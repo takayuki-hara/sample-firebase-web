@@ -179,7 +179,7 @@ function languageArrayToString(array) {
 
     var ret = "";
     for (var index in array) {
-        ret += getLanguageString(array[item]) + '\n';
+        ret += getLanguageString(array[index]) + '\n';
     }
     return ret;
 }
