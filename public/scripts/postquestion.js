@@ -66,7 +66,7 @@ PostQuestion.prototype.saveQuestion = function(e) {
         title: this.qtitle.value,
         body: this.qbody.value,
         categories: [getQuestionCategoryCode(this.category.value)],
-        limit: unixTimestamp + getPeriodSecond(this.period),
+        limit: unixTimestamp + getPeriodSecond(this.period.value),
         area: getAreaCode(this.area.value),
         imageUrl: '',
     }).then(function(data) {

@@ -168,7 +168,7 @@ QuestionDetail.prototype.saveData = function(e) {
         title: this.qtitle.value,
         body: this.qbody.value,
         categories: [getQuestionCategoryCode(this.category.value)],
-        limit: unixTimestamp + getPeriodSecond(this.period),
+        limit: unixTimestamp + getPeriodSecond(this.period.value),
         area: getAreaCode(this.area.value),
     });
     window.alert('質問情報を更新しました！');
