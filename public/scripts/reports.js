@@ -49,7 +49,7 @@ ReportList.prototype.changeState = function(state) {
     if (!this.selectedReportId) {
         return;
     }
-    var ref = this.database.ref('/v1/report/' + this.selectedReportId);
+    var ref = this.database.ref(dbRoot + '/report/' + this.selectedReportId);
     ref.update({
         _updatedAt: getNowUnixtime(),
         state: this.toState
@@ -105,7 +105,7 @@ ReportList.prototype.setIndex = function() {
 
 ReportList.prototype.fetch = function() {
     var fetchNum = 21;
-    var ref = this.database.ref('/v1/report/');
+    var ref = this.database.ref(dbRoot + '/report/');
     var query = ref.orderByChild("_createdAtReverse").limitToFirst(fetchNum);
 
     if (this.startAt < 0) {

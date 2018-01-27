@@ -46,6 +46,7 @@ function QuestionDetail() {
     this.stateValue = document.getElementById('stateValue');
     this.userIdValue = document.getElementById('userIdValue');
     this.commentsValue = document.getElementById('commentsValue');
+    this.respondentsValue = document.getElementById('respondentsValue');
     this.reportsValue = document.getElementById('reportsValue');
     this.createdAtValue = document.getElementById('createdAtValue');
     this.updatedAtValue = document.getElementById('updatedAtValue');
@@ -103,7 +104,7 @@ QuestionDetail.prototype.setButtons = function() {
 };
 
 QuestionDetail.prototype.fetchData = function() {
-    this.ref = this.database.ref('/v1/question/' + this.qid);
+    this.ref = this.database.ref(dbRoot + '/question/' + this.qid);
 
     this.ref.once('value').then(function(snapshot) {
         var val = snapshot.val();
@@ -116,6 +117,7 @@ QuestionDetail.prototype.fetchData = function() {
         this.stateValue.textContent = getQuestionStatusString(val.state);
         this.userIdValue.innerHTML = userIdStringToLinkHtml(val.userId);
         this.commentsValue.innerHTML = commentArrayToLinkHtml(val.comments);
+        this.respondentsValue.innerHTML = userArrayToLinkHtml(val.respondents);
         this.reportsValue.innerText = associativeArrayToString(val.reports);
         this.createdAtValue.textContent = unixtimeToString(val._createdAt);
         this.updatedAtValue.textContent = unixtimeToString(val._updatedAt);
@@ -208,7 +210,7 @@ QuestionDetail.prototype.answer = function(e) {
     // コメントを投稿する
     var unixTimestamp = getNowUnixtime();
     var currentUser = this.auth.currentUser;
-    var commentRef = this.database.ref('v1/comment/');
+    var commentRef = this.database.ref(dbRoot + '/comment/');
     commentRef.push({
         _createdAt: unixTimestamp,
         _createdAtReverse: -unixTimestamp,
@@ -222,8 +224,10 @@ QuestionDetail.prototype.answer = function(e) {
     }).then(function(data) {
         // 質問・ユーザーをまとめて更新する
         var updates = {};
-        updates['/v1/question/' + this.qid + '/comments/' + data.key] = true;
-        updates['/v1/user/' + currentUser.uid + '/answers/' + data.key] = true;
+        updates[dbRoot + '/question/' + this.qid + '/comments/' + data.key] = true;
+        updates[dbRoot + '/user/' + currentUser.uid + '/answers/' + data.key] = true;
+        updates[dbRoot + '/question/' + this.qid + '/respondents/' + currentUser.uid] = true;
+        updates[dbRoot + '/user/' + currentUser.uid + '/questions/' + this.qid] = true;
         this.database.ref().update(updates);
         window.alert('回答を投稿しました！');
         window.location.reload();
@@ -252,7 +256,7 @@ QuestionDetail.prototype.report = function(e) {
     // 通報を投稿する
     var unixTimestamp = getNowUnixtime();
     var currentUser = this.auth.currentUser;
-    var reportRef = this.database.ref('v1/report/');
+    var reportRef = this.database.ref(dbRoot + '/report/');
     reportRef.push({
         _createdAt: unixTimestamp,
         _createdAtReverse: -unixTimestamp,
@@ -266,8 +270,8 @@ QuestionDetail.prototype.report = function(e) {
     }).then(function(data) {
         // 質問・ユーザーをまとめて更新する
         var updates = {};
-        updates['/v1/question/' + this.qid + '/reports/' + data.key] = true;
-        updates['/v1/user/' + currentUser.uid + '/reports/' + data.key] = true;
+        updates[dbRoot + '/question/' + this.qid + '/reports/' + data.key] = true;
+        updates[dbRoot + '/user/' + currentUser.uid + '/reports/' + data.key] = true;
         this.database.ref().update(updates);
         window.alert('通報しました！');
         window.location.reload();
@@ -303,7 +307,7 @@ QuestionDetail.prototype.freezeData = function(e) {
 //
 //        // ユーザー情報から質問へのリンクも削除する
 //        var updates = {};
-//        updates['/v1/user/' + this.userIdValue.value + '/questions/' + this.qid] = null;
+//        updates[dbRoot + '/user/' + this.userIdValue.value + '/questions/' + this.qid] = null;
 //        this.database.ref().update(updates);
 //
 //        window.alert('質問削除完了しました！');

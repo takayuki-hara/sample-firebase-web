@@ -16,6 +16,7 @@
 
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const dbRoot = "v1";
 admin.initializeApp(functions.config().firebase);
 
 
@@ -63,18 +64,25 @@ exports.sendNewMessageNotifications = functions.database.ref('/admin/messages/{m
 });
 
 // Sends a notifications to all users when a new comment is posted.
-exports.sendNewCommentNotifications = functions.database.ref('/v1/comment/{commentId}').onCreate(event => {
+exports.sendNewCommentNotifications = functions.database.ref(dbRoot + '/comment/{commentId}').onCreate(event => {
     const snapshot = event.data;
     const text = snapshot.val().body;
 
-    return admin.database().ref('v1/question/' + snapshot.val().questionId).once('value').then(data => {
-        const question = data.val();
-        if (question.userId == snapshot.val().userId) {
-            sendNotification(text, snapshot.val().userId); // Send to respondents
-        } else {
-            sendNotification(text, question.userId); // Send to questioner
-        }
-    });
+    if (snapshot.val().category == 0) {
+        return admin.database().ref(dbRoot + '/question/' + snapshot.val().questionId).once('value').then(data => {
+            const question = data.val();
+            if (question.userId != snapshot.val().userId) {
+                sendNotification(text, question.userId); // Send to questioner
+            }
+        });
+    } else {
+        return admin.database().ref(dbRoot + '/comment/' + snapshot.val().commentId).once('value').then(data => {
+            const comment = data.val();
+            if (comment.userId != snapshot.val().userId) {
+                sendNotification(text, comment.userId); // Send to respondents
+            }
+        });
+    }
 });
 
 function sendNotification(text, userId) {
@@ -82,17 +90,18 @@ function sendNotification(text, userId) {
     const payload = {
         notification: {
             title: 'New Message',
-            body: text ? (text.length <= 100 ? text : text.substring(0, 97) + '...') : 'There was a new message for you.',
-            click_action: `https://${functions.config().firebase.authDomain}`
+            body: text ? (text.length <= 100 ? text : text.substring(0, 97) + '...') : 'There was a new message for you.'
         }
     };
 
-    return admin.database().ref('v1/user/' + userId).once('value').then(info => {
+    return admin.database().ref(dbRoot + '/user/' + userId).once('value').then(info => {
         const user = info.val();
         const token = user.fcmToken;
         if (!token) {
             return; // no token
         }
+        //console.log(userId);
+        //console.log(token);
         return admin.messaging().sendToDevice(token, payload).then(response => {
             console.log("Successfully sent message:", response);
         }).catch(function(error) {
