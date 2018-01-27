@@ -54,7 +54,7 @@ PostQuestion.prototype.saveQuestion = function(e) {
     }
 
     var currentUser = this.auth.currentUser;
-    var questionRef = this.database.ref('v1/question/');
+    var questionRef = this.database.ref(dbRoot + '/question/');
 
     var unixTimestamp = getNowUnixtime();
     questionRef.push({

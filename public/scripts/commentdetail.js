@@ -91,7 +91,7 @@ CommentDetail.prototype.setButtons = function() {
 };
 
 CommentDetail.prototype.fetchData = function() {
-    this.ref = this.database.ref('/v1/comment/' + this.cid);
+    this.ref = this.database.ref(dbRoot + '/comment/' + this.cid);
 
     this.ref.once('value').then(function(snapshot) {
         var val = snapshot.val();
@@ -173,7 +173,7 @@ CommentDetail.prototype.reply = function(e) {
     // コメントを投稿する
     var unixTimestamp = getNowUnixtime();
     var currentUser = this.auth.currentUser;
-    var commentRef = this.database.ref('v1/comment/');
+    var commentRef = this.database.ref(dbRoot + '/comment/');
     commentRef.push({
         _createdAt: unixTimestamp,
         _createdAtReverse: -unixTimestamp,
@@ -188,8 +188,8 @@ CommentDetail.prototype.reply = function(e) {
     }).then(function(data) {
         // 質問・ユーザーをまとめて更新する
         var updates = {};
-        updates['/v1/question/' + this.questionIdValue.value + '/comments/' + data.key] = true;
-        updates['/v1/user/' + currentUser.uid + '/replies/' + data.key] = true;
+        updates[dbRoot + '/question/' + this.questionIdValue.value + '/comments/' + data.key] = true;
+        updates[dbRoot + '/user/' + currentUser.uid + '/replies/' + data.key] = true;
         this.database.ref().update(updates);
         window.alert('返信を投稿しました！');
         window.location.reload();
@@ -218,7 +218,7 @@ CommentDetail.prototype.report = function(e) {
     // 通報を投稿する
     var unixTimestamp = getNowUnixtime();
     var currentUser = this.auth.currentUser;
-    var reportRef = this.database.ref('v1/report/');
+    var reportRef = this.database.ref(dbRoot + '/report/');
     var target = (this.categoryValue.value == 0) ? 1 : 2;
     reportRef.push({
         _createdAt: unixTimestamp,
@@ -234,8 +234,8 @@ CommentDetail.prototype.report = function(e) {
     }).then(function(data) {
         // 質問・ユーザーをまとめて更新する
         var updates = {};
-        updates['/v1/question/' + this.questionIdValue.value + '/reports/' + data.key] = true;
-        updates['/v1/user/' + currentUser.uid + '/reports/' + data.key] = true;
+        updates[dbRoot + '/comment/' + this.cid + '/reports/' + data.key] = true;
+        updates[dbRoot + '/user/' + currentUser.uid + '/reports/' + data.key] = true;
         this.database.ref().update(updates);
         window.alert('通報しました！');
         window.location.reload();
@@ -271,9 +271,9 @@ CommentDetail.prototype.freezeData = function(e) {
 //
 //        // 質問情報・ユーザー情報から質問へのリンクも削除する
 //        var updates = {};
-//        updates['/v1/question/' + this.questionIdValue.value + '/comments/' + this.cid] = null;
-//        updates['/v1/user/' + this.userIdValue.value + '/answers/' + this.cid] = null;
-//        updates['/v1/user/' + this.userIdValue.value + '/replies/' + this.cid] = null;
+//        updates[dbRoot + '/question/' + this.questionIdValue.value + '/comments/' + this.cid] = null;
+//        updates[dbRoot + '/user/' + this.userIdValue.value + '/answers/' + this.cid] = null;
+//        updates[dbRoot + '/user/' + this.userIdValue.value + '/replies/' + this.cid] = null;
 //        this.database.ref().update(updates);
 //
 //        window.alert('コメント削除完了しました！');

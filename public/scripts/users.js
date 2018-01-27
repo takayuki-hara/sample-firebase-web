@@ -99,7 +99,7 @@ UserList.prototype.setIndex = function() {
 
 UserList.prototype.fetch = function() {
     var fetchNum = 21;
-    var ref = this.database.ref('/v1/user/');
+    var ref = this.database.ref(dbRoot + '/user/');
     var query = ref.orderByChild("_createdAtReverse").limitToFirst(fetchNum);
 
     if (this.startAt < 0) {

@@ -99,7 +99,7 @@ CommentList.prototype.setIndex = function() {
 
 CommentList.prototype.fetch = function() {
     var fetchNum = 21;
-    var ref = this.database.ref('/v1/comment/');
+    var ref = this.database.ref(dbRoot + '/comment/');
     var query = ref.orderByChild("_createdAtReverse").limitToFirst(fetchNum);
 
     if (this.startAt < 0) {

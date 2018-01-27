@@ -103,7 +103,7 @@ UserDetail.prototype.setButtons = function() {
 };
 
 UserDetail.prototype.fetchData = function() {
-    this.ref = this.database.ref('/v1/user/' + this.uid);
+    this.ref = this.database.ref(dbRoot + '/user/' + this.uid);
 
     this.ref.once('value').then(function(snapshot) {
         var val = snapshot.val();

@@ -129,7 +129,7 @@ Authenticator.prototype.checkAdminUser = function() {
 // Check login page.
 Authenticator.prototype.checkUser = function() {
     var currentUser = this.auth.currentUser;
-    return this.database.ref('/v1/user/' + currentUser.uid).once('value').then(function(snapshot) {
+    return this.database.ref(dbRoot + '/user/' + currentUser.uid).once('value').then(function(snapshot) {
         var accessRights = snapshot.val() && snapshot.val().accessRights;
         if (accessRights == null) {
             window.alert('認証できましたがユーザー登録が完了していません。\nユーザー登録を行なってください。');
@@ -151,7 +151,7 @@ Authenticator.prototype.saveMessagingDeviceToken = function() {
             console.log(this.auth.currentUser.uid);
             // Saving the Device Token to the datastore.
             this.database.ref('/admin/fcmTokens').child(currentToken).set(this.auth.currentUser.uid);
-            this.database.ref('/v1/user/' + this.auth.currentUser.uid).child('fcmToken').set(currentToken);
+            this.database.ref(dbRoot + '/user/' + this.auth.currentUser.uid).child('fcmToken').set(currentToken);
         } else {
             // Need to request permissions to show notifications.
             this.requestNotificationsPermissions();

@@ -56,7 +56,7 @@ UserRegister.prototype.saveUser = function(e) {
     }
 
     var currentUser = this.auth.currentUser;
-    var userRef = this.database.ref('v1/user/' + currentUser.uid);
+    var userRef = this.database.ref(dbRoot + '/user/' + currentUser.uid);
 
     var unixTimestamp = getNowUnixtime();
     userRef.set({

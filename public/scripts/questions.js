@@ -99,7 +99,7 @@ QuestionList.prototype.setIndex = function() {
 
 QuestionList.prototype.fetch = function() {
     var fetchNum = 21;
-    var ref = this.database.ref('/v1/question/');
+    var ref = this.database.ref(dbRoot + '/question/');
     var query = ref.orderByChild("_createdAtReverse").limitToFirst(fetchNum);
 
     if (this.startAt < 0) {
@@ -127,7 +127,7 @@ QuestionList.prototype.fetch = function() {
 };
 
 QuestionList.prototype.fetchUser = function(userId) {
-    return this.database.ref('/v1/user/' + userId).once('value').then(function(snapshot) {
+    return this.database.ref(dbRoot + '/user/' + userId).once('value').then(function(snapshot) {
         return snapshot.val();
     });
 };
