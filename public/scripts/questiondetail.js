@@ -46,6 +46,7 @@ function QuestionDetail() {
     this.stateValue = document.getElementById('stateValue');
     this.userIdValue = document.getElementById('userIdValue');
     this.commentsValue = document.getElementById('commentsValue');
+    this.respondentsValue = document.getElementById('respondentsValue');
     this.reportsValue = document.getElementById('reportsValue');
     this.createdAtValue = document.getElementById('createdAtValue');
     this.updatedAtValue = document.getElementById('updatedAtValue');
@@ -116,6 +117,7 @@ QuestionDetail.prototype.fetchData = function() {
         this.stateValue.textContent = getQuestionStatusString(val.state);
         this.userIdValue.innerHTML = userIdStringToLinkHtml(val.userId);
         this.commentsValue.innerHTML = commentArrayToLinkHtml(val.comments);
+        this.respondentsValue.innerHTML = userArrayToLinkHtml(val.respondents);
         this.reportsValue.innerText = associativeArrayToString(val.reports);
         this.createdAtValue.textContent = unixtimeToString(val._createdAt);
         this.updatedAtValue.textContent = unixtimeToString(val._updatedAt);
@@ -224,6 +226,8 @@ QuestionDetail.prototype.answer = function(e) {
         var updates = {};
         updates[dbRoot + '/question/' + this.qid + '/comments/' + data.key] = true;
         updates[dbRoot + '/user/' + currentUser.uid + '/answers/' + data.key] = true;
+        updates[dbRoot + '/question/' + this.qid + '/respondents/' + currentUser.uid] = true;
+        updates[dbRoot + '/user/' + currentUser.uid + '/questions/' + this.qid] = true;
         this.database.ref().update(updates);
         window.alert('回答を投稿しました！');
         window.location.reload();

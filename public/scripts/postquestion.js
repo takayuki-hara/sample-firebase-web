@@ -80,10 +80,7 @@ PostQuestion.prototype.saveQuestion = function(e) {
 
 PostQuestion.prototype.updateUserData = function(qid) {
     var currentUser = this.auth.currentUser;
-    var userRef = this.database.ref('v1/user/' + currentUser.uid);
-    userRef.update({
-        _updatedAt: getNowUnixtime()
-    });
+    var userRef = this.database.ref(dbRoot + '/user/' + currentUser.uid);
     userRef.child('questions/').child(qid).set(true);
 };
 

@@ -190,6 +190,8 @@ CommentDetail.prototype.reply = function(e) {
         var updates = {};
         updates[dbRoot + '/question/' + this.questionIdValue.value + '/comments/' + data.key] = true;
         updates[dbRoot + '/user/' + currentUser.uid + '/replies/' + data.key] = true;
+        updates[dbRoot + '/question/' + this.questionIdValue.value + '/respondents/' + currentUser.uid] = true;
+        updates[dbRoot + '/user/' + currentUser.uid + '/questions/' + this.questionIdValue.value] = true;
         this.database.ref().update(updates);
         window.alert('返信を投稿しました！');
         window.location.reload();

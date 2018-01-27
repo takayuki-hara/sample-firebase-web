@@ -163,7 +163,20 @@ function questionArrayToLinkHtml(array) {
     return ret;
 }
 
-// 連想配列に入っているコメントIDリストををリンク文字列にする（複数は改行で分ける）
+// 連想配列に入っているユーザーDリストをリンク文字列にする（複数は改行で分ける）
+function userArrayToLinkHtml(array) {
+    if (!array) {
+        return "";
+    }
+
+    var ret = "";
+    Object.keys(array).forEach(function(key) {
+        ret += ("<a href='../views/userdetail.html?uid=" + key + "' target='_blank'>" + key + "</a><br>");
+    }, array);
+    return ret;
+}
+
+// 連想配列に入っているコメントIDリストをリンク文字列にする（複数は改行で分ける）
 function commentArrayToLinkHtml(array) {
     if (!array) {
         return "";
