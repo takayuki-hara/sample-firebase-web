@@ -150,7 +150,7 @@ function commentIdStringToLinkHtml(value) {
     return ("<a href='../views/commentdetail.html?cid=" + value + "' target='_blank'>" + value + "</a>");
 }
 
-// 連想配列に入っている質問IDリストををリンク文字列にする（複数は改行で分ける）
+// 連想配列に入っている質問IDリストをリンク文字列にする（複数は改行で分ける）
 function questionArrayToLinkHtml(array) {
     if (!array) {
         return "";
@@ -176,7 +176,7 @@ function commentArrayToLinkHtml(array) {
     return ret;
 }
 
-// 配列に入っている言語リストをを文字列にする（複数は改行で分ける）
+// 配列に入っている言語リストを文字列にする（複数は改行で分ける）
 function languageArrayToString(array) {
     if (!array) {
         return "";
@@ -189,7 +189,7 @@ function languageArrayToString(array) {
     return ret;
 }
 
-// 配列に入っている質問カテゴリリストをを文字列にする（複数は改行で分ける）
+// 配列に入っている質問カテゴリリストを文字列にする（複数は改行で分ける）
 function categoryArrayToString(array) {
     if (!array) {
         return "";
@@ -445,10 +445,10 @@ function getPeriodSecond(value) {
         case "2h":      return 7200;
         case "3h":      return 10800;
         case "6h":      return 21600;
-        case "12h":     return 53200;
-        case "24h":     return 106400;
-        case "48h":     return 212800;
-        case "72h":     return 319200;
+        case "12h":     return 43200;
+        case "24h":     return 86400;
+        case "48h":     return 172800;
+        case "72h":     return 259200;
         default:        return 1800;
     }
 }
