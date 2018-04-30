@@ -1,13 +1,12 @@
 {
   "admin" : {
     "managers" : {
-      "DIwwsSEyPOQAhhBJxaUHESu18vU2" : true,
-      "vSbDNBuRL5XeedhsIe9cnlAfK482" : true
+      "__test_user" : true
     },
     "messages" : {
-      "-L1u6YfBtgJOxoxb80UU" : {
-        "name" : "bbb",
-        "text" : "Firebaseのサンプルをほぼそのまま使ってます"
+      "__test_message" : {
+        "name" : "__test_user",
+        "text" : "test"
       }
     }
   },
@@ -22,9 +21,8 @@
         "_createdAt" : 1513159529,
         "_createdAtReverse" : -1513159529,
         "_updatedAt" : 1513159529,
-        "body" : "aaaaaaaaaa",
+        "body" : "test comment",
         "category" : 0,
-        "imageUrl" : "7aYrmkyd60VmNyyW9fnyO9BnH2A3/images/image:63",
         "questionId" : "__test_question",
         "reports" : {
           "__test_report" : true
@@ -32,9 +30,6 @@
         "state" : 0,
         "userId" : "__test_user"
       }
-    },
-    "openquestion" : {
-      "__test_question" : true
     },
     "question" : {
       "__test_question" : {
@@ -47,25 +42,16 @@
         "comments" : {
           "__test_comment" : true
         },
-        "imageUrl" : "7aYrmkyd60VmNyyW9fnyO9BnH2A3/images/image:63",
+        "imageUrl" : "test/test.jpg",
         "limit" : 1513159529,
+        "respondents" : {
+          "__test_user" : true
+        },
         "reports" : {
           "__test_report" : true
         },
         "state" : 0,
         "title" : "test_question",
-        "userId" : "__test_user"
-      },
-      "__test_question_closed" : {
-        "_createdAt" : 1513159529,
-        "_createdAtReverse" : -1513159529,
-        "_updatedAt" : 1513159529,
-        "area" : 1,
-        "body" : "aaaaaaaaaa",
-        "categories" : [ 0 ],
-        "limit" : 1513159529,
-        "state" : 1,
-        "title" : "test_question_closed",
         "userId" : "__test_user"
       }
     },
@@ -79,6 +65,7 @@
         "commentId" : "__test_comment",
         "questionId" : "__test_question",
         "state" : 1,
+        "target" : 1,
         "userId" : "__test_user"
       }
     },
@@ -94,36 +81,20 @@
         },
         "area" : 0,
         "authType" : 0,
-        "block" : {
-          "count" : 0
-        },
-        "deleted" : {
-          "count" : 0
-        },
         "deviceType" : 0,
-        "favorite" : {
-          "count" : 0
-        },
-        "fcmToken" : "aaaaaaaaaa",
+        "fcmToken" : "",
         "gender" : 0,
-        "good" : {
-          "count" : 0
-        },
-        "imageUrl" : "7aYrmkyd60VmNyyW9fnyO9BnH2A3/images/image:63",
+        "imageUrl" : "test/test.jpg",
         "languages" : [ 0, 1 ],
         "lastLogin" : 1513159529,
         "name" : "test_user",
         "position" : 0,
         "profileText" : "よろしくお願いいたします",
         "questions" : {
-          "__test_question" : true,
-          "__test_question_closed" : true
+          "__test_question" : true
         },
         "replies" : {
           "__test_comment" : true
-        },
-        "reported" : {
-          "count" : 0
         },
         "reports" : {
           "__test_report" : true
