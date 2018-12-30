@@ -4,13 +4,13 @@
 FirebaseのWebアプリのサンプル
 
 ## Output Url
-https://qaboard-sample.firebaseapp.com
+https://qaboard-1229.firebaseapp.com
 
 ## Required
 
 - Node.js 6.3.1+
-- nmp 5.6.0+
-- Firebase CLI 3.0+
+- nmp 6.5.0+
+- firebase-tools 6.2.2+
 
 ## Reference
 
@@ -76,12 +76,6 @@ https://qaboard-sample.firebaseapp.com
     ```
     firebase deploy --only functions
     ```
-
-## Memo
-
-今後編集・追加が必要かもしれないファイル
-
-- manifest.webapp
 
 
 [1]:https://firebase.google.com/docs/cli/?hl=ja
