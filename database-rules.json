@@ -29,7 +29,7 @@
       }
     },
 
-    // Service
+    // Test
     "dummy": {
       // Only authorized users can access
       ".read": "auth != null",

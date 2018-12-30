@@ -17,22 +17,20 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const dbRoot = "v1";
-admin.initializeApp(functions.config().firebase);
+admin.initializeApp();
 
 
 
 // Sends a notifications to all users when a new message is posted.
-exports.sendNewMessageNotifications = functions.database.ref('/admin/messages/{messageId}').onCreate(event => {
-    const snapshot = event.data;
-
+exports.sendNewMessageNotifications = functions.database.ref('/admin/messages/{messageId}').onCreate((snap, context) => {
     // Notification details.
-    const text = snapshot.val().text;
+    const text = snap.val().text;
     const payload = {
         notification: {
-            title: `${snapshot.val().name} posted ${text ? 'a message' : 'an image'}`,
+            title: `${snap.val().name} posted ${text ? 'a message' : 'an image'}`,
             body: text ? (text.length <= 100 ? text : text.substring(0, 97) + '...') : '',
-            icon: snapshot.val().photoUrl || '/images/profile_placeholder.png',
-            click_action: `https://${functions.config().firebase.authDomain}`
+            icon: snap.val().photoUrl || '/images/profile_placeholder.png',
+            //click_action: `https://${process.env.FIREBASE_CONFIG}.firebaseapp.com`
         }
     };
 
@@ -64,21 +62,20 @@ exports.sendNewMessageNotifications = functions.database.ref('/admin/messages/{m
 });
 
 // Sends a notifications to all users when a new comment is posted.
-exports.sendNewCommentNotifications = functions.database.ref(dbRoot + '/comment/{commentId}').onCreate(event => {
-    const snapshot = event.data;
-    const text = snapshot.val().body;
+exports.sendNewCommentNotifications = functions.database.ref(dbRoot + '/comment/{commentId}').onCreate((snap, context) => {
+    const text = snap.val().body;
 
-    if (snapshot.val().category == 0) {
-        return admin.database().ref(dbRoot + '/question/' + snapshot.val().questionId).once('value').then(data => {
+    if (snap.val().category == 0) {
+        return admin.database().ref(dbRoot + '/question/' + snap.val().questionId).once('value').then(data => {
             const question = data.val();
-            if (question.userId != snapshot.val().userId) {
+            if (question.userId != snap.val().userId) {
                 sendNotification(text, question.userId); // Send to questioner
             }
         });
     } else {
-        return admin.database().ref(dbRoot + '/comment/' + snapshot.val().commentId).once('value').then(data => {
+        return admin.database().ref(dbRoot + '/comment/' + snap.val().commentId).once('value').then(data => {
             const comment = data.val();
-            if (comment.userId != snapshot.val().userId) {
+            if (comment.userId != snap.val().userId) {
                 sendNotification(text, comment.userId); // Send to respondents
             }
         });

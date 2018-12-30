@@ -1,10 +1,10 @@
 {
-  "name": "qaboard-sample",
+  "name": "qaboard-1229",
   "description": "Sample of QABoard",
   "dependencies": {
-    "@google-cloud/storage": "^1.4.0",
+    "@google-cloud/storage": "^2.3.4",
     "child-process-promise": "^2.2.1",
-    "firebase-admin": "^4.1.1",
-    "firebase-functions": "^0.5.1"
+    "firebase-admin": "6.4.0",
+    "firebase-functions": "^2.1.0"
   }
 }
