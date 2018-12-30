@@ -3,11 +3,14 @@
 ## Overview
 FirebaseのWebアプリのサンプル
 
+## Output Url
+https://qaboard-1229.firebaseapp.com
+
 ## Required
 
 - Node.js 6.3.1+
-- nmp 5.6.0+
-- Firebase CLI 3.0+
+- nmp 6.5.0+
+- firebase-tools 6.2.2+
 
 ## Reference
 
@@ -17,15 +20,62 @@ FirebaseのWebアプリのサンプル
 - [Web App Manifest][4]
 - [脱ネイティブ！Googleが推進する「PWA」にたった数時間で対応する方法][5]
 
-## Memo
+## Initialize
 
-今後編集・追加が必要かもしれないファイル
+※最初に行った作業（済み）
 
-- database-rules.json
-- storage.rules
-- firebase-messaging-sw.js
-- manifest.json
-- manifest.webapp
+1. ログインする
+    ```
+    firebase login
+    ```
+
+1. firebaseを初期化する
+    ```
+    firebase init
+    ```
+    ※デフォルトとしてステージング用のプロジェクトを選択する
+
+1. 本番のプロジェクトもエイリアスに追加する
+    ```
+    firebase use --add
+    production
+    ```
+
+1. firebase.json を編集する
+
+1. ログアウトする
+    ```
+    firebase logout
+    ```
+
+## Developent / Deploy
+
+### Hosting
+
+1. Webアプリを開発する開発
+
+1. 動作確認
+    ```
+    firebase serve
+    ```
+
+1. デプロイする
+    ```
+    firebase deploy --only hosting
+    ```
+
+### Functions
+
+1. functions フォルダに移動する
+
+1. npm install する
+
+1. 実装する
+
+1. デプロイする
+    ```
+    firebase deploy --only functions
+    ```
 
 
 [1]:https://firebase.google.com/docs/cli/?hl=ja

@@ -1,0 +1,133 @@
+/*----------------------------------------------------------
+メニュー
+------------------------------------------------------------*/
+
+/* --- ナビゲーションバー --- */
+div.nav {
+    margin-top: 10px;
+    width: 180px;
+    font-size: 80%;
+}
+
+/* --- メニューエリア --- */
+div.nav ul.nl {
+    margin: 0;
+    padding: 0;
+    border-top: 1px #c0c0c0 dotted;
+    list-style-type: none;
+    text-align: left;
+}
+
+/* --- メニュー項目 --- */
+div.nav ul.nl li {
+    padding: 3px 1px;
+    background-color: #f9f9f9;
+    border-bottom: 1px #c0c0c0 dotted;
+}
+
+/* --- リンク --- */
+div.nav ul.nl li a {
+    display: block;
+    position: relative; /* IE6用 */
+    padding: 8px 10px;
+    border-left: 4px #c0c0c0 solid;
+    text-decoration: none;
+    color:#000000;
+}
+/* --- ポイント時の設定 --- */
+div.nav ul.nl li a:hover {
+    border-left-color: #e0e0e0;
+    color:#e0e0e0;
+}
+
+/*----------------------------------------------------------
+メイン
+------------------------------------------------------------*/
+
+/* --- 縦スクロール --- */
+div.vscroll {
+    overflow-y: auto;
+}
+
+/* --- タイトル1 --- */
+.title01 {
+    color: #7C7C7C;
+    border-bottom: solid 2px #0288D1;
+    padding: 0.1em;
+}
+
+/* --- タイトル2 --- */
+.title02 {
+    padding: 0.2em 0.5em;
+    color: #7C7C7C;
+    background: transparent;
+    border-left: solid 5px #0288D1;
+}
+
+/* --- タイトル3 --- */
+.title03 {
+    color: #7C7C7C;
+    padding: 0.1em;
+    background: linear-gradient(transparent 80%, #0288D1 80%);
+}
+
+/* --- タイトル4 --- */
+.title04 {
+    color: #ffffff;
+    background: #0288D1;
+    padding: 0.2em;
+}
+
+/* --- タイトル5 --- */
+.title05 {
+    padding:4px 5px;
+    color: #7C7C7C;
+    border-color:#0288D1;
+    border-width:1px 0 2px 0;
+    border-style:solid;
+    background:#E3F0FD;
+}
+
+/* --- メイン --- */
+#main-container {
+  height: calc(100% - 10px);
+  padding-bottom: 0;
+}
+
+/*----------------------------------------------------------
+その他
+------------------------------------------------------------*/
+
+/* --- フッター --- */
+#footer{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 10px;
+    padding:32px 16px;
+    color:#9e9e9e;
+    background:#424242;
+    text-align: center;
+}
+
+/***********************
+/* ユーザーリスト
+***********************/
+button.detail {
+    height: 62px;
+    float: right;
+}
+
+img.profile {
+    padding:16px 16px;
+    width: 30px;
+    height: 30px;
+}
+
+/*----------------------------------------------------------
+ * 参考
+ * http://www.tagindex.com/template/
+ * https://saruwakakun.com/html-css/reference/h-design
+ * http://webworkersclip.com/2875/
+------------------------------------------------------------*/
+

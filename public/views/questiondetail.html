@@ -1,0 +1,277 @@
+<!doctype html>
+<!--
+  Copyright 2015 Google Inc. All rights reserved.
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+      https://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Learn how to use the Firebase platform on the Web">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QABoard</title>
+
+  <!-- Disable tap highlight on IE -->
+  <meta name="msapplication-tap-highlight" content="no">
+
+  <!-- Web Application Manifest -->
+  <link rel="manifest" href="../manifest.json">
+
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="QABoard">
+  <meta name="theme-color" content="#303F9F">
+
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="QABoard">
+  <meta name="apple-mobile-web-app-status-bar-style" content="#303F9F">
+
+  <!-- Tile icon for Win8 -->
+  <meta name="msapplication-TileColor" content="#3372DF">
+  <meta name="msapplication-navbutton-color" content="#303F9F">
+
+  <!-- Material Design Lite -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.orange-indigo.min.css">
+  <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+
+  <!-- App Styling -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+  <link rel="stylesheet" href="../styles/material.css">
+  <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+  <header class="mdl-layout__header mdl-color-text--white mdl-color--light-blue-700">
+    <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
+      <div id="user-container">
+        <div hidden id="user-pic"></div>
+        <div hidden id="user-name"></div>
+        <button hidden id="sign-out" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-color-text--white">
+          Logout
+        </button>
+        <button hidden id="sign-in" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-color-text--white">
+          <i class="material-icons">account_circle</i>Login
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title"><i class="material-icons">explore</i>QABoard</span>
+    <nav class="mdl-navigation">
+      <a class="mdl-navigation__link" href="top.html">トップ</a>
+      <a class="mdl-navigation__link" href="users.html">ユーザー</a>
+      <a class="mdl-navigation__link" href="postquestion.html">質問投稿</a>
+      <a class="mdl-navigation__link" href="questions.html">質問一覧</a>
+      <a class="mdl-navigation__link" href="comments.html">回答・リプライ一覧</a>
+      <a class="mdl-navigation__link" href="reports.html">通報一覧</a>
+      <a class="mdl-navigation__link" href="chat.html">管理者チャット</a>
+    </nav>
+  </div>
+  <main class="mdl-layout__content">
+    <div id="main-container" class="mdl-grid">
+
+      <div class="vscroll mdl-shadow--2dp mdl-cell mdl-cell--10-col">
+        <h4 class="title02">質問詳細</h4>
+        質問の編集を行うことができます（質問者が更新したことになります）。<br>
+        回答及び通報はログインユーザーのアカウントで行います（自身の質問には出来ません）。
+        <center>
+          <br>
+          <form id="tmpimage-form" action="#">
+            <table>
+              <tr>
+                <td><img id="tmpImage" src="/images/image_placeholder.png" width="100" height="100"></td>
+                <td>
+                  <input id="mediaCapture" type="file" accept="image/*,capture=camera">
+                  <button id="uploadImage" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--amber-400 mdl-color-text--white">
+                    <i class="material-icons">image</i>画像を追加／変更する
+                  </button>
+                </td>
+              </tr>
+            </table>
+          </form>
+          <br>
+          <form id="input-form" action="#">
+            <table class="mdl-data-table mdl-js-data-table">
+              <thead>
+              <tr>
+                <th class="mdl-data-table__cell--non-numeric">項目</th>
+                <th class="mdl-data-table__cell--non-numeric">現在の値</th>
+                <th class="mdl-data-table__cell--non-numeric">変更したい値</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">タイトル</td>
+                <td class="mdl-data-table__cell--non-numeric" id="qtitleValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">
+                  <div class="mdl-textfield mdl-js-textfield">
+                    <textarea class="mdl-textfield__input" type="text" rows= "1" id="qtitle" ></textarea>
+                    <label class="mdl-textfield__label" for="qtitle">Text lines...</label>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">本文</td>
+                <td class="mdl-data-table__cell--non-numeric" id="qbodyValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">
+                  <div class="mdl-textfield mdl-js-textfield">
+                    <textarea class="mdl-textfield__input" type="text" rows= "1" id="qbody" ></textarea>
+                    <label class="mdl-textfield__label" for="qbody">Text lines...</label>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">カテゴリ</td>
+                <td class="mdl-data-table__cell--non-numeric" id="categoryValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">
+                  <div class="mdl-textfield mdl-js-textfield mdl-select">
+                    <select class="mdl-textfield__input" id="category">
+                      <option>観光名所</option>
+                      <option>グルメ</option>
+                      <option>お土産</option>
+                      <option>マナー</option>
+                      <option>遊び</option>
+                      <option>アクセス</option>
+                      <option>ホテル</option>
+                      <option>翻訳</option>
+                      <option>トラブル</option>
+                      <option>その他</option>
+                    </select>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">期限</td>
+                <td class="mdl-data-table__cell--non-numeric" id="periodValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">
+                  <div class="mdl-textfield mdl-js-textfield mdl-select">
+                    <select class="mdl-textfield__input" id="period">
+                      <option>0.5h</option>
+                      <option>1h</option>
+                      <option>2h</option>
+                      <option>3h</option>
+                      <option>6h</option>
+                      <option>12h</option>
+                      <option>24h</option>
+                      <option>48h</option>
+                      <option>72h</option>
+                    </select>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">エリア</td>
+                <td class="mdl-data-table__cell--non-numeric" id="areaValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">
+                  <div class="mdl-textfield mdl-js-textfield mdl-select">
+                    <select class="mdl-textfield__input" id="area">
+                      <option>関東</option>
+                      <option>関西</option>
+                      <option>北海道</option>
+                      <option>沖縄</option>
+                      <option>富士山</option>
+                      <option>九州</option>
+                      <option>中国</option>
+                      <option>四国</option>
+                      <option>東北</option>
+                      <option>中部</option>
+                      <option>その他</option>
+                    </select>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">質問の状態</td>
+                <td class="mdl-data-table__cell--non-numeric" id="stateValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">※変更できません</td>
+              </tr>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">ユーザーID<br>※質問者</td>
+                <td class="mdl-data-table__cell--non-numeric" id="userIdValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">※変更できません</td>
+              </tr>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">回答者リスト</td>
+                <td class="mdl-data-table__cell--non-numeric" id="respondentsValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">※変更できません</td>
+              </tr>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">回答・リプライリスト</td>
+                <td class="mdl-data-table__cell--non-numeric" id="commentsValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">※変更できません</td>
+              </tr>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">通報リスト</td>
+                <td class="mdl-data-table__cell--non-numeric" id="reportsValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">※変更できません</td>
+              </tr>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">登録日</td>
+                <td class="mdl-data-table__cell--non-numeric" id="createdAtValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">※変更できません</td>
+              </tr>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">更新日</td>
+                <td class="mdl-data-table__cell--non-numeric" id="updatedAtValue"></td>
+                <td class="mdl-data-table__cell--non-numeric">※変更できません</td>
+              </tr>
+              </tbody>
+            </table><br><br>
+            ※変更しない値は、現在の値と同じ設定にしておいてください<br><br>
+            <button id="submit" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+              更新
+            </button><br><br>
+          </form>
+        </center>
+      </div>
+      <div class="mdl-cell mdl-cell--2-col">
+        <button id="resolve" type="button" width="200" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+          解決
+        </button><br><br>
+        <button id="answer" type="button" width="200" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+          回答
+        </button>
+        <button id="report" type="button" width="200" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+          通報
+        </button><br><br>
+        <button id="freeze" type="button" width="200" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+          凍結
+        </button>
+        <!--
+        <button id="delete" type="button" width="200" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+          削除
+        </button>
+         -->
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="mdl-mini-footer">
+    <div class="mdl-mini-footer__right-section">
+      Copyright © 2018 XXXXX Inc. All Right Reserved.
+    </div>
+  </footer>
+</div>
+<!-- Import and configure the Firebase SDK -->
+<!-- These scripts are made available when the app is served or deployed on Firebase Hosting -->
+<!-- If you do not want to serve/host your project using Firebase Hosting see https://firebase.google.com/docs/web/setup -->
+<script src="/__/firebase/4.1.3/firebase.js"></script>
+<script src="/__/firebase/init.js"></script>
+
+<script src="../scripts/utilities.js"></script>
+<script src="../scripts/auth.js"></script>
+<script src="../scripts/questiondetail.js"></script>
+</body>
+</html>
